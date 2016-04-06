@@ -80,7 +80,7 @@ class Apc implements Cacheable {
         $cache = $this->get($key);
 
         if ($cache == null) {
-            $this->put($this->prefix($key), $data(), $minutes);
+            $this->put($key, $data(), $minutes);
             return $data();
         }
 
