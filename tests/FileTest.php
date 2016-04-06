@@ -21,7 +21,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @test */
-    public function it_returns_null_for_nonexistant_items() {
+    public function it_returns_false_for_nonexistant_items() {
         $this->assertFalse($this->stash->get('nonexistant-item'));
     }
 

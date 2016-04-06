@@ -21,8 +21,8 @@ class ApcTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @test */
-    public function it_returns_null_for_nonexistant_items() {
-        $this->assertNull($this->stash->get('nonexistant-item'));
+    public function it_returns_false_for_nonexistant_items() {
+        $this->assertFalse($this->stash->get('nonexistant-item'));
     }
 
     /** @test */
@@ -66,7 +66,7 @@ class ApcTest extends PHPUnit_Framework_TestCase {
         $this->stash->put('forgettable', 'asdf', 5);
         $this->assertTrue($this->stash->forget('forgettable'));
         $this->assertFalse($this->stash->has('forgettable'));
-        $this->assertNull($this->stash->get('forgettable'));
+        $this->assertFalse($this->stash->get('forgettable'));
     }
 
 }

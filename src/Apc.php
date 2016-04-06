@@ -49,9 +49,9 @@ class Apc implements Cacheable {
      * @param  string $key     Uniqe item identifier
      * @param  mixex  $default Default data to return
      *
-     * @return mixed           Cached data or null
+     * @return mixed           Cached data or $default value
      */
-    public function get($key, $default = null) {
+    public function get($key, $default = false) {
         return apc_fetch($this->prefix($key)) ?: $default;
     }
 
