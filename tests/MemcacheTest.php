@@ -56,9 +56,13 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
 
     /** @test */
     public function it_remembers_a_nonexistant_item() {
-        $this->assertEquals('November 5th', $this->stash->remember('remember-remember', 5, function() {
+
+        $date = $this->stash->remember('remember', 5, function() {
             return 'November 5th';
-        }));
+        });
+
+        $this->assertEquals('November 5th', $date);
+
     }
 
     /** @test */
