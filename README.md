@@ -1,11 +1,11 @@
-PHLAK/Cache
+PHLAK/Stash
 ===========
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/PHLAK/Cache.svg)](https://packagist.org/packages/PHLAK/Cache)
-[![Total Downloads](https://img.shields.io/packagist/dt/PHLAK/Cache.svg)](https://packagist.org/packages/PHLAK/Cache)
+[![Latest Stable Version](https://img.shields.io/packagist/v/PHLAK/Stash.svg)](https://packagist.org/packages/PHLAK/Stash)
+[![Total Downloads](https://img.shields.io/packagist/dt/PHLAK/Stash.svg)](https://packagist.org/packages/PHLAK/Stash)
 [![Author](https://img.shields.io/badge/author-Chris%20Kankiewicz-blue.svg)](https://www.ChrisKankiewicz.com)
-[![License](https://img.shields.io/packagist/l/PHLAK/Cache.svg)](https://packagist.org/packages/PHLAK/Cache)
-[![Build Status](https://img.shields.io/travis/PHLAK/Cache.svg)](https://travis-ci.org/PHLAK/Cache)
+[![License](https://img.shields.io/packagist/l/PHLAK/Stash.svg)](https://packagist.org/packages/PHLAK/Stash)
+[![Build Status](https://img.shields.io/travis/PHLAK/Stash.svg)](https://travis-ci.org/PHLAK/Stash)
 
 Simple PHP caching library -- by, [Chris Kankiewicz](https://www.ChrisKankiewicz.com)
 
@@ -31,14 +31,14 @@ Requirements
 Installation
 ------------
 
-    composer require phlak/cache
+    composer require phlak/stash
 
 Troubleshooting
 ---------------
 
 More info...
 
-Please report bugs to the [GitHub Issue Tracker](https://github.com/PHLAK/cache/issues).
+Please report bugs to the [GitHub Issue Tracker](https://github.com/PHLAK/Stash/issues).
 
 -----
 
