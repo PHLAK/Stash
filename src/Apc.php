@@ -131,12 +131,13 @@ class Apc implements Cacheable {
 
     /**
      * Get prefixed key
-     * @param  [type] $key [description]
-     * @return [type]      [description]
+     *
+     * @param  string $key Unique item identifier
+     *
+     * @return string      Prefixed unique identifier
      */
     protected function prefix($key) {
-        if (! empty($this->prefix)) return $this->prefix . '_' . $key;
-        return $key;
+        return empty($this->prefix) ? $key : $this->prefix . '_' . $key;
     }
 
 }
