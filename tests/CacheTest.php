@@ -19,4 +19,9 @@ class CacheTest extends PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Stash\Memcache', $this->memcache);
     }
 
+    /** @test */
+    public function can_make_apc_without_a_config() {
+        $this->assertInstanceOf('Stash\Apc', Stash\Cache::make('apc'));
+    }
+
 }
