@@ -9,7 +9,7 @@ class Cache {
         switch ($driver) {
 
             case 'apc':
-                return new Apc($config['prefix']);
+                return isset($config['prefix']) ? new Apc($config['prefix']) : new Apc();
 
             case 'file':
                 return new File($config['dir']);
