@@ -45,15 +45,28 @@ interface Cacheable {
     public function has($key);
 
     /**
-     * Retrieve item from cache or add it to the cache if it doesn't exist
+     * Retrieve item from cache or, when item does not exist, execute the
+     * provided closure and return and store the returned results for a
+     * specified duration
      *
      * @param  string $key     Unique item identifier
      * @param  int    $minutes Minutes to cache
-     * @param  mixed  $data    Data to cache
+     * @param  mixed  $closure Anonymous closure function
      *
-     * @return mixed           Cached data
+     * @return mixed           Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $data);
+    public function remember($key, $minutes, \Closure $closure);
+
+    /**
+     * Retrieve item from cache or, when item does not exist, execute the
+     * provided closure and return and store the returned results permanently
+     *
+     * @param  string $key     Unique item identifier
+     * @param  mixed  $closure Anonymous closure function
+     *
+     * @return mixed           Cached data or $closure results
+     */
+    public function rememberForever($key, \Closure $closure);
 
     /**
      * Removes an item from the cache
