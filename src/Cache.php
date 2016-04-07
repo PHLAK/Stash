@@ -4,6 +4,14 @@ namespace Stash;
 
 class Cache {
 
+    /**
+     * Initialize the desired cache driver
+     *
+     * @param  string $driver Driver to initialize
+     * @param  array  $config Array of configuration options
+     *
+     * @return object         Cache Object
+     */
     public static function make($driver, array $config = []) {
 
         switch ($driver) {
