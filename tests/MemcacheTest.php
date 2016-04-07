@@ -10,8 +10,8 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
 
     /** @test */
     public function it_can_add_and_retrieve_an_item() {
-        $this->assertTrue($this->stash->put('foo', 'Foo', 5));
-        $this->assertEquals('Foo', $this->stash->get('foo'));
+        $this->assertTrue($this->stash->put('put', 'jabberwocky', 5));
+        $this->assertEquals('jabberwocky', $this->stash->get('put'));
     }
 
     /** @test */
@@ -27,13 +27,13 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
 
     /** @test */
     public function it_returns_a_default_value() {
-        $this->assertEquals('Default', $this->stash->get('nonexistant-item', 'Default'));
+        $this->assertNull($this->stash->get('nonexistant-item', null));
     }
 
     /** @test */
     public function it_returns_true_if_it_has_an_item() {
-        $this->assertTrue($this->stash->put('item', 'some-item', 5));
-        $this->assertTrue($this->stash->has('item'));
+        $this->assertTrue($this->stash->put('has', 'some-item', 5));
+        $this->assertTrue($this->stash->has('has'));
     }
 
     /** @test */
@@ -44,10 +44,10 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
     /** @test */
     public function it_remembers_an_already_cached_item() {
 
-        $this->stash->put('remember-me', "Don't override me bro!", 5);
+        $this->stash->put('remember-pre-existing', "Don't override me bro!", 5);
 
-        $text = $this->stash->remember('remember-me', 5, function() {
-            return "I don't override him.";
+        $text = $this->stash->remember('remember-pre-existing', 5, function() {
+            return "I wont't override him.";
         });
 
         $this->assertEquals("Don't override me bro!", $text);
@@ -57,31 +57,31 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
     /** @test */
     public function it_remembers_a_nonexistant_item() {
 
-        $date = $this->stash->remember('remember', 5, function() {
-            return 'November 5th';
+        $date = $this->stash->remember('remember-new-item', 5, function() {
+            return 'Pork Chops';
         });
 
-        $this->assertEquals('November 5th', $date);
+        $this->assertEquals('Pork Chops', $date);
 
     }
 
     /** @test */
     public function it_remembers_an_already_cached_item_forever() {
 
-        $this->stash->put('remember-me-forever', "Don't override me bro!", 5);
+        $this->stash->put('remember-forever-pre-existing', 'I already exist', 5);
 
-        $text = $this->stash->rememberForever('remember-me-forever', function() {
-            return "I don't override him.";
+        $text = $this->stash->rememberForever('remember-forever-pre-existing', function() {
+            return "I don't yet exist.";
         });
 
-        $this->assertEquals("Don't override me bro!", $text);
+        $this->assertEquals('I already exist', $text);
 
     }
 
     /** @test */
     public function it_remembers_a_nonexistant_item_forever() {
 
-        $date = $this->stash->rememberForever('remember-forever', function() {
+        $date = $this->stash->rememberForever('remember-remember', function() {
             return 'November 5th';
         });
 
