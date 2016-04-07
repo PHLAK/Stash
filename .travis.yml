@@ -12,8 +12,10 @@ cache:
     directories:
         - $HOME/.composer/cache
 
-before_install: echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+before_install:
+    - printf "\n" | pecl install apcu-4.0.10
+    - phpenv config-add travis.ini
 
 install: composer install
 
-script: phpunit --testsuite travis-ci
+script: phpunit
