@@ -18,5 +18,3 @@ before_install:
     - phpenv config-add travis.ini
 
 install: composer install
-
-script: phpunit
