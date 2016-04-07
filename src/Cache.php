@@ -25,7 +25,3 @@ class Cache {
     }
 
 }
-
-// $cache = Stash/Cache::make('apc', ['prefix' => 'foo']);
-// $cache = Stash/Cache::make('file', ['dir' => 'path/to/cache']);
-// $cache = Stash/Cache::make('memcache', ['host' => 'localhost', 'port' => '12345']);
