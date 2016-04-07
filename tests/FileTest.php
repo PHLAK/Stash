@@ -8,6 +8,10 @@ class FileTest extends PHPUnit_Framework_TestCase {
         $this->stash = new Stash\File(__DIR__ . '/cache');
     }
 
+    public function tearDown() {
+        array_map('unlink', glob(__DIR__ . '/cache/*.cache'));
+    }
+
     /** @test */
     public function it_can_add_and_retrieve_an_item() {
         $this->assertTrue($this->stash->put('put', 'jabberwocky', 5));
