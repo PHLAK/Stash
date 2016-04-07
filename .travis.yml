@@ -1,14 +1,19 @@
-language: php
-
 sudo: false
+
+language: php
+php:
+    - 5.5
+    - 5.6
+
+services:
+  - memcached
 
 cache:
     directories:
         - $HOME/.composer/cache
 
+before_install: echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
 install: composer install
 
-php:
-    - 5.5
-    - 5.6
-    - 7.0
+script: phpunit --testsuite travis-ci

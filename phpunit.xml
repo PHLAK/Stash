@@ -4,5 +4,9 @@
         <testsuite name="PHLAK/Cache Test Suite">
             <directory>tests/</directory>
         </testsuite>
+        <testsuite name="travis-ci">
+            <directory>tests/</directory>
+            <exclude>tests/ApcTest.php</exclude>
+        </testsuite>
     </testsuites>
 </phpunit>
