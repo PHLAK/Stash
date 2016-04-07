@@ -1,6 +1,10 @@
 PHLAK/Stash
 ===========
 
+![Stash](stash.png)
+
+-----
+
 [![Latest Stable Version](https://img.shields.io/packagist/v/PHLAK/Stash.svg)](https://packagist.org/packages/PHLAK/Stash)
 [![Total Downloads](https://img.shields.io/packagist/dt/PHLAK/Stash.svg)](https://packagist.org/packages/PHLAK/Stash)
 [![Author](https://img.shields.io/badge/author-Chris%20Kankiewicz-blue.svg)](https://www.ChrisKankiewicz.com)
@@ -9,13 +13,11 @@ PHLAK/Stash
 
 Simple PHP caching library -- by, [Chris Kankiewicz](https://www.ChrisKankiewicz.com)
 
-![Stash](stash.png)
-
 Introduction
 ------------
 
 Stash is a simple PHP caching library supporting multiple, interchangable
-caching back-ends.
+caching back-ends and a fluent (Laravel inspired) API.
 
 Supported caching back-ends:
 
@@ -48,66 +50,82 @@ use Stash;
 
 Then instantiate the class for your back-end of choice:
 
-### File Cache
+#### File Cache
 
-The file cache requires a config key of `dir` that points to the directory in
+The file cache requires a config option of `dir` that points to the directory in
 which you would like your cache files to be stored.
 
 ```php
 $stash = Stash\Cache::make('file', ['dir' => 'path/to/cache']);
 ```
 
-or
+#### Memcache
 
-```php
-$stash = new Stash\File('path/to/cache');
-```
-
-### Memcache
-
-Memcache requires a `host` and `port` for running Memcache server.
+Set your Memcache server `host` and `port` via config options.
 
 ```php
 $stash = Stash\Cache::make('memcache', ['host' => 'localhost', 'port' => '12345']);
 ```
 
-or
+#### APC
 
-```php
-$stash = new Stash\Memcache('localhost', '12345');
-```
-
-### APC
-
-You can optionally supply a `prefix` to help prevent collisions with APC.
+You can optionally supply a `prefix` config option to automatiacally prefix your
+APC keys with a custom value. This helps to prevent cache collisions when
+sharing the APC cache across multiple apps.
 
 ```php
 $stash = Stash\Cache::make('apc', ['prefix' => 'foo']);
 ```
 
-or
-
-```php
-$stash = new Stash\Apc('foo');
-```
-
 Usage
 -----
 
-Available functions:
+Add an item to the cache for a specified duration:
 
-    $stash->put($key, $data, $minute);
-    $stash->forever($key, $data);
-    $stash->get($key, $default = false);
-    $stash->has($key);
-    $stash->remember($key, $minutes, Closure $closure);
-    $stash->rememberForever($key, Closure $closure);
-    $stash->forget($key);
+```php
+$stash->put($key, $data, $minutes);
+```
+
+Add an item to the cache permanently:
+
+```php
+$stash->forever($key, $data);
+```
+
+Retrieve an item from the cache:
+
+```php
+$stash->get($key, $default = false);
+```
+
+Check if an item exists in the cache:
+
+```php
+$stash->has($key);
+```
+
+Retrieve item from cache or, when item does not exist, execute a closure. The
+result of the closure is then stored in the cache for the specified duration
+and returned for immediate use.
+
+```php
+$stash->remember($key, $minutes, Closure $closure);
+```
+
+or remember permanently:
+
+```php
+$stash->rememberForever($key, Closure $closure);
+```
+
+Remove an item from the cache:
+
+```php
+$stash->forget($key);
+```
 
 Troubleshooting
 ---------------
-
-More info...
 
 Please report bugs to the [GitHub Issue Tracker](https://github.com/PHLAK/Stash/issues).
 
