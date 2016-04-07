@@ -9,29 +9,100 @@ PHLAK/Stash
 
 Simple PHP caching library -- by, [Chris Kankiewicz](https://www.ChrisKankiewicz.com)
 
+![Stash](stash.png)
+
 Introduction
 ------------
 
-More will go here...
+Stash is a simple PHP caching library supporting multiple, interchangable
+caching back-ends.
+
+Supported caching back-ends:
+
+  - File Backed
+  - Memcache
+  - APC
 
 Like this project? Keep me caffeinated by [making a donation](https://paypal.me/ChrisKankiewicz).
-
-Features
---------
-
-  - Some awesome feature...
-  - Some awesome feature...
-  - Some awesome feature...
 
 Requirements
 ------------
 
   - [PHP](https://php.net) >= 5.5
 
-Installation
-------------
+Install with Composer
+---------------------
 
-    composer require phlak/stash
+```bash
+composer require phlak/stash
+```
+
+Initializing the Client
+-----------------------
+
+First, import Stash:
+
+```php
+use Stash;
+```
+
+Then instantiate the class for your back-end of choice:
+
+### File Cache
+
+The file cache requires a config key of `dir` that points to the directory in
+which you would like your cache files to be stored.
+
+```php
+$stash = Stash\Cache::make('file', ['dir' => 'path/to/cache']);
+```
+
+or
+
+```php
+$stash = new Stash\File('path/to/cache');
+```
+
+### Memcache
+
+Memcache requires a `host` and `port` for running Memcache server.
+
+```php
+$stash = Stash\Cache::make('memcache', ['host' => 'localhost', 'port' => '12345']);
+```
+
+or
+
+```php
+$stash = new Stash\Memcache('localhost', '12345');
+```
+
+### APC
+
+You can optionally supply a `prefix` to help prevent collisions with APC.
+
+```php
+$stash = Stash\Cache::make('apc', ['prefix' => 'foo']);
+```
+
+or
+
+```php
+$stash = new Stash\Apc('foo');
+```
+
+Usage
+-----
+
+Available functions:
+
+    $stash->put($key, $data, $minute);
+    $stash->forever($key, $data);
+    $stash->get($key, $default = false);
+    $stash->has($key);
+    $stash->remember($key, $minutes, Closure $closure);
+    $stash->rememberForever($key, Closure $closure);
+    $stash->forget($key);
 
 Troubleshooting
 ---------------
