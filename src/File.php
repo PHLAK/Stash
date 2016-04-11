@@ -28,11 +28,10 @@ class File implements Cacheable {
      *
      * @return bool            True on sucess, otherwise false
      */
-    public function put($key, $data, $minutes) {
+    public function put($key, $data, $minutes = 0) {
 
         $cache = serialize([
-            // TODO: Convert this to use DateTime
-            'expires' => Carbon::now()->addMinutes($minutes),
+            'expires' => $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue(),
             'data'    => $data
         ]);
 
@@ -49,7 +48,7 @@ class File implements Cacheable {
      * @return bool         True on sucess, otherwise false
      */
     public function forever($key, $data) {
-        return $this->put($key, $data, PHP_INT_MAX - time() - 1);
+        return $this->put($key, $data);
     }
 
     /**
