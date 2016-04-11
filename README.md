@@ -1,5 +1,5 @@
-PHLAK/Stash
-===========
+Stash
+=====
 
 ![Stash](stash.png)
 
@@ -30,7 +30,7 @@ Like this project? Keep me caffeinated by [making a donation](https://paypal.me/
 Requirements
 ------------
 
-  - [PHP](https://php.net) >= 5.5
+  - [PHP](https://php.net) >= 5.4
 
 Install with Composer
 ---------------------
@@ -83,7 +83,7 @@ Usage
 Add an item to the cache for a specified duration:
 
 ```php
-$stash->put($key, $data, $minutes);
+$stash->put($key, $data, $minutes = 0);
 ```
 
 Add an item to the cache permanently:
