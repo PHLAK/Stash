@@ -3,6 +3,7 @@
 namespace Stash;
 
 use Stash\Interfaces\Cacheable;
+use Carbon\Carbon;
 
 class File implements Cacheable {
 
@@ -31,7 +32,7 @@ class File implements Cacheable {
 
         $cache = serialize([
             // TODO: Convert this to use DateTime
-            'expires' => time() + ($minutes * 60),
+            'expires' => Carbon::now()->addMinutes($minutes),
             'data'    => $data
         ]);
 
@@ -67,7 +68,7 @@ class File implements Cacheable {
 
         $cache = unserialize($contents);
 
-        if (time() > $cache['expires']) return $default;
+        if (Carbon::now()->gt($cache['expires'])) return $default;
 
         return $cache['data'];
 
