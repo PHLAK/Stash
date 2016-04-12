@@ -1,6 +1,6 @@
 <?php
 
-namespace Stash;
+namespace Stash\Drivers;
 
 use Stash\Interfaces\Cacheable;
 

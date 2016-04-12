@@ -17,13 +17,14 @@ class Cache {
         switch ($driver) {
 
             case 'apc':
-                return isset($config['prefix']) ? new Apc($config['prefix']) : new Apc();
+                return isset($config['prefix']) ? new Drivers\Apc($config['prefix']) : new Drivers\Apc();
 
             case 'file':
-                return new File($config['dir']);
+                return new Drivers\File($config['dir']);
 
             case 'memcache':
-                return new Memcache($config['host'], $config['port']);
+            case 'memcached':
+                return new Drivers\Memcached($config);
 
             default:
                 throw new \Exception('Invalid driver supplied');

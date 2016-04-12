@@ -1,23 +1,22 @@
 <?php
 
-namespace Stash;
+namespace Stash\Drivers;
 
 use Stash\Interfaces\Cacheable;
 
-class Memcache implements Cacheable {
+class Memcached implements Cacheable {
 
-    /** @var object Instance of Memcache */
-    protected $memcache;
+    /** @var object Instance of Memcached */
+    protected $memcached;
 
     /**
-     * Stash\Memcache constructor, runs on object creation
+     * Stash\Memcached constructor, runs on object creation
      *
-     * @param string $host Memcache server host
-     * @param string $port Memcache server port
+     * @param string $servers Array of Memcached servers
      */
-    public function __construct($host = 'localhost', $port = 11211) {
-        $this->memcache = new \Memcache;
-        $this->memcache->connect($host, $port);
+    public function __construct(array $servers) {
+        $this->memcached = new \Memcached;
+        $this->memcached->addServers($servers);
     }
 
     /**
@@ -30,7 +29,8 @@ class Memcache implements Cacheable {
      * @return bool            True on sucess, otherwise false
      */
     public function put($key, $data, $minutes = 0) {
-        return $this->memcache->set($key, $data, 0, ($minutes * 60));
+        $expiration = $minutes > 0 ? time() + ($minutes * 60) : 0;
+        return $this->memcached->set($key, $data, $expiration);
     }
 
     /**
@@ -54,7 +54,7 @@ class Memcache implements Cacheable {
      * @return mixed           Cached data or $default value
      */
     public function get($key, $default = false) {
-        return $this->memcache->get($key) ?: $default;
+        return $this->memcached->get($key) ?: $default;
     }
 
     /**
@@ -65,7 +65,7 @@ class Memcache implements Cacheable {
      * @return bool        True if item exists, otherwise false
      */
     public function has($key) {
-        return $this->memcache->get($key) ? true : false;
+        return $this->memcached->get($key) ? true : false;
     }
 
     /**
@@ -128,7 +128,7 @@ class Memcache implements Cacheable {
      * @return bool        True on success, otherwise false
      */
     public function forget($key) {
-        return $this->memcache->delete($key);
+        return $this->memcached->delete($key);
     }
 
 }
