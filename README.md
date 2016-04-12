@@ -64,7 +64,7 @@ $stash = Stash\Cache::make('file', ['dir' => 'path/to/cache']);
 Set your Memcache server `host` and `port` via config options.
 
 ```php
-$stash = Stash\Cache::make('memcache', ['host' => 'localhost', 'port' => '12345']);
+$stash = Stash\Cache::make('memcache', ['host' => 'localhost', 'port' => '11211']);
 ```
 
 #### APC
