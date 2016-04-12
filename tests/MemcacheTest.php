@@ -1,11 +1,11 @@
 <?php
 
-class MemcacheTest extends PHPUnit_Framework_TestCase {
+class MemcachedTest extends PHPUnit_Framework_TestCase {
 
     protected $stash;
 
     public function setUp() {
-        $this->stash = new Stash\Memcache('localhost', 11211);
+        $this->stash = new Stash\Drivers\Memcached([['host' => 'localhost', 'port' => 11211]]);
     }
 
     /** @test */

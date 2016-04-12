@@ -5,7 +5,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     protected $stash;
 
     public function setUp() {
-        $this->stash = new Stash\File(__DIR__ . '/cache');
+        $this->stash = new Stash\Drivers\File(__DIR__ . '/cache');
     }
 
     public function tearDown() {

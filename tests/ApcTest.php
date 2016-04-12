@@ -5,7 +5,7 @@ class ApcTest extends PHPUnit_Framework_TestCase {
     protected $stash;
 
     public function setUp() {
-        $this->stash = new Stash\Apc('stash_test');
+        $this->stash = new Stash\Drivers\Apc('stash_test');
     }
 
     /** @test */
