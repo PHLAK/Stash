@@ -22,7 +22,6 @@ class Cache {
             case 'file':
                 return new Drivers\File($config['dir']);
 
-            case 'memcache':
             case 'memcached':
                 return new Drivers\Memcached($config);
 
