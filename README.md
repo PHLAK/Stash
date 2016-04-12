@@ -17,7 +17,7 @@ Introduction
 ------------
 
 Stash is a simple PHP caching library supporting multiple, interchangable
-caching back-ends and a fluent (Laravel inspired) API.
+caching back-ends and an expressive (Laravel inspired) API.
 
 Supported caching back-ends:
 
@@ -68,7 +68,7 @@ options are required, `weight` is optional and has a default value of `0`.
 
 ```php
 $stash = Stash\Cache::make('memcached', [
-    ['host' => 'localhost', 'port' => '11211']
+    ['host' => 'localhost', 'port' => 11211]
 ]);
 ```
 
@@ -78,12 +78,12 @@ $stash = Stash\Cache::make('memcached', [
 $stash = Stash\Cache::make('memcached', [
     [
         'host'   => 'server1',
-        'port'   => '11211',
+        'port'   => 11211,
         'weight' => 100
     ],
     [
         'host'   => 'server2',
-        'port'   => '11211',
+        'port'   => 11211,
         'weight' => 200
     ]
 ]);
