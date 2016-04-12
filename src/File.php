@@ -67,9 +67,7 @@ class File implements Cacheable {
 
         $cache = unserialize($contents);
 
-        if (Carbon::now()->gt($cache['expires'])) return $default;
-
-        return $cache['data'];
+        return Carbon::now()->lte($cache['expires']) ? $cache['data'] : $default;
 
     }
 
