@@ -22,7 +22,7 @@ caching back-ends and a fluent (Laravel inspired) API.
 Supported caching back-ends:
 
   - File Backed
-  - Memcache
+  - Memcached
   - APC
 
 Like this project? Keep me caffeinated by [making a donation](https://paypal.me/ChrisKankiewicz).
@@ -59,12 +59,34 @@ which you would like your cache files to be stored.
 $stash = Stash\Cache::make('file', ['dir' => 'path/to/cache']);
 ```
 
-#### Memcache
+#### Memcached
 
-Set your Memcache server `host` and `port` via config options.
+Pass an array of Memcached servers via config options. The `host` and `port`
+options are required, `weight` is optional and has a default value of `0`.
+
+**Single Memcached server:**
 
 ```php
-$stash = Stash\Cache::make('memcache', ['host' => 'localhost', 'port' => '11211']);
+$stash = Stash\Cache::make('memcached', [
+    ['host' => 'localhost', 'port' => '11211']
+]);
+```
+
+**Multiple Memcached servers:**
+
+```php
+$stash = Stash\Cache::make('memcached', [
+    [
+        'host'   => 'server1',
+        'port'   => '11211',
+        'weight' => 100
+    ],
+    [
+        'host'   => 'server2',
+        'port'   => '11211',
+        'weight' => 200
+    ]
+]);
 ```
 
 #### APC
