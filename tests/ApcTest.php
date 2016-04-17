@@ -97,4 +97,9 @@ class ApcTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($this->stash->get('forgettable'));
     }
 
+    /** @test */
+    public function it_is_flushable() {
+        $this->assertTrue($this->stash->flush());
+    }
+
 }
