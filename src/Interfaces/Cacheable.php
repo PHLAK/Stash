@@ -77,4 +77,11 @@ interface Cacheable {
      */
     public function forget($key);
 
+    /**
+     * Remove all items from the cache
+     *
+     * @return bool True on success, otherwise false
+     */
+    public function flush();
+
 }

@@ -146,6 +146,16 @@ class File implements Cacheable {
     }
 
     /**
+     * Remove all items from the cache
+     *
+     * @return bool True on success, otherwise false
+     */
+    public function flush() {
+        $unlinked = array_map('unlink', glob($this->storagePath . DIRECTORY_SEPARATOR . '*.cache'));
+        return count(array_keys($unlinked, true)) == count($unlinked);
+    }
+
+    /**
      * Get file name for cache item by the provided key
      *
      * @param  string $key Uniqe item identifier

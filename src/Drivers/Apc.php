@@ -130,6 +130,15 @@ class Apc implements Cacheable {
     }
 
     /**
+     * Remove all items from the cache
+     *
+     * @return bool True on success, otherwise false
+     */
+    public function flush() {
+        return apc_clear_cache();
+    }
+
+    /**
      * Get prefixed key
      *
      * @param  string $key Unique item identifier

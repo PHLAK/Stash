@@ -131,4 +131,13 @@ class Memcached implements Cacheable {
         return $this->memcached->delete($key);
     }
 
+    /**
+     * Remove all items from the cache
+     *
+     * @return bool True on success, otherwise false
+     */
+    public function flush() {
+        return $this->memcached->flush();
+    }
+
 }
