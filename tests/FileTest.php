@@ -9,7 +9,7 @@ class FileTest extends PHPUnit_Framework_TestCase {
     }
 
     public function tearDown() {
-        array_map('unlink', glob(__DIR__ . '/cache/*.cache'));
+        $this->stash->flush();
     }
 
     /** @test */
