@@ -16,7 +16,7 @@ class File implements Cacheable {
      * @param string $storagePath Path to cache directory
      */
     public function __construct($storagePath) {
-        $this->storagePath = $storagePath;
+        $this->storagePath = rtrim($storagePath, DIRECTORY_SEPARATOR);
     }
 
     /**
