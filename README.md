@@ -131,19 +131,29 @@ result of the closure is then stored in the cache for the specified duration
 and returned for immediate use.
 
 ```php
-$stash->remember($key, $minutes, Closure $closure);
+$stash->remember($key, $minutes, fucntion() {
+    // return something
+});
 ```
 
 or remember permanently:
 
 ```php
-$stash->rememberForever($key, Closure $closure);
+$stash->rememberForever($key, function() {
+    // return something
+});
 ```
 
 Remove an item from the cache:
 
 ```php
 $stash->forget($key);
+```
+
+Delete all items from the cache:
+
+```php
+$stash->flush();
 ```
 
 Troubleshooting
