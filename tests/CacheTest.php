@@ -2,26 +2,58 @@
 
 class CacheTest extends PHPUnit_Framework_TestCase {
 
-    protected $apc;
-    protected $file;
-    protected $memcached;
-
-    public function setUp() {
-        $this->apc      = Stash\Cache::make('apc', ['prefix' => 'stash_test']);
-        $this->file     = Stash\Cache::make('file', ['dir' => __DIR__ . '/cache']);
-        $this->memcached = Stash\Cache::make('memcached', [['host' => 'localhost', 'port' => 11211]]);
+    /** @test */
+    public function it_can_instantiate_the_apc_driver() {
+        $apc = Stash\Cache::make('apc');
+        $this->assertInstanceOf('Stash\Drivers\Driver', $apc);
+        $this->assertInstanceOf('Stash\Drivers\Apc', $apc);
     }
 
     /** @test */
-    public function it_is_an_instance_of_the_correct_class() {
-        $this->assertInstanceOf('Stash\Drivers\Apc', $this->apc);
-        $this->assertInstanceOf('Stash\Drivers\File', $this->file);
-        $this->assertInstanceOf('Stash\Drivers\Memcached', $this->memcached);
+    public function it_can_instantiate_the_apc_driver_with_prefix() {
+        $apc = Stash\Cache::make('apc', ['prefix' => 'stash_test']);
+        $this->assertInstanceOf('Stash\Drivers\Driver', $apc);
+        $this->assertInstanceOf('Stash\Drivers\Apc', $apc);
     }
 
     /** @test */
-    public function can_make_apc_without_a_config() {
-        $this->assertInstanceOf('Stash\Drivers\Apc', Stash\Cache::make('apc'));
+    public function it_can_instantiate_the_file_driver() {
+        $file = Stash\Cache::make('file', ['dir' => __DIR__ . '/cache']);
+        $this->assertInstanceOf('Stash\Drivers\Driver', $file);
+        $this->assertInstanceOf('Stash\Drivers\File', $file);
+    }
+
+    /** @test */
+    public function it_can_instantiate_the_file_driver_with_prefix() {
+        $file = Stash\Cache::make('file', [
+            'dir'    => __DIR__ . '/cache',
+            'prefix' => 'stash_test'
+        ]);
+        $this->assertInstanceOf('Stash\Drivers\Driver', $file);
+        $this->assertInstanceOf('Stash\Drivers\File', $file);
+    }
+
+    /** @test */
+    public function it_can_instantiate_the_memcached_driver() {
+        $memcached = Stash\Cache::make('memcached', [
+            'servers' => [
+                ['host' => 'localhost', 'port' => 11211]
+            ]
+        ]);
+        $this->assertInstanceOf('Stash\Drivers\Driver', $memcached);
+        $this->assertInstanceOf('Stash\Drivers\Memcached', $memcached);
+    }
+
+    /** @test */
+    public function it_can_instantiate_the_memcached_driver_with_prefix() {
+        $memcached = Stash\Cache::make('memcached', [
+                'servers' => [
+                    ['host' => 'localhost', 'port' => 11211]
+                ],
+                'prefix' => 'stash_test'
+        ]);
+        $this->assertInstanceOf('Stash\Drivers\Driver', $memcached);
+        $this->assertInstanceOf('Stash\Drivers\Memcached', $memcached);
     }
 
 }
