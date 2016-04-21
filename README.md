@@ -61,14 +61,16 @@ $stash = Stash\Cache::make('file', ['dir' => 'path/to/cache']);
 
 #### Memcached
 
-Pass an array of Memcached servers via config options. The `host` and `port`
-options are required, `weight` is optional and has a default value of `0`.
+Pass an array of Memcached servers via the `servers` config option. The `host`
+and `port` are required, `weight` is optional and has a default value of `0`.
 
 **Single Memcached server:**
 
 ```php
 $stash = Stash\Cache::make('memcached', [
-    ['host' => 'localhost', 'port' => 11211]
+    'servers' => [
+        ['host' => 'localhost', 'port' => 11211]
+    ]
 ]);
 ```
 
@@ -76,27 +78,41 @@ $stash = Stash\Cache::make('memcached', [
 
 ```php
 $stash = Stash\Cache::make('memcached', [
-    [
-        'host'   => 'server1',
-        'port'   => 11211,
-        'weight' => 100
-    ],
-    [
-        'host'   => 'server2',
-        'port'   => 11211,
-        'weight' => 200
+    'servers' => [
+        [
+            'host'   => 'server1',
+            'port'   => 11211,
+            'weight' => 100
+        ],
+        [
+            'host'   => 'server2',
+            'port'   => 11211,
+            'weight' => 200
+        ]
     ]
 ]);
 ```
 
 #### APC
 
-You can optionally supply a `prefix` config option to automatiacally prefix your
-APC keys with a custom value. This helps to prevent cache collisions when
-sharing the APC cache across multiple apps.
+```php
+$stash = Stash\Cache::make('apc');
+```
+
+Configuration
+-------------
+
+You can optionally supply a `prefix` string option to automatiacally prefix your
+cache keys with a custom value. This helps to prevent cache collisions when
+sharing the cache across multiple apps.
+
+Example:
 
 ```php
-$stash = Stash\Cache::make('apc', ['prefix' => 'foo']);
+$stash = Stash\Cache::make('file', [
+    'dir'    => 'path/to/cache',
+    'prefix' => 'some_prefix'
+]);
 ```
 
 Usage
