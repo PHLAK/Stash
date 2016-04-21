@@ -2,10 +2,9 @@
 
 namespace Stash\Drivers;
 
-use Stash\Interfaces\Cacheable;
 use Carbon\Carbon;
 
-class File implements Cacheable {
+class File extends Driver {
 
     /** @var string Path to cache directory */
     protected $storagePath;
@@ -15,8 +14,9 @@ class File implements Cacheable {
      *
      * @param string $storagePath Path to cache directory
      */
-    public function __construct($storagePath) {
+    public function __construct($storagePath, $prefix = '') {
         $this->storagePath = rtrim($storagePath, DIRECTORY_SEPARATOR);
+        $this->prefix      = $prefix;
     }
 
     /**
@@ -163,7 +163,7 @@ class File implements Cacheable {
      * @return string      Path to cache item file
      */
     protected function cacheFile($key) {
-        return $this->storagePath . DIRECTORY_SEPARATOR . sha1($key) . '.cache';
+        return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache';
     }
 
 }

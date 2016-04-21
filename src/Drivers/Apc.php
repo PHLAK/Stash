@@ -2,12 +2,7 @@
 
 namespace Stash\Drivers;
 
-use Stash\Interfaces\Cacheable;
-
-class Apc implements Cacheable {
-
-    /** @var string Key prefix for preventing collisions */
-    protected $prefix;
+class Apc extends Driver {
 
     /**
      * Stash\Apc constructor, runs on object creation
@@ -136,17 +131,6 @@ class Apc implements Cacheable {
      */
     public function flush() {
         return apc_clear_cache();
-    }
-
-    /**
-     * Get prefixed key
-     *
-     * @param  string $key Unique item identifier
-     *
-     * @return string      Prefixed unique identifier
-     */
-    protected function prefix($key) {
-        return empty($this->prefix) ? $key : $this->prefix . '_' . $key;
     }
 
 }

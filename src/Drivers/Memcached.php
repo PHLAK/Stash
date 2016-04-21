@@ -2,9 +2,7 @@
 
 namespace Stash\Drivers;
 
-use Stash\Interfaces\Cacheable;
-
-class Memcached implements Cacheable {
+class Memcached extends Driver {
 
     /** @var object Instance of Memcached */
     protected $memcached;
@@ -14,9 +12,10 @@ class Memcached implements Cacheable {
      *
      * @param string $servers Array of Memcached servers
      */
-    public function __construct(array $servers) {
+    public function __construct(array $servers, $prefix = '') {
         $this->memcached = new \Memcached;
         $this->memcached->addServers($servers);
+        $this->prefix = $prefix;
     }
 
     /**
@@ -30,7 +29,7 @@ class Memcached implements Cacheable {
      */
     public function put($key, $data, $minutes = 0) {
         $expiration = $minutes > 0 ? time() + ($minutes * 60) : 0;
-        return $this->memcached->set($key, $data, $expiration);
+        return $this->memcached->set($this->prefix($key), $data, $expiration);
     }
 
     /**
@@ -54,7 +53,7 @@ class Memcached implements Cacheable {
      * @return mixed           Cached data or $default value
      */
     public function get($key, $default = false) {
-        return $this->memcached->get($key) ?: $default;
+        return $this->memcached->get($this->prefix($key)) ?: $default;
     }
 
     /**
@@ -65,7 +64,7 @@ class Memcached implements Cacheable {
      * @return bool        True if item exists, otherwise false
      */
     public function has($key) {
-        return $this->memcached->get($key) ? true : false;
+        return $this->memcached->get($this->prefix($key)) ? true : false;
     }
 
     /**
@@ -128,7 +127,7 @@ class Memcached implements Cacheable {
      * @return bool        True on success, otherwise false
      */
     public function forget($key) {
-        return $this->memcached->delete($key);
+        return $this->memcached->delete($this->prefix($key));
     }
 
     /**
