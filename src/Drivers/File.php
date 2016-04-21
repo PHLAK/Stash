@@ -29,14 +29,8 @@ class File extends Driver {
      * @return bool            True on sucess, otherwise false
      */
     public function put($key, $data, $minutes = 0) {
-
-        $cache = serialize([
-            'expires' => $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue(),
-            'data'    => $data
-        ]);
-
-        return file_put_contents($this->cacheFile($key), $cache, LOCK_EX) ? true : false;
-
+        $expires = $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue();
+        return $this->putCacheContents($key, $data, $expires);
     }
 
     /**
@@ -61,13 +55,11 @@ class File extends Driver {
      */
     public function get($key, $default = false) {
 
-        $contents = @file_get_contents($this->cacheFile($key));
+        if ($cache = $this->getCacheContents($key)) {
+            if (Carbon::now()->lte($cache['expires'])) return $cache['data'];
+        }
 
-        if ($contents === false) return $default;
-
-        $cache = unserialize($contents);
-
-        return Carbon::now()->lte($cache['expires']) ? $cache['data'] : $default;
+        return $default;
 
     }
 
@@ -135,6 +127,48 @@ class File extends Driver {
     }
 
     /**
+     * Increase the value of a stored integer
+     *
+     * @param  string $key   Unique item identifier
+     * @param  int    $value The ammount by which to increment
+     *
+     * @return mixed         Item's new value on success, otherwise false
+     */
+    public function increment($key, $value = 1) {
+
+        if (! $cache = $this->getCacheContents($key)) return false;
+
+        if (Carbon::now()->lte($cache['expires']) && is_int($cache['data'])) {
+            $newData = $cache['data'] + $value;
+            if ($this->putCacheContents($key, $newData, $cache['expires'])) return $newData;
+        }
+
+        return false;
+
+    }
+
+    /**
+     * Decrease the value of a stored integer
+     *
+     * @param  string $key   Unique item identifier
+     * @param  int    $value The ammount by which to decrement
+     *
+     * @return mixed         Item's new value on success, otherwise false
+     */
+    public function decrement($key, $value = 1) {
+
+        if (! $cache = $this->getCacheContents($key)) return false;
+
+        if (Carbon::now()->lte($cache['expires']) && is_int($cache['data'])) {
+            $newData = $cache['data'] - $value;
+            if ($this->putCacheContents($key, $newData, $cache['expires'])) return $newData;
+        }
+
+        return false;
+
+    }
+
+    /**
      * Removes an item from the cache
      *
      * @param  string $key Unique item identifier
@@ -164,6 +198,35 @@ class File extends Driver {
      */
     protected function cacheFile($key) {
         return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache';
+    }
+
+    /**
+     * Put cache contents into a cache file
+     *
+     * @param  string $key     Unique item identifier
+     * @param  mixed  $data    Data to cache
+     * @param  Carbon $expires Carbon instance representing the expiration time
+     *
+     * @return mixed       Cache file contents or false on failure
+     */
+    protected function putCacheContents($key, $data, Carbon $expires) {
+        return file_put_contents($this->cacheFile($key), serialize([
+            'expires' => $expires,
+            'data'    => $data
+        ]), LOCK_EX) ? true : false;
+    }
+
+    /**
+     * Retreive the contents of a cache file
+     *
+     * @param  string $key Unique item identifier
+     *
+     * @return mixed       Cache file contents or false on failure
+     */
+    protected function getCacheContents($key) {
+        $contents = @file_get_contents($this->cacheFile($key));
+        if ($contents === false) return false;
+        return unserialize($contents);
     }
 
 }

@@ -120,6 +120,30 @@ class Memcached extends Driver {
     }
 
     /**
+     * Increase the value of a stored integer
+     *
+     * @param  string $key   Unique item identifier
+     * @param  int    $value The ammount by which to increment
+     *
+     * @return mixed         Item's new value on success, otherwise false
+     */
+    public function increment($key, $value = 1) {
+        return $this->memcached->increment($key, $value);
+    }
+
+    /**
+     * Decrease the value of a stored integer
+     *
+     * @param  string $key   Unique item identifier
+     * @param  int    $value The ammount by which to decrement
+     *
+     * @return mixed         Item's new value on success, otherwise false
+     */
+    public function decrement($key, $value = 1) {
+        return $this->memcached->decrement($key, $value);
+    }
+
+    /**
      * Removes an item from the cache
      *
      * @param  string $key Unique item identifier

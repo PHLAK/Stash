@@ -90,6 +90,30 @@ class ApcTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @test */
+    public function it_can_increment_an_item() {
+        $this->stash->put('inc', 1336);
+        $this->assertEquals(1337, $this->stash->increment('inc'));
+    }
+
+    /** @test */
+    public function it_can_increment_an_item_by_a_custom_ammount() {
+        $this->stash->put('inc-custom', 1327);
+        $this->assertEquals(1337, $this->stash->increment('inc-custom', 10));
+    }
+
+    /** @test */
+    public function it_can_decrement_an_item() {
+        $this->stash->put('dec', 1338);
+        $this->assertEquals(1337, $this->stash->decrement('dec'));
+    }
+
+    /** @test */
+    public function it_can_decrement_an_item_by_a_custom_ammount() {
+        $this->stash->put('dec-custom', 1347);
+        $this->assertEquals(1337, $this->stash->decrement('dec-custom', 10));
+    }
+
+    /** @test */
     public function it_can_forget_an_item() {
         $this->stash->put('forgettable', 'asdf', 5);
         $this->assertTrue($this->stash->forget('forgettable'));
