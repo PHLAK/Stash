@@ -147,7 +147,7 @@ result of the closure is then stored in the cache for the specified duration
 and returned for immediate use.
 
 ```php
-$stash->remember($key, $minutes, fucntion() {
+$stash->remember($key, $minutes, function() {
     // return something
 });
 ```
@@ -158,6 +158,18 @@ or remember permanently:
 $stash->rememberForever($key, function() {
     // return something
 });
+```
+
+Increment an integer:
+
+```php
+$stash->increment($key, $value = 1);
+```
+
+Decrement an integer:
+
+```php
+$stash->decrement($key, $value = 1);
 ```
 
 Remove an item from the cache:
