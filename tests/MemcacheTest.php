@@ -32,8 +32,14 @@ class MemcachedTest extends PHPUnit_Framework_TestCase {
 
     /** @test */
     public function it_returns_true_if_it_has_an_item() {
-        $this->assertTrue($this->stash->put('has', 'some-item', 5));
+        $this->stash->put('has', 'some-item', 5);
         $this->assertTrue($this->stash->has('has'));
+    }
+
+    /** @test */
+    public function it_returns_true_if_it_has_a_boolean_false() {
+        $this->stash->put('false', false, 5);
+        $this->assertTrue($this->stash->has('false'));
     }
 
     /** @test */
@@ -51,6 +57,19 @@ class MemcachedTest extends PHPUnit_Framework_TestCase {
         });
 
         $this->assertEquals("Don't override me bro!", $text);
+
+    }
+
+    /** @test */
+    public function it_remembers_an_already_cached_boolean_false() {
+
+        $this->stash->put('boolean', false);
+
+        $boolean = $this->stash->remember('boolean', 5, function() {
+            return 'Not boolean false';
+        });
+
+        $this->assertFalse($boolean);
 
     }
 

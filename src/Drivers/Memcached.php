@@ -64,7 +64,8 @@ class Memcached extends Driver {
      * @return bool        True if item exists, otherwise false
      */
     public function has($key) {
-        return $this->memcached->get($this->prefix($key)) ? true : false;
+        $this->memcached->get($this->prefix($key));
+        return $this->memcached->getResultCode() == \Memcached::RES_SUCCESS ? true : false;
     }
 
     /**
@@ -79,19 +80,9 @@ class Memcached extends Driver {
      * @return mixed           Cached data or $closure results
      */
     public function remember($key, $minutes, \Closure $closure) {
-
-        if ($cache = $this->get($key)) {
-            return $cache;
-        }
-
+        if ($this->has($key)) return $this->get($key);
         $data = $closure();
-
-        if ($this->put($key, $data, $minutes)) {
-            return $data;
-        }
-
-        return false;
-
+        return $this->put($key, $data, $minutes) ? $data : false;
     }
 
     /**
@@ -104,19 +95,7 @@ class Memcached extends Driver {
      * @return mixed           Cached data or $closure results
      */
     public function rememberForever($key, \Closure $closure) {
-
-        if ($cache = $this->get($key)) {
-            return $cache;
-        }
-
-        $data = $closure();
-
-        if ($this->forever($key, $data)) {
-            return $data;
-        }
-
-        return false;
-
+        return $this->remember($key, 0, $closure);
     }
 
     /**

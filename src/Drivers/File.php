@@ -71,7 +71,13 @@ class File extends Driver {
      * @return bool        True if item exists, otherwise false
      */
     public function has($key) {
-        return $this->get($key) ? true : false;
+
+        if ($cache = $this->getCacheContents($key)) {
+            if (Carbon::now()->lte($cache['expires'])) return true;
+        }
+
+        return false;
+
     }
 
     /**
@@ -86,19 +92,9 @@ class File extends Driver {
      * @return mixed           Cached data or $closure results
      */
     public function remember($key, $minutes, \Closure $closure) {
-
-        if ($cache = $this->get($key)) {
-            return $cache;
-        }
-
+        if ($this->has($key)) return $this->get($key);
         $data = $closure();
-
-        if ($this->put($key, $data, $minutes)) {
-            return $data;
-        }
-
-        return false;
-
+        return $this->put($key, $data, $minutes) ? $data : false;
     }
 
     /**
@@ -111,19 +107,7 @@ class File extends Driver {
      * @return mixed           Cached data or $closure results
      */
     public function rememberForever($key, \Closure $closure) {
-
-        if ($cache = $this->get($key)) {
-            return $cache;
-        }
-
-        $data = $closure();
-
-        if ($this->forever($key, $data)) {
-            return $data;
-        }
-
-        return false;
-
+        return $this->remember($key, 0, $closure);
     }
 
     /**
@@ -156,16 +140,7 @@ class File extends Driver {
      * @return mixed         Item's new value on success, otherwise false
      */
     public function decrement($key, $value = 1) {
-
-        if (! $cache = $this->getCacheContents($key)) return false;
-
-        if (Carbon::now()->lte($cache['expires']) && is_int($cache['data'])) {
-            $newData = $cache['data'] - $value;
-            if ($this->putCacheContents($key, $newData, $cache['expires'])) return $newData;
-        }
-
-        return false;
-
+        return $this->increment($key, $value * -1);
     }
 
     /**

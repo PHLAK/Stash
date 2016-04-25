@@ -73,19 +73,9 @@ class Apc extends Driver {
      * @return mixed           Cached data or $closure results
      */
     public function remember($key, $minutes, \Closure $closure) {
-
-        if ($cache = $this->get($key)) {
-            return $cache;
-        }
-
+        if ($this->has($key)) return $this->get($key);
         $data = $closure();
-
-        if ($this->put($key, $data, $minutes)) {
-            return $data;
-        }
-
-        return false;
-
+        return $this->put($key, $data, $minutes) ? $data : false;
     }
 
     /**
@@ -98,19 +88,7 @@ class Apc extends Driver {
      * @return mixed           Cached data or $closure results
      */
     public function rememberForever($key, \Closure $closure) {
-
-        if ($cache = $this->get($key)) {
-            return $cache;
-        }
-
-        $data = $closure();
-
-        if ($this->forever($key, $data)) {
-            return $data;
-        }
-
-        return false;
-
+        return $this->remember($key, 0, $closure);
     }
 
     /**
