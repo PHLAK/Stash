@@ -10,7 +10,7 @@ class Cache {
      * @param  string $driver Driver to initialize
      * @param  array  $config Array of configuration options
      *
-     * @return object         Cache Object
+     * @return object         Cacheable Object
      */
     public static function make($driver, array $config = []) {
 
