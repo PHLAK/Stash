@@ -176,7 +176,7 @@ class File extends Driver {
      * @return bool        True on success, otherwise false
      */
     public function forget($key) {
-        return @unlink($this->cacheFile($key));
+        return @unlink($this->filePath($key));
     }
 
     /**
@@ -190,13 +190,13 @@ class File extends Driver {
     }
 
     /**
-     * Get file name for cache item by the provided key
+     * Get an item's file path via it's key
      *
      * @param  string $key Uniqe item identifier
      *
      * @return string      Path to cache item file
      */
-    protected function cacheFile($key) {
+    protected function filePath($key) {
         return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache';
     }
 
@@ -210,7 +210,7 @@ class File extends Driver {
      * @return mixed       Cache file contents or false on failure
      */
     protected function putCacheContents($key, $data, Carbon $expires) {
-        return file_put_contents($this->cacheFile($key), serialize([
+        return file_put_contents($this->filePath($key), serialize([
             'expires' => $expires,
             'data'    => $data
         ]), LOCK_EX) ? true : false;
@@ -224,7 +224,7 @@ class File extends Driver {
      * @return mixed       Cache file contents or false on failure
      */
     protected function getCacheContents($key) {
-        $contents = @file_get_contents($this->cacheFile($key));
+        $contents = @file_get_contents($this->filePath($key));
         if ($contents === false) return false;
         return unserialize($contents);
     }
