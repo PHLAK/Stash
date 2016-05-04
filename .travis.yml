@@ -12,6 +12,7 @@ services:
 cache:
     directories:
         - $HOME/.composer/cache
+        - vendor
 
 before_install:
     - phpenv config-rm xdebug.ini
