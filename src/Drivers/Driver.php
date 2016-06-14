@@ -10,6 +10,15 @@ abstract class Driver implements Cacheable {
     protected $prefix;
 
     /**
+     * Stash\Driver constructor, runs on object creation
+     *
+     * @param string $prefix Key prefix for preventing collisions
+     */
+    public function __construct($prefix = '') {
+        $this->prefix = $prefix;
+    }
+
+    /**
      * Get prefixed key
      *
      * @param  string $key Unique item identifier
