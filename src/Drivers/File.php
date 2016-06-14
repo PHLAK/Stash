@@ -200,8 +200,7 @@ class File extends Driver {
      */
     protected function getCacheContents($key) {
         $contents = @file_get_contents($this->filePath($key));
-        if ($contents === false) return false;
-        return unserialize($contents);
+        return unserialize($contents) ?: false;
     }
 
 }
