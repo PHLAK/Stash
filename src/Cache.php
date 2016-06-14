@@ -28,7 +28,7 @@ class Cache {
                 return new Drivers\Memcached($config['servers'], $prefix);
 
             default:
-                throw new \Exception('Invalid driver supplied');
+                throw new \RuntimeException('Invalid driver');
 
         }
 
