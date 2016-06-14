@@ -55,8 +55,10 @@ class File extends Driver {
      */
     public function get($key, $default = false) {
 
-        if ($cache = $this->getCacheContents($key)) {
-            if (Carbon::now()->lte($cache['expires'])) return $cache['data'];
+        $cache = $this->getCacheContents($key);
+
+        if ($cache && Carbon::now()->lte($cache['expires'])) {
+            return $cache['data'];
         }
 
         return $default;
@@ -72,8 +74,10 @@ class File extends Driver {
      */
     public function has($key) {
 
-        if ($cache = $this->getCacheContents($key)) {
-            if (Carbon::now()->lte($cache['expires'])) return true;
+        $cache = $this->getCacheContents($key);
+
+        if ($cache && Carbon::now()->lte($cache['expires'])) {
+            return true;
         }
 
         return false;
