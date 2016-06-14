@@ -23,7 +23,7 @@ Supported caching back-ends:
 
   - File Backed
   - Memcached
-  - APC
+  - APCu
 
 Like this project? Keep me caffeinated by [making a donation](https://paypal.me/ChrisKankiewicz).
 
@@ -93,10 +93,10 @@ $stash = Stash\Cache::make('memcached', [
 ]);
 ```
 
-#### APC
+#### APCu
 
 ```php
-$stash = Stash\Cache::make('apc');
+$stash = Stash\Cache::make('apcu');
 ```
 
 Configuration
