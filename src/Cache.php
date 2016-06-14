@@ -18,8 +18,8 @@ class Cache {
 
         switch ($driver) {
 
-            case 'apc':
-                return new Drivers\Apc($prefix);
+            case 'apcu':
+                return new Drivers\APCu($prefix);
 
             case 'file':
                 return new Drivers\File($config['dir'], $prefix);

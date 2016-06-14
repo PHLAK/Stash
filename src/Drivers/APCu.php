@@ -2,16 +2,7 @@
 
 namespace Stash\Drivers;
 
-class Apc extends Driver {
-
-    /**
-     * Stash\Apc constructor, runs on object creation
-     *
-     * @param string $prefix Key prefix for preventing collisions
-     */
-    public function __construct($prefix = '') {
-        $this->prefix = $prefix;
-    }
+class APCu extends Driver {
 
     /**
      * Put an item into the cache for a specified duration
@@ -23,7 +14,7 @@ class Apc extends Driver {
      * @return bool            True on sucess, otherwise false
      */
     public function put($key, $data, $minutes = 0) {
-        return apc_store($this->prefix($key), $data, ($minutes * 60));
+        return apcu_store($this->prefix($key), $data, ($minutes * 60));
     }
 
     /**
@@ -47,7 +38,7 @@ class Apc extends Driver {
      * @return mixed           Cached data or $default value
      */
     public function get($key, $default = false) {
-        return apc_fetch($this->prefix($key)) ?: $default;
+        return apcu_fetch($this->prefix($key)) ?: $default;
     }
 
     /**
@@ -58,7 +49,7 @@ class Apc extends Driver {
      * @return bool        True if item exists, otherwise false
      */
     public function has($key) {
-        return apc_exists($this->prefix($key));
+        return apcu_exists($this->prefix($key));
     }
 
     /**
@@ -100,7 +91,12 @@ class Apc extends Driver {
      * @return mixed         Item's new value on success, otherwise false
      */
     public function increment($key, $value = 1) {
-        return apc_inc($this->prefix($key), $value);
+        // Check for key existance first as a temporary workaround
+        // for this bug: https://github.com/krakjoe/apcu/issues/183
+        if (apcu_exists($this->prefix($key))) {
+            return apcu_inc($this->prefix($key), $value, $result);
+        }
+        return false;
     }
 
     /**
@@ -112,7 +108,12 @@ class Apc extends Driver {
      * @return mixed         Item's new value on success, otherwise false
      */
     public function decrement($key, $value = 1) {
-        return apc_dec($this->prefix($key), $value);
+        // Check for key existance first as a temporary workaround
+        // for this bug: https://github.com/krakjoe/apcu/issues/183
+        if (apcu_exists($this->prefix($key))) {
+            return apcu_dec($this->prefix($key), $value);
+        }
+        return false;
     }
 
     /**
@@ -123,7 +124,7 @@ class Apc extends Driver {
      * @return bool        True on success, otherwise false
      */
     public function forget($key) {
-        return apc_delete($this->prefix($key));
+        return apcu_delete($this->prefix($key));
     }
 
     /**
@@ -132,7 +133,7 @@ class Apc extends Driver {
      * @return bool True on success, otherwise false
      */
     public function flush() {
-        return apc_clear_cache();
+        return apcu_clear_cache();
     }
 
 }
