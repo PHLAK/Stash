@@ -1,11 +1,11 @@
 <?php
 
-class ApcTest extends PHPUnit_Framework_TestCase {
+class APCuTest extends PHPUnit_Framework_TestCase {
 
     protected $stash;
 
     public function setUp() {
-        $this->stash = new Stash\Drivers\Apc('stash_test');
+        $this->stash = new Stash\Drivers\APCu();
     }
 
     /** @test */
@@ -141,6 +141,11 @@ class ApcTest extends PHPUnit_Framework_TestCase {
     /** @test */
     public function it_returns_false_when_incrementing_a_nonexistant_item() {
         $this->assertFalse($this->stash->increment('nonexistant-item'));
+    }
+
+    /** @test */
+    public function it_returns_false_when_decrementing_a_nonexistant_item() {
+        $this->assertFalse($this->stash->decrement('nonexistant-item'));
     }
 
     /** @test */

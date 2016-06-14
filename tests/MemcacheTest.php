@@ -144,6 +144,11 @@ class MemcachedTest extends PHPUnit_Framework_TestCase {
     }
 
     /** @test */
+    public function it_returns_false_when_decrementing_a_nonexistant_item() {
+        $this->assertFalse($this->stash->decrement('nonexistant-item'));
+    }
+
+    /** @test */
     public function it_can_forget_an_item() {
         $this->stash->put('forgettable', 'asdf', 5);
         $this->assertTrue($this->stash->forget('forgettable'));

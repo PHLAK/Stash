@@ -4,16 +4,16 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 
     /** @test */
     public function it_can_instantiate_the_apc_driver() {
-        $apc = Stash\Cache::make('apc');
+        $apc = Stash\Cache::make('apcu');
         $this->assertInstanceOf('Stash\Drivers\Driver', $apc);
-        $this->assertInstanceOf('Stash\Drivers\Apc', $apc);
+        $this->assertInstanceOf('Stash\Drivers\APCu', $apc);
     }
 
     /** @test */
     public function it_can_instantiate_the_apc_driver_with_prefix() {
-        $apc = Stash\Cache::make('apc', ['prefix' => 'stash_test']);
+        $apc = Stash\Cache::make('apcu', ['prefix' => 'stash_test']);
         $this->assertInstanceOf('Stash\Drivers\Driver', $apc);
-        $this->assertInstanceOf('Stash\Drivers\Apc', $apc);
+        $this->assertInstanceOf('Stash\Drivers\APCu', $apc);
     }
 
     /** @test */
