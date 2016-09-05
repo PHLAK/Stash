@@ -2,8 +2,8 @@
 
 namespace Stash;
 
-class Cache {
-
+class Cache
+{
     /**
      * Initialize the desired cache driver object
      *
@@ -12,12 +12,11 @@ class Cache {
      *
      * @return object         Cacheable Object
      */
-    public static function make($driver, array $config = []) {
-
+    public static function make($driver, array $config = [])
+    {
         $prefix = @$config['prefix'] ?: '';
 
         switch ($driver) {
-
             case 'apcu':
                 return new Drivers\APCu($prefix);
 
@@ -29,9 +28,6 @@ class Cache {
 
             default:
                 throw new \RuntimeException('Invalid driver');
-
         }
-
     }
-
 }

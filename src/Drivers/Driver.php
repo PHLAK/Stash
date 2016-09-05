@@ -4,8 +4,8 @@ namespace Stash\Drivers;
 
 use Stash\Interfaces\Cacheable;
 
-abstract class Driver implements Cacheable {
-
+abstract class Driver implements Cacheable
+{
     /** @var string Key prefix for preventing collisions */
     protected $prefix;
 
@@ -28,5 +28,4 @@ abstract class Driver implements Cacheable {
     protected function prefix($key) {
         return empty($this->prefix) ? $key : $this->prefix . '_' . $key;
     }
-
 }

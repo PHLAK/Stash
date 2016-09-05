@@ -2,8 +2,8 @@
 
 namespace Stash\Drivers;
 
-class APCu extends Driver {
-
+class APCu extends Driver
+{
     /**
      * Put an item into the cache for a specified duration
      *
@@ -13,7 +13,8 @@ class APCu extends Driver {
      *
      * @return bool            True on sucess, otherwise false
      */
-    public function put($key, $data, $minutes = 0) {
+    public function put($key, $data, $minutes = 0)
+    {
         return apcu_store($this->prefix($key), $data, ($minutes * 60));
     }
 
@@ -25,7 +26,8 @@ class APCu extends Driver {
      *
      * @return bool         True on sucess, otherwise false
      */
-    public function forever($key, $data) {
+    public function forever($key, $data)
+    {
         return $this->put($key, $data);
     }
 
@@ -37,7 +39,8 @@ class APCu extends Driver {
      *
      * @return mixed           Cached data or $default value
      */
-    public function get($key, $default = false) {
+    public function get($key, $default = false)
+    {
         return apcu_fetch($this->prefix($key)) ?: $default;
     }
 
@@ -48,7 +51,8 @@ class APCu extends Driver {
      *
      * @return bool        True if item exists, otherwise false
      */
-    public function has($key) {
+    public function has($key)
+    {
         return apcu_exists($this->prefix($key));
     }
 
@@ -63,7 +67,8 @@ class APCu extends Driver {
      *
      * @return mixed           Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure) {
+    public function remember($key, $minutes, \Closure $closure)
+    {
         if ($this->has($key)) return $this->get($key);
         $data = $closure();
         return $this->put($key, $data, $minutes) ? $data : false;
@@ -78,7 +83,8 @@ class APCu extends Driver {
      *
      * @return mixed           Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure) {
+    public function rememberForever($key, \Closure $closure)
+    {
         return $this->remember($key, 0, $closure);
     }
 
@@ -90,7 +96,8 @@ class APCu extends Driver {
      *
      * @return mixed         Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1) {
+    public function increment($key, $value = 1)
+    {
         // Check for key existance first as a temporary workaround
         // for this bug: https://github.com/krakjoe/apcu/issues/183
         if (apcu_exists($this->prefix($key))) {
@@ -107,7 +114,8 @@ class APCu extends Driver {
      *
      * @return mixed         Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1) {
+    public function decrement($key, $value = 1)
+    {
         // Check for key existance first as a temporary workaround
         // for this bug: https://github.com/krakjoe/apcu/issues/183
         if (apcu_exists($this->prefix($key))) {
@@ -123,7 +131,8 @@ class APCu extends Driver {
      *
      * @return bool        True on success, otherwise false
      */
-    public function forget($key) {
+    public function forget($key)
+    {
         return apcu_delete($this->prefix($key));
     }
 
@@ -132,8 +141,8 @@ class APCu extends Driver {
      *
      * @return bool True on success, otherwise false
      */
-    public function flush() {
+    public function flush()
+    {
         return apcu_clear_cache();
     }
-
 }

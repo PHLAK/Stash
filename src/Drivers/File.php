@@ -4,8 +4,8 @@ namespace Stash\Drivers;
 
 use Carbon\Carbon;
 
-class File extends Driver {
-
+class File extends Driver
+{
     /** @var string Path to cache directory */
     protected $storagePath;
 
@@ -14,7 +14,8 @@ class File extends Driver {
      *
      * @param string $storagePath Path to cache directory
      */
-    public function __construct($storagePath, $prefix = '') {
+    public function __construct($storagePath, $prefix = '')
+    {
         $this->storagePath = rtrim($storagePath, DIRECTORY_SEPARATOR);
         $this->prefix      = $prefix;
     }
@@ -28,7 +29,8 @@ class File extends Driver {
      *
      * @return bool            True on sucess, otherwise false
      */
-    public function put($key, $data, $minutes = 0) {
+    public function put($key, $data, $minutes = 0)
+    {
         $expires = $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue();
         return $this->putCacheContents($key, $data, $expires);
     }
@@ -41,7 +43,8 @@ class File extends Driver {
      *
      * @return bool         True on sucess, otherwise false
      */
-    public function forever($key, $data) {
+    public function forever($key, $data)
+    {
         return $this->put($key, $data);
     }
 
@@ -53,8 +56,8 @@ class File extends Driver {
      *
      * @return mixed           Cached data or false
      */
-    public function get($key, $default = false) {
-
+    public function get($key, $default = false)
+    {
         $cache = $this->getCacheContents($key);
 
         if ($cache && Carbon::now()->lte($cache['expires'])) {
@@ -62,7 +65,6 @@ class File extends Driver {
         }
 
         return $default;
-
     }
 
     /**
@@ -72,8 +74,8 @@ class File extends Driver {
      *
      * @return bool        True if item exists, otherwise false
      */
-    public function has($key) {
-
+    public function has($key)
+    {
         $cache = $this->getCacheContents($key);
 
         if ($cache && Carbon::now()->lte($cache['expires'])) {
@@ -81,7 +83,6 @@ class File extends Driver {
         }
 
         return false;
-
     }
 
     /**
@@ -95,7 +96,8 @@ class File extends Driver {
      *
      * @return mixed           Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure) {
+    public function remember($key, $minutes, \Closure $closure)
+    {
         if ($this->has($key)) return $this->get($key);
         $data = $closure();
         return $this->put($key, $data, $minutes) ? $data : false;
@@ -110,7 +112,8 @@ class File extends Driver {
      *
      * @return mixed           Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure) {
+    public function rememberForever($key, \Closure $closure)
+    {
         return $this->remember($key, 0, $closure);
     }
 
@@ -122,8 +125,8 @@ class File extends Driver {
      *
      * @return mixed         Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1) {
-
+    public function increment($key, $value = 1)
+    {
         if (! $cache = $this->getCacheContents($key)) return false;
 
         if (Carbon::now()->lte($cache['expires']) && is_int($cache['data'])) {
@@ -132,7 +135,6 @@ class File extends Driver {
         }
 
         return false;
-
     }
 
     /**
@@ -143,7 +145,8 @@ class File extends Driver {
      *
      * @return mixed         Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1) {
+    public function decrement($key, $value = 1)
+    {
         return $this->increment($key, $value * -1);
     }
 
@@ -154,7 +157,8 @@ class File extends Driver {
      *
      * @return bool        True on success, otherwise false
      */
-    public function forget($key) {
+    public function forget($key)
+    {
         return @unlink($this->filePath($key));
     }
 
@@ -163,7 +167,8 @@ class File extends Driver {
      *
      * @return bool True on success, otherwise false
      */
-    public function flush() {
+    public function flush()
+    {
         $unlinked = array_map('unlink', glob($this->storagePath . DIRECTORY_SEPARATOR . '*.cache'));
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
@@ -175,7 +180,8 @@ class File extends Driver {
      *
      * @return string      Path to cache item file
      */
-    protected function filePath($key) {
+    protected function filePath($key)
+    {
         return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache';
     }
 
@@ -188,7 +194,8 @@ class File extends Driver {
      *
      * @return mixed       Cache file contents or false on failure
      */
-    protected function putCacheContents($key, $data, Carbon $expires) {
+    protected function putCacheContents($key, $data, Carbon $expires)
+    {
         return file_put_contents($this->filePath($key), serialize([
             'expires' => $expires,
             'data'    => $data
@@ -202,9 +209,9 @@ class File extends Driver {
      *
      * @return mixed       Cache file contents or false on failure
      */
-    protected function getCacheContents($key) {
+    protected function getCacheContents($key)
+    {
         $contents = @file_get_contents($this->filePath($key));
         return unserialize($contents) ?: false;
     }
-
 }

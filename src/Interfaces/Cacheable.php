@@ -2,8 +2,8 @@
 
 namespace Stash\Interfaces;
 
-interface Cacheable {
-
+interface Cacheable
+{
     /**
      * Put an item into the cache for a specified duration
      *
@@ -103,5 +103,4 @@ interface Cacheable {
      * @return bool True on success, otherwise false
      */
     public function flush();
-
 }

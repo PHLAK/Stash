@@ -2,8 +2,8 @@
 
 namespace Stash\Drivers;
 
-class Memcached extends Driver {
-
+class Memcached extends Driver
+{
     /** @var object Instance of Memcached */
     protected $memcached;
 
@@ -12,7 +12,8 @@ class Memcached extends Driver {
      *
      * @param string $servers Array of Memcached servers
      */
-    public function __construct(array $servers, $prefix = '') {
+    public function __construct(array $servers, $prefix = '')
+    {
         $this->memcached = new \Memcached;
         $this->memcached->addServers($servers);
         $this->prefix = $prefix;
@@ -27,7 +28,8 @@ class Memcached extends Driver {
      *
      * @return bool            True on sucess, otherwise false
      */
-    public function put($key, $data, $minutes = 0) {
+    public function put($key, $data, $minutes = 0)
+    {
         $expiration = $minutes > 0 ? time() + ($minutes * 60) : 0;
         return $this->memcached->set($this->prefix($key), $data, $expiration);
     }
@@ -40,7 +42,8 @@ class Memcached extends Driver {
      *
      * @return bool         True on sucess, otherwise false
      */
-    public function forever($key, $data) {
+    public function forever($key, $data)
+    {
         return $this->put($key, $data);
     }
 
@@ -52,7 +55,8 @@ class Memcached extends Driver {
      *
      * @return mixed           Cached data or $default value
      */
-    public function get($key, $default = false) {
+    public function get($key, $default = false)
+    {
         return $this->memcached->get($this->prefix($key)) ?: $default;
     }
 
@@ -63,7 +67,8 @@ class Memcached extends Driver {
      *
      * @return bool        True if item exists, otherwise false
      */
-    public function has($key) {
+    public function has($key)
+    {
         $this->memcached->get($this->prefix($key));
         return $this->memcached->getResultCode() == \Memcached::RES_SUCCESS ? true : false;
     }
@@ -79,7 +84,8 @@ class Memcached extends Driver {
      *
      * @return mixed           Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure) {
+    public function remember($key, $minutes, \Closure $closure)
+    {
         if ($this->has($key)) return $this->get($key);
         $data = $closure();
         return $this->put($key, $data, $minutes) ? $data : false;
@@ -94,7 +100,8 @@ class Memcached extends Driver {
      *
      * @return mixed           Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure) {
+    public function rememberForever($key, \Closure $closure)
+    {
         return $this->remember($key, 0, $closure);
     }
 
@@ -106,7 +113,8 @@ class Memcached extends Driver {
      *
      * @return mixed         Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1) {
+    public function increment($key, $value = 1)
+    {
         return $this->memcached->increment($key, $value);
     }
 
@@ -118,7 +126,8 @@ class Memcached extends Driver {
      *
      * @return mixed         Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1) {
+    public function decrement($key, $value = 1)
+    {
         return $this->memcached->decrement($key, $value);
     }
 
@@ -129,7 +138,8 @@ class Memcached extends Driver {
      *
      * @return bool        True on success, otherwise false
      */
-    public function forget($key) {
+    public function forget($key)
+    {
         return $this->memcached->delete($this->prefix($key));
     }
 
@@ -138,8 +148,8 @@ class Memcached extends Driver {
      *
      * @return bool True on success, otherwise false
      */
-    public function flush() {
+    public function flush()
+    {
         return $this->memcached->flush();
     }
-
 }
