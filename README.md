@@ -191,7 +191,7 @@ Please report bugs to the [GitHub Issue Tracker](https://github.com/PHLAK/Stash/
 
 -----
 
-MIT License
+This project is liscensed under the MIT License.
 
 **Copyright (c) 2016 Chris Kankiewicz <Chris@ChrisKankiewicz.com>**
 
