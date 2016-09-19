@@ -64,7 +64,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     public function test_it_throws_a_runtime_exception_for_an_invalid_driver()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->setExpectedException('RuntimeException');
 
         $file = Stash\Cache::make('snozberries');
     }
