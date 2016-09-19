@@ -32,6 +32,7 @@ class File extends Driver
     public function put($key, $data, $minutes = 0)
     {
         $expires = $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue();
+
         return $this->putCacheContents($key, $data, $expires);
     }
 
@@ -95,7 +96,9 @@ class File extends Driver
     public function remember($key, $minutes, \Closure $closure)
     {
         if ($this->has($key)) return $this->get($key);
+
         $data = $closure();
+
         return $this->put($key, $data, $minutes) ? $data : false;
     }
 
@@ -166,6 +169,7 @@ class File extends Driver
     public function flush()
     {
         $unlinked = array_map('unlink', glob($this->storagePath . DIRECTORY_SEPARATOR . '*.cache'));
+
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
 
@@ -208,6 +212,7 @@ class File extends Driver
     protected function getCacheContents($key)
     {
         $contents = @file_get_contents($this->filePath($key));
+
         return unserialize($contents) ?: false;
     }
 }

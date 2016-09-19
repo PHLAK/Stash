@@ -31,6 +31,7 @@ class Memcached extends Driver
     public function put($key, $data, $minutes = 0)
     {
         $expiration = $minutes > 0 ? time() + ($minutes * 60) : 0;
+
         return $this->memcached->set($this->prefix($key), $data, $expiration);
     }
 
@@ -88,7 +89,9 @@ class Memcached extends Driver
     public function remember($key, $minutes, \Closure $closure)
     {
         if ($this->has($key)) return $this->get($key);
+
         $data = $closure();
+
         return $this->put($key, $data, $minutes) ? $data : false;
     }
 

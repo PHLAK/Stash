@@ -70,7 +70,9 @@ class APCu extends Driver
     public function remember($key, $minutes, \Closure $closure)
     {
         if ($this->has($key)) return $this->get($key);
+
         $data = $closure();
+
         return $this->put($key, $data, $minutes) ? $data : false;
     }
 
@@ -103,6 +105,7 @@ class APCu extends Driver
         if (apcu_exists($this->prefix($key))) {
             return apcu_inc($this->prefix($key), $value, $result);
         }
+
         return false;
     }
 
@@ -121,6 +124,7 @@ class APCu extends Driver
         if (apcu_exists($this->prefix($key))) {
             return apcu_dec($this->prefix($key), $value);
         }
+
         return false;
     }
 
