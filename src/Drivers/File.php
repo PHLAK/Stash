@@ -78,11 +78,7 @@ class File extends Driver
     {
         $cache = $this->getCacheContents($key);
 
-        if ($cache && Carbon::now()->lte($cache['expires'])) {
-            return true;
-        }
-
-        return false;
+        return $cache && Carbon::now()->lte($cache['expires']);
     }
 
     /**

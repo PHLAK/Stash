@@ -70,7 +70,8 @@ class Memcached extends Driver
     public function has($key)
     {
         $this->memcached->get($this->prefix($key));
-        return $this->memcached->getResultCode() == \Memcached::RES_SUCCESS ? true : false;
+
+        return $this->memcached->getResultCode() == \Memcached::RES_SUCCESS;
     }
 
     /**
