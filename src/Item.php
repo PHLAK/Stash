@@ -57,11 +57,11 @@ class Item
     }
 
     /**
-     * [increment description]
+     * Increase the value of a stored integer
      *
-     * @param  integer $value [description]
+     * @param  int   $value The ammount by which to decrement
      *
-     * @return [type]         [description]
+     * @return mixed        The new value on success, otherwise false
      */
     public function increment($value = 1)
     {
@@ -74,11 +74,11 @@ class Item
     }
 
     /**
-     * [decrement description]
+     * Decrease the value of a stored integer
      *
-     * @param  integer $value [description]
+     * @param  int   $value The ammount by which to decrement
      *
-     * @return [type]         [description]
+     * @return mixed        The new value on success, otherwise false
      */
     public function decrement($value = 1)
     {
