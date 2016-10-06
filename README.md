@@ -24,6 +24,7 @@ Supported caching back-ends:
   - File Backed
   - Memcached
   - APCu
+  - Ephemeral
 
 Like this project? Keep me caffeinated by [making a donation](https://paypal.me/ChrisKankiewicz).
 
@@ -99,6 +100,12 @@ $stash = Stash\Cache::make('memcached', [
 $stash = Stash\Cache::make('apcu');
 ```
 
+#### Ephemeral
+
+```php
+$stash = Stash\Cache::make('ephemeral');
+```
+
 Configuration
 -------------
 
@@ -114,6 +121,7 @@ $stash = Stash\Cache::make('file', [
     'prefix' => 'some_prefix'
 ]);
 ```
+
 
 Usage
 -----

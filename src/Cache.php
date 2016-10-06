@@ -26,6 +26,9 @@ class Cache
             case 'memcached':
                 return new Drivers\Memcached($config['servers'], $prefix);
 
+            case 'ephemeral':
+                return new Drivers\Ephemeral($prefix);
+
             default:
                 throw new \RuntimeException('Invalid driver');
         }
