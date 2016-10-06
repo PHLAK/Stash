@@ -204,8 +204,12 @@ class File extends Driver
      */
     protected function getCacheContents($key)
     {
-        $contents = @file_get_contents($this->filePath($key));
+        $item = unserialize(@file_get_contents($this->filePath($key)));
 
-        return unserialize($contents) ?: false;
+        if (! $item || $item->expired()) {
+            return false;
+        }
+
+        return $item;
     }
 }

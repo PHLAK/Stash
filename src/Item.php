@@ -13,15 +13,15 @@ class Item
     protected $expires;
 
     /**
-     * [__construct description]
+     * Stash\Item constructor, runs on object creation
      *
-     * @param [type]  $data    [description]
-     * @param integer $minutes [description]
+     * @param mixed $data    Item data
+     * @param int   $minutes Time in minutes until item expires
      */
     public function __construct($data, $minutes = 0)
     {
         $this->data    = $data;
-        $this->expires = $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue();
+        $this->expires = $minutes == 0 ? Carbon::maxValue() : Carbon::now()->addMinutes($minutes);
     }
 
     /**

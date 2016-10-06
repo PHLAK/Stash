@@ -30,7 +30,7 @@ class Memcached extends Driver
      */
     public function put($key, $data, $minutes = 0)
     {
-        $expiration = $minutes > 0 ? time() + ($minutes * 60) : 0;
+        $expiration = $minutes == 0 ? 0 : time() + ($minutes * 60);
 
         return $this->memcached->set($this->prefix($key), $data, $expiration);
     }
