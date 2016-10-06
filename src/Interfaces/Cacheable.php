@@ -13,7 +13,7 @@ interface Cacheable
      *
      * @return bool            True on sucess, otherwise false
      */
-    public function put($key, $data, $minute);
+    public function put($key, $data, $minutes = 0);
 
     /**
      * Put an item into the cache permanently
