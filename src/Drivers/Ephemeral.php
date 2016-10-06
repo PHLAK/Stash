@@ -3,6 +3,7 @@
 namespace Stash\Drivers;
 
 use Carbon\Carbon;
+use Stash\Item;
 
 class Ephemeral extends Driver
 {
@@ -20,10 +21,7 @@ class Ephemeral extends Driver
      */
     public function put($key, $data, $minutes = 0)
     {
-        $this->cache[$key] = [
-            'data'    => $data,
-            'expires' => $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue()
-        ];
+        $this->cache[$key] = new Item($data, $minutes);
 
         return true;
     }
@@ -53,10 +51,7 @@ class Ephemeral extends Driver
     {
         if (array_key_exists($key, $this->cache)) {
             $item = $this->cache[$key];
-
-            if (Carbon::now()->lte($item['expires'])) {
-                return $item['data'];
-            }
+            if ($item->notExpired()) return $item->data;
         }
 
         return $default;
@@ -73,7 +68,7 @@ class Ephemeral extends Driver
     {
         if (array_key_exists($key, $this->cache)) {
             $item = $this->cache[$key];
-            return Carbon::now()->lte($item['expires']);
+            return $item->notExpired();
         }
 
         return false;
@@ -92,12 +87,10 @@ class Ephemeral extends Driver
      */
     public function remember($key, $minutes, \Closure $closure)
     {
+        // if ($this->has($key)) return $this->get($key);
         if (array_key_exists($key, $this->cache)) {
             $item = $this->cache[$key];
-
-            if (Carbon::now()->lte($item['expires'])) {
-                return $item['data'];
-            }
+            if ($item->notExpired()) return $item->data;
         }
 
         $data = $closure();
@@ -131,17 +124,7 @@ class Ephemeral extends Driver
     {
         if (array_key_exists($key, $this->cache)) {
             $item = $this->cache[$key];
-
-            if (Carbon::now()->lte($item['expires']) && is_int($item['data'])) {
-                $newItem = [
-                    'data'    => $item['data'] + $value,
-                    'expires' => $item['expires']
-                ];
-
-                $this->cache[$key] = $newItem;
-
-                return $newItem['data'];
-            }
+            return $item->increment($value);
         }
 
         return false;

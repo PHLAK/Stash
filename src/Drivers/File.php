@@ -3,6 +3,7 @@
 namespace Stash\Drivers;
 
 use Carbon\Carbon;
+use Stash\Item;
 
 class File extends Driver
 {
@@ -31,9 +32,7 @@ class File extends Driver
      */
     public function put($key, $data, $minutes = 0)
     {
-        $expires = $minutes > 0 ? Carbon::now()->addMinutes($minutes) : Carbon::maxValue();
-
-        return $this->putCacheContents($key, $data, $expires);
+        return $this->putCacheContents($key, $data, $minutes);
     }
 
     /**
@@ -59,10 +58,10 @@ class File extends Driver
      */
     public function get($key, $default = false)
     {
-        $cache = $this->getCacheContents($key);
+        $item = $this->getCacheContents($key);
 
-        if ($cache && Carbon::now()->lte($cache['expires'])) {
-            return $cache['data'];
+        if ($item && $item->notexpired()) {
+            return $item->data;
         }
 
         return $default;
@@ -77,9 +76,9 @@ class File extends Driver
      */
     public function has($key)
     {
-        $cache = $this->getCacheContents($key);
+        $item = $this->getCacheContents($key);
 
-        return $cache && Carbon::now()->lte($cache['expires']);
+        return $item && $item->notexpired();
     }
 
     /**
@@ -126,14 +125,9 @@ class File extends Driver
      */
     public function increment($key, $value = 1)
     {
-        if (! $cache = $this->getCacheContents($key)) return false;
+        if (! $item = $this->getCacheContents($key)) return false;
 
-        if (Carbon::now()->lte($cache['expires']) && is_int($cache['data'])) {
-            $newData = $cache['data'] + $value;
-            if ($this->putCacheContents($key, $newData, $cache['expires'])) return $newData;
-        }
-
-        return false;
+        return $item->increment($value);
     }
 
     /**
@@ -190,16 +184,15 @@ class File extends Driver
      *
      * @param  string $key     Unique item identifier
      * @param  mixed  $data    Data to cache
-     * @param  Carbon $expires Carbon instance representing the expiration time
+     * @param  int    $minutes Length of time in minutes to cache the item
      *
      * @return mixed       Cache file contents or false on failure
      */
-    protected function putCacheContents($key, $data, Carbon $expires)
+    protected function putCacheContents($key, $data, $minutes)
     {
-        return file_put_contents($this->filePath($key), serialize([
-            'expires' => $expires,
-            'data'    => $data
-        ]), LOCK_EX) ? true : false;
+        return file_put_contents($this->filePath($key), serialize(
+            new Item($data, $minutes)
+        ), LOCK_EX) ? true : false;
     }
 
     /**
