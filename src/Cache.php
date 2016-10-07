@@ -2,6 +2,8 @@
 
 namespace Stash;
 
+use Stash\Exceptions\InvalidDriverException;
+
 class Cache
 {
     /**
@@ -30,7 +32,7 @@ class Cache
                 return new Drivers\Ephemeral($prefix);
 
             default:
-                throw new \RuntimeException('Invalid driver');
+                throw new InvalidDriverException;
         }
     }
 }
