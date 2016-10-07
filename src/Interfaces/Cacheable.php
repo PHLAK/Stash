@@ -9,7 +9,7 @@ interface Cacheable
      *
      * @param  string $key     Unique item identifier
      * @param  mixed  $data    Data to cache
-     * @param  int    $minutes Minutes to cache
+     * @param  int    $minutes Time in minutes until item expires (default: 0)
      *
      * @return bool            True on sucess, otherwise false
      */
@@ -29,7 +29,7 @@ interface Cacheable
      * Get an item from the cache
      *
      * @param  string $key     Uniqe item identifier
-     * @param  mixex  $default Default data to return
+     * @param  mixex  $default Default data to return (default: false)
      *
      * @return mixed           Cached data or $default value
      */
@@ -49,11 +49,11 @@ interface Cacheable
      * provided closure and return and store the returned results for a
      * specified duration
      *
-     * @param  string $key     Unique item identifier
-     * @param  int    $minutes Minutes to cache
-     * @param  mixed  $closure Anonymous closure function
+     * @param  string  $key     Unique item identifier
+     * @param  int     $minutes Time in minutes until item expires
+     * @param  Closure $closure Anonymous closure function
      *
-     * @return mixed           Cached data or $closure results
+     * @return mixed            Cached data or $closure results
      */
     public function remember($key, $minutes, \Closure $closure);
 
@@ -61,10 +61,10 @@ interface Cacheable
      * Retrieve item from cache or, when item does not exist, execute the
      * provided closure and return and store the returned results permanently
      *
-     * @param  string $key     Unique item identifier
-     * @param  mixed  $closure Anonymous closure function
+     * @param  string  $key     Unique item identifier
+     * @param  Closure $closure Anonymous closure function
      *
-     * @return mixed           Cached data or $closure results
+     * @return mixed            Cached data or $closure results
      */
     public function rememberForever($key, \Closure $closure);
 
@@ -89,7 +89,7 @@ interface Cacheable
     public function decrement($key, $value = 1);
 
     /**
-     * Removes an item from the cache
+     * Permanently remove an item from the cache
      *
      * @param  string $key Unique item identifier
      *

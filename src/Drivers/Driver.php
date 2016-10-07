@@ -10,7 +10,7 @@ abstract class Driver implements Cacheable
     protected $prefix;
 
     /**
-     * Stash\Driver constructor, runs on object creation
+     * Stash\Drivers\Driver constructor, runs on object creation
      *
      * @param string $prefix Key prefix for preventing collisions
      */

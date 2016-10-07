@@ -9,7 +9,7 @@ class APCu extends Driver
      *
      * @param  string $key     Unique item identifier
      * @param  mixed  $data    Data to cache
-     * @param  int    $minutes Minutes to cache
+     * @param  int    $minutes Time in minutes until item expires
      *
      * @return bool            True on sucess, otherwise false
      */
@@ -62,7 +62,7 @@ class APCu extends Driver
      * specified duration
      *
      * @param  string $key     Unique item identifier
-     * @param  int    $minutes Minutes to cache
+     * @param  int    $minutes Time in minutes until item expires
      * @param  mixed  $closure Anonymous closure function
      *
      * @return mixed           Cached data or $closure results
