@@ -8,6 +8,14 @@ trait Cacheable
         $this->assertEquals('jabberwocky', $this->stash->get('put'));
     }
 
+    public function test_it_can_override_a_preexisting_item()
+    {
+        $this->stash->put('override', 'objection');
+        $this->stash->put('override', 'overruled');
+
+        $this->assertEquals('overruled', $this->stash->get('override'));
+    }
+
     public function test_it_can_add_and_retrieve_an_item_forever()
     {
         $this->assertTrue($this->stash->forever('diamonds', ['Hope', 'Pink Panther', 'Tiffany']));
@@ -127,6 +135,13 @@ trait Cacheable
         $this->stash->put('non-integer', 'potato');
 
         $this->assertFalse($this->stash->increment('non-integer'));
+    }
+
+    public function test_it_returns_false_when_decrementing_a_non_integer()
+    {
+        $this->stash->put('non-integer', 'potato');
+
+        $this->assertFalse($this->stash->decrement('non-integer'));
     }
 
     public function test_it_returns_false_when_incrementing_a_nonexistant_item()
