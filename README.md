@@ -102,6 +102,9 @@ $stash = Stash\Cache::make('apcu');
 
 #### Ephemeral
 
+The Ephemeral driver caches items in a PHP array that exists in memory only for
+the lifetime of the script.
+
 ```php
 $stash = Stash\Cache::make('ephemeral');
 ```
