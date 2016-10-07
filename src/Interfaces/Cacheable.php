@@ -2,6 +2,8 @@
 
 namespace Stash\Interfaces;
 
+use Closure;
+
 interface Cacheable
 {
     /**
@@ -55,7 +57,7 @@ interface Cacheable
      *
      * @return mixed            Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure);
+    public function remember($key, $minutes, Closure $closure);
 
     /**
      * Retrieve item from cache or, when item does not exist, execute the
@@ -66,7 +68,7 @@ interface Cacheable
      *
      * @return mixed            Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure);
+    public function rememberForever($key, Closure $closure);
 
     /**
      * Increase the value of a stored integer
