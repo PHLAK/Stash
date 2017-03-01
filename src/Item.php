@@ -53,7 +53,7 @@ class Item
      */
     public function notExpired()
     {
-        return Carbon::now()->lte($this->expires);
+        return ! $this->expired();
     }
 
     /**
