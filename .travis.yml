@@ -19,7 +19,7 @@ cache:
 before_install:
     - phpenv config-rm xdebug.ini
     - if [[ $TRAVIS_PHP_VERSION == 5.* ]]; then printf "\n" | pecl install apcu-4.0.11; fi
-    - if [[ $TRAVIS_PHP_VERSION == 7.* ]]; then printf "\n" | pecl install apcu-5.1.8 apcu_bc-1.0.3; fi
+    - if [[ $TRAVIS_PHP_VERSION == 7.* ]]; then printf "\n" | pecl install -f apcu-5.1.8 apcu_bc-1.0.3; fi
     - phpenv config-add travis.ini
 
 install: composer install
