@@ -29,7 +29,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
     public function test_it_can_instantiate_the_file_driver_with_prefix()
     {
         $file = Stash\Cache::make('file', [
-            'dir'    => __DIR__ . '/cache',
+            'dir' => __DIR__ . '/cache',
             'prefix' => 'stash_test'
         ]);
 

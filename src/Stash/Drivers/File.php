@@ -2,7 +2,6 @@
 
 namespace Stash\Drivers;
 
-use Carbon\Carbon;
 use Stash\Item;
 
 class File extends Driver
@@ -11,24 +10,24 @@ class File extends Driver
     protected $storagePath;
 
     /**
-     * Stash\File constructor, runs on object creation
+     * Stash\File constructor, runs on object creation.
      *
      * @param string $storagePath Path to cache directory
      */
     public function __construct($storagePath, $prefix = '')
     {
         $this->storagePath = rtrim($storagePath, DIRECTORY_SEPARATOR);
-        $this->prefix      = $prefix;
+        $this->prefix = $prefix;
     }
 
     /**
-     * Put an item into the cache for a specified duration
+     * Put an item into the cache for a specified duration.
      *
-     * @param  string $key     Unique item identifier
-     * @param  mixed  $data    Data to cache
-     * @param  int    $minutes Time in minutes until item expires
+     * @param string $key     Unique item identifier
+     * @param mixed  $data    Data to cache
+     * @param int    $minutes Time in minutes until item expires
      *
-     * @return bool            True on sucess, otherwise false
+     * @return bool True on sucess, otherwise false
      */
     public function put($key, $data, $minutes = 0)
     {
@@ -36,12 +35,12 @@ class File extends Driver
     }
 
     /**
-     * Put an item into the cache permanently
+     * Put an item into the cache permanently.
      *
-     * @param  string $key  Unique identifier
-     * @param  mixed  $data Data to cache
+     * @param string $key  Unique identifier
+     * @param mixed  $data Data to cache
      *
-     * @return bool         True on sucess, otherwise false
+     * @return bool True on sucess, otherwise false
      */
     public function forever($key, $data)
     {
@@ -49,12 +48,12 @@ class File extends Driver
     }
 
     /**
-     * Get an item from the cache
+     * Get an item from the cache.
      *
-     * @param  string $key     Uniqe item identifier
-     * @param  mixex  $default Default data to return
+     * @param string $key     Uniqe item identifier
+     * @param mixex  $default Default data to return
      *
-     * @return mixed           Cached data or false
+     * @return mixed Cached data or false
      */
     public function get($key, $default = false)
     {
@@ -68,11 +67,11 @@ class File extends Driver
     }
 
     /**
-     * Check if an item exists in the cache
+     * Check if an item exists in the cache.
      *
-     * @param  string $key Unique item identifier
+     * @param string $key Unique item identifier
      *
-     * @return bool        True if item exists, otherwise false
+     * @return bool True if item exists, otherwise false
      */
     public function has($key)
     {
@@ -84,17 +83,19 @@ class File extends Driver
     /**
      * Retrieve item from cache or, when item does not exist, execute the
      * provided closure and return and store the returned results for a
-     * specified duration
+     * specified duration.
      *
-     * @param  string $key     Unique item identifier
-     * @param  int    $minutes Time in minutes until item expires
-     * @param  mixed  $closure Anonymous closure function
+     * @param string $key     Unique item identifier
+     * @param int    $minutes Time in minutes until item expires
+     * @param mixed  $closure Anonymous closure function
      *
-     * @return mixed           Cached data or $closure results
+     * @return mixed Cached data or $closure results
      */
     public function remember($key, $minutes, \Closure $closure)
     {
-        if ($this->has($key)) return $this->get($key);
+        if ($this->has($key)) {
+            return $this->get($key);
+        }
 
         $data = $closure();
 
@@ -103,12 +104,12 @@ class File extends Driver
 
     /**
      * Retrieve item from cache or, when item does not exist, execute the
-     * provided closure and return and store the returned results permanently
+     * provided closure and return and store the returned results permanently.
      *
-     * @param  string $key     Unique item identifier
-     * @param  mixed  $closure Anonymous closure function
+     * @param string $key     Unique item identifier
+     * @param mixed  $closure Anonymous closure function
      *
-     * @return mixed           Cached data or $closure results
+     * @return mixed Cached data or $closure results
      */
     public function rememberForever($key, \Closure $closure)
     {
@@ -116,27 +117,29 @@ class File extends Driver
     }
 
     /**
-     * Increase the value of a stored integer
+     * Increase the value of a stored integer.
      *
-     * @param  string $key   Unique item identifier
-     * @param  int    $value The ammount by which to increment
+     * @param string $key   Unique item identifier
+     * @param int    $value The ammount by which to increment
      *
-     * @return mixed         Item's new value on success, otherwise false
+     * @return mixed Item's new value on success, otherwise false
      */
     public function increment($key, $value = 1)
     {
-        if (! $item = $this->getCacheContents($key)) return false;
+        if (! $item = $this->getCacheContents($key)) {
+            return false;
+        }
 
         return $item->increment($value);
     }
 
     /**
-     * Decrease the value of a stored integer
+     * Decrease the value of a stored integer.
      *
-     * @param  string $key   Unique item identifier
-     * @param  int    $value The ammount by which to decrement
+     * @param string $key   Unique item identifier
+     * @param int    $value The ammount by which to decrement
      *
-     * @return mixed         Item's new value on success, otherwise false
+     * @return mixed Item's new value on success, otherwise false
      */
     public function decrement($key, $value = 1)
     {
@@ -144,11 +147,11 @@ class File extends Driver
     }
 
     /**
-     * Removes an item from the cache
+     * Removes an item from the cache.
      *
-     * @param  string $key Unique item identifier
+     * @param string $key Unique item identifier
      *
-     * @return bool        True on success, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function forget($key)
     {
@@ -156,7 +159,7 @@ class File extends Driver
     }
 
     /**
-     * Remove all items from the cache
+     * Remove all items from the cache.
      *
      * @return bool True on success, otherwise false
      */
@@ -168,11 +171,11 @@ class File extends Driver
     }
 
     /**
-     * Get an item's file path via it's key
+     * Get an item's file path via it's key.
      *
-     * @param  string $key Uniqe item identifier
+     * @param string $key Uniqe item identifier
      *
-     * @return string      Path to cache item file
+     * @return string Path to cache item file
      */
     protected function filePath($key)
     {
@@ -180,13 +183,13 @@ class File extends Driver
     }
 
     /**
-     * Put cache contents into a cache file
+     * Put cache contents into a cache file.
      *
-     * @param  string $key     Unique item identifier
-     * @param  mixed  $data    Data to cache
-     * @param  int    $minutes Time in minutes until item expires
+     * @param string $key     Unique item identifier
+     * @param mixed  $data    Data to cache
+     * @param int    $minutes Time in minutes until item expires
      *
-     * @return mixed       Cache file contents or false on failure
+     * @return mixed Cache file contents or false on failure
      */
     protected function putCacheContents($key, $data, $minutes)
     {
@@ -196,11 +199,11 @@ class File extends Driver
     }
 
     /**
-     * Retreive the contents of a cache file
+     * Retreive the contents of a cache file.
      *
-     * @param  string $key Unique item identifier
+     * @param string $key Unique item identifier
      *
-     * @return mixed       Cache file contents or false on failure
+     * @return mixed Cache file contents or false on failure
      */
     protected function getCacheContents($key)
     {

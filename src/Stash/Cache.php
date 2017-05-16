@@ -7,12 +7,12 @@ use Stash\Exceptions\InvalidDriverException;
 class Cache
 {
     /**
-     * Initialize the desired cache driver object
+     * Initialize the desired cache driver object.
      *
-     * @param  string $driver Driver to initialize
-     * @param  array  $config Array of configuration options
+     * @param string $driver Driver to initialize
+     * @param array  $config Array of configuration options
      *
-     * @return object         Cacheable Object
+     * @return object Cacheable Object
      */
     public static function make($driver, array $config = [])
     {

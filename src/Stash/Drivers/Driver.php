@@ -10,22 +10,24 @@ abstract class Driver implements Cacheable
     protected $prefix;
 
     /**
-     * Stash\Drivers\Driver constructor, runs on object creation
+     * Stash\Drivers\Driver constructor, runs on object creation.
      *
      * @param string $prefix Key prefix for preventing collisions
      */
-    public function __construct($prefix = '') {
+    public function __construct($prefix = '')
+    {
         $this->prefix = $prefix;
     }
 
     /**
-     * Get prefixed key
+     * Get prefixed key.
      *
-     * @param  string $key Unique item identifier
+     * @param string $key Unique item identifier
      *
-     * @return string      Prefixed unique identifier
+     * @return string Prefixed unique identifier
      */
-    protected function prefix($key) {
+    protected function prefix($key)
+    {
         return empty($this->prefix) ? $key : $this->prefix . '_' . $key;
     }
 }

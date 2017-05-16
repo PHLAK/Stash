@@ -13,7 +13,7 @@ class Item
     protected $expires;
 
     /**
-     * Stash\Item constructor, runs on object creation
+     * Stash\Item constructor, runs on object creation.
      *
      * @param mixed $data    Item data
      * @param int   $minutes Time in minutes until item expires
@@ -25,11 +25,11 @@ class Item
     }
 
     /**
-     * Magic getter method, allows retrieving of class property values
+     * Magic getter method, allows retrieving of class property values.
      *
-     * @param  string $property Property name
+     * @param string $property Property name
      *
-     * @return mixed            Property value
+     * @return mixed Property value
      */
     public function __get($property)
     {
@@ -37,7 +37,7 @@ class Item
     }
 
     /**
-     * Determine if this item has expired
+     * Determine if this item has expired.
      *
      * @return bool True if expired, otherwise false
      */
@@ -47,7 +47,7 @@ class Item
     }
 
     /**
-     * Determine if this item has not expired
+     * Determine if this item has not expired.
      *
      * @return bool True if not expired, otherwise false
      */
@@ -57,16 +57,17 @@ class Item
     }
 
     /**
-     * Increase the value of a stored integer
+     * Increase the value of a stored integer.
      *
-     * @param  int   $value The ammount by which to decrement
+     * @param int $value The ammount by which to decrement
      *
-     * @return mixed        The new value on success, otherwise false
+     * @return mixed The new value on success, otherwise false
      */
     public function increment($value = 1)
     {
         if ($this->notExpired() && is_int($this->data)) {
             $this->data += $value;
+
             return $this->data;
         }
 
@@ -74,11 +75,11 @@ class Item
     }
 
     /**
-     * Decrease the value of a stored integer
+     * Decrease the value of a stored integer.
      *
-     * @param  int   $value The ammount by which to decrement
+     * @param int $value The ammount by which to decrement
      *
-     * @return mixed        The new value on success, otherwise false
+     * @return mixed The new value on success, otherwise false
      */
     public function decrement($value = 1)
     {

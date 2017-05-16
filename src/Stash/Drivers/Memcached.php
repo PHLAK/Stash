@@ -8,7 +8,7 @@ class Memcached extends Driver
     protected $memcached;
 
     /**
-     * Stash\Memcached constructor, runs on object creation
+     * Stash\Memcached constructor, runs on object creation.
      *
      * @param string $servers Array of Memcached servers
      */
@@ -20,13 +20,13 @@ class Memcached extends Driver
     }
 
     /**
-     * Put an item into the cache for a specified duration
+     * Put an item into the cache for a specified duration.
      *
-     * @param  string $key     Unique item identifier
-     * @param  mixed  $data    Data to cache
-     * @param  int    $minutes Time in minutes until item expires
+     * @param string $key     Unique item identifier
+     * @param mixed  $data    Data to cache
+     * @param int    $minutes Time in minutes until item expires
      *
-     * @return bool            True on sucess, otherwise false
+     * @return bool True on sucess, otherwise false
      */
     public function put($key, $data, $minutes = 0)
     {
@@ -36,12 +36,12 @@ class Memcached extends Driver
     }
 
     /**
-     * Put an item into the cache permanently
+     * Put an item into the cache permanently.
      *
-     * @param  string $key  Unique identifier
-     * @param  mixed  $data Data to cache
+     * @param string $key  Unique identifier
+     * @param mixed  $data Data to cache
      *
-     * @return bool         True on sucess, otherwise false
+     * @return bool True on sucess, otherwise false
      */
     public function forever($key, $data)
     {
@@ -49,12 +49,12 @@ class Memcached extends Driver
     }
 
     /**
-     * Get an item from the cache
+     * Get an item from the cache.
      *
-     * @param  string $key     Uniqe item identifier
-     * @param  mixex  $default Default data to return
+     * @param string $key     Uniqe item identifier
+     * @param mixex  $default Default data to return
      *
-     * @return mixed           Cached data or $default value
+     * @return mixed Cached data or $default value
      */
     public function get($key, $default = false)
     {
@@ -62,11 +62,11 @@ class Memcached extends Driver
     }
 
     /**
-     * Check if an item exists in the cache
+     * Check if an item exists in the cache.
      *
-     * @param  string $key Unique item identifier
+     * @param string $key Unique item identifier
      *
-     * @return bool        True if item exists, otherwise false
+     * @return bool True if item exists, otherwise false
      */
     public function has($key)
     {
@@ -78,17 +78,19 @@ class Memcached extends Driver
     /**
      * Retrieve item from cache or, when item does not exist, execute the
      * provided closure and return and store the returned results for a
-     * specified duration
+     * specified duration.
      *
-     * @param  string $key     Unique item identifier
-     * @param  int    $minutes Time in minutes until item expires
-     * @param  mixed  $closure Anonymous closure function
+     * @param string $key     Unique item identifier
+     * @param int    $minutes Time in minutes until item expires
+     * @param mixed  $closure Anonymous closure function
      *
-     * @return mixed           Cached data or $closure results
+     * @return mixed Cached data or $closure results
      */
     public function remember($key, $minutes, \Closure $closure)
     {
-        if ($this->has($key)) return $this->get($key);
+        if ($this->has($key)) {
+            return $this->get($key);
+        }
 
         $data = $closure();
 
@@ -97,12 +99,12 @@ class Memcached extends Driver
 
     /**
      * Retrieve item from cache or, when item does not exist, execute the
-     * provided closure and return and store the returned results permanently
+     * provided closure and return and store the returned results permanently.
      *
-     * @param  string $key     Unique item identifier
-     * @param  mixed  $closure Anonymous closure function
+     * @param string $key     Unique item identifier
+     * @param mixed  $closure Anonymous closure function
      *
-     * @return mixed           Cached data or $closure results
+     * @return mixed Cached data or $closure results
      */
     public function rememberForever($key, \Closure $closure)
     {
@@ -110,12 +112,12 @@ class Memcached extends Driver
     }
 
     /**
-     * Increase the value of a stored integer
+     * Increase the value of a stored integer.
      *
-     * @param  string $key   Unique item identifier
-     * @param  int    $value The ammount by which to increment
+     * @param string $key   Unique item identifier
+     * @param int    $value The ammount by which to increment
      *
-     * @return mixed         Item's new value on success, otherwise false
+     * @return mixed Item's new value on success, otherwise false
      */
     public function increment($key, $value = 1)
     {
@@ -123,12 +125,12 @@ class Memcached extends Driver
     }
 
     /**
-     * Decrease the value of a stored integer
+     * Decrease the value of a stored integer.
      *
-     * @param  string $key   Unique item identifier
-     * @param  int    $value The ammount by which to decrement
+     * @param string $key   Unique item identifier
+     * @param int    $value The ammount by which to decrement
      *
-     * @return mixed         Item's new value on success, otherwise false
+     * @return mixed Item's new value on success, otherwise false
      */
     public function decrement($key, $value = 1)
     {
@@ -136,11 +138,11 @@ class Memcached extends Driver
     }
 
     /**
-     * Removes an item from the cache
+     * Removes an item from the cache.
      *
-     * @param  string $key Unique item identifier
+     * @param string $key Unique item identifier
      *
-     * @return bool        True on success, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function forget($key)
     {
@@ -148,7 +150,7 @@ class Memcached extends Driver
     }
 
     /**
-     * Remove all items from the cache
+     * Remove all items from the cache.
      *
      * @return bool True on success, otherwise false
      */

@@ -55,7 +55,7 @@ trait Cacheable
     {
         $this->stash->put('remember-pre-existing', "Don't override me bro!", 5);
 
-        $text = $this->stash->remember('remember-pre-existing', 5, function() {
+        $text = $this->stash->remember('remember-pre-existing', 5, function () {
             return "I wont't override him.";
         });
 
@@ -66,7 +66,7 @@ trait Cacheable
     {
         $this->stash->put('boolean', false);
 
-        $boolean = $this->stash->remember('boolean', 5, function() {
+        $boolean = $this->stash->remember('boolean', 5, function () {
             return 'Not boolean false';
         });
 
@@ -75,7 +75,7 @@ trait Cacheable
 
     public function test_it_remembers_a_nonexistant_item()
     {
-        $date = $this->stash->remember('remember-new-item', 5, function() {
+        $date = $this->stash->remember('remember-new-item', 5, function () {
             return 'Pork Chops';
         });
 
@@ -86,7 +86,7 @@ trait Cacheable
     {
         $this->stash->put('remember-forever-pre-existing', 'I already exist', 5);
 
-        $text = $this->stash->rememberForever('remember-forever-pre-existing', function() {
+        $text = $this->stash->rememberForever('remember-forever-pre-existing', function () {
             return "I don't yet exist.";
         });
 
@@ -95,7 +95,7 @@ trait Cacheable
 
     public function test_it_remembers_a_nonexistant_item_forever()
     {
-        $date = $this->stash->rememberForever('remember-remember', function() {
+        $date = $this->stash->rememberForever('remember-remember', function () {
             return 'November 5th';
         });
 
