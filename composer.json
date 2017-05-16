@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Stash\\": "src/"
+            "Stash\\": "src/Stash/"
         }
     },
     "autoload-dev": {

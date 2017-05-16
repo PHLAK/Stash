@@ -87,11 +87,7 @@ class Ephemeral extends Driver
      */
     public function remember($key, $minutes, \Closure $closure)
     {
-        // if ($this->has($key)) return $this->get($key);
-        if (array_key_exists($key, $this->cache)) {
-            $item = $this->cache[$key];
-            if ($item->notExpired()) return $item->data;
-        }
+        if ($this->has($key)) return $this->get($key);
 
         $data = $closure();
 

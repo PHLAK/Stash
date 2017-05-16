@@ -20,7 +20,7 @@ class Item
      */
     public function __construct($data, $minutes = 0)
     {
-        $this->data    = $data;
+        $this->data = $data;
         $this->expires = $minutes == 0 ? Carbon::maxValue() : Carbon::now()->addMinutes($minutes);
     }
 
