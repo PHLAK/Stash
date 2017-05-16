@@ -195,6 +195,11 @@ Delete all items from the cache:
 $stash->flush();
 ```
 
+Changelog
+---------
+
+A list of changes can be found on the [GitHub Releases](https://github.com/PHLAK/Stash/releases) page.
+
 Troubleshooting
 ---------------
 
