@@ -29,7 +29,7 @@ class File extends Driver
      * @param mixed  $data    Data to cache
      * @param int    $minutes Time in minutes until item expires
      *
-     * @return bool True on sucess, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function put($key, $data, $minutes = 0)
     {
@@ -42,7 +42,7 @@ class File extends Driver
      * @param string $key  Unique identifier
      * @param mixed  $data Data to cache
      *
-     * @return bool True on sucess, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function forever($key, $data)
     {
@@ -52,8 +52,8 @@ class File extends Driver
     /**
      * Get an item from the cache.
      *
-     * @param string $key     Uniqe item identifier
-     * @param mixex  $default Default data to return
+     * @param string $key     Unique item identifier
+     * @param mixed  $default Default data to return
      *
      * @return mixed Cached data or false
      */
@@ -122,7 +122,7 @@ class File extends Driver
      * Increase the value of a stored integer.
      *
      * @param string $key   Unique item identifier
-     * @param int    $value The ammount by which to increment
+     * @param int    $value The amount by which to increment
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -139,7 +139,7 @@ class File extends Driver
      * Decrease the value of a stored integer.
      *
      * @param string $key   Unique item identifier
-     * @param int    $value The ammount by which to decrement
+     * @param int    $value The amount by which to decrement
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -175,7 +175,7 @@ class File extends Driver
     /**
      * Get an item's file path via it's key.
      *
-     * @param string $key Uniqe item identifier
+     * @param string $key Unique item identifier
      *
      * @return string Path to cache item file
      */
@@ -201,7 +201,7 @@ class File extends Driver
     }
 
     /**
-     * Retreive the contents of a cache file.
+     * Retrieve the contents of a cache file.
      *
      * @param string $key Unique item identifier
      *

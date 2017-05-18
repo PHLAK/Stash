@@ -77,7 +77,7 @@ class Item
     /**
      * Decrease the value of a stored integer.
      *
-     * @param int $value The ammount by which to decrement
+     * @param int $value The amount by which to decrement
      *
      * @return mixed The new value on success, otherwise false
      */

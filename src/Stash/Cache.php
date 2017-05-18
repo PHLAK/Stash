@@ -12,6 +12,8 @@ class Cache
      * @param string $driver Driver to initialize
      * @param array  $config Array of configuration options
      *
+     * @throws InvalidDriverException;
+     *
      * @return object Cacheable Object
      */
     public static function make($driver, array $config = [])

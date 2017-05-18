@@ -13,7 +13,7 @@ interface Cacheable
      * @param mixed  $data    Data to cache
      * @param int    $minutes Time in minutes until item expires (default: 0)
      *
-     * @return bool True on sucess, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function put($key, $data, $minutes = 0);
 
@@ -23,15 +23,15 @@ interface Cacheable
      * @param string $key  Unique identifier
      * @param mixed  $data Data to cache
      *
-     * @return bool True on sucess, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function forever($key, $data);
 
     /**
      * Get an item from the cache.
      *
-     * @param string $key     Uniqe item identifier
-     * @param mixex  $default Default data to return (default: false)
+     * @param string $key     Unique item identifier
+     * @param mixed  $default Default data to return (default: false)
      *
      * @return mixed Cached data or $default value
      */
@@ -74,7 +74,7 @@ interface Cacheable
      * Increase the value of a stored integer.
      *
      * @param string $key   Unique item identifier
-     * @param int    $value The ammount by which to increment
+     * @param int    $value The amount by which to increment
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -84,7 +84,7 @@ interface Cacheable
      * Decrease the value of a stored integer.
      *
      * @param string $key   Unique item identifier
-     * @param int    $value The ammount by which to decrement
+     * @param int    $value The amount by which to decrement
      *
      * @return mixed Item's new value on success, otherwise false
      */

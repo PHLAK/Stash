@@ -11,7 +11,7 @@ class APCu extends Driver
      * @param mixed  $data    Data to cache
      * @param int    $minutes Time in minutes until item expires
      *
-     * @return bool True on sucess, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function put($key, $data, $minutes = 0)
     {
@@ -24,7 +24,7 @@ class APCu extends Driver
      * @param string $key  Unique identifier
      * @param mixed  $data Data to cache
      *
-     * @return bool True on sucess, otherwise false
+     * @return bool True on success, otherwise false
      */
     public function forever($key, $data)
     {
@@ -34,8 +34,8 @@ class APCu extends Driver
     /**
      * Get an item from the cache.
      *
-     * @param string $key     Uniqe item identifier
-     * @param mixex  $default Default data to return
+     * @param string $key     Unique item identifier
+     * @param mixed  $default Default data to return
      *
      * @return mixed Cached data or $default value
      */
@@ -96,13 +96,13 @@ class APCu extends Driver
      * Increase the value of a stored integer.
      *
      * @param string $key   Unique item identifier
-     * @param int    $value The ammount by which to increment
+     * @param int    $value The amount by which to increment
      *
      * @return mixed Item's new value on success, otherwise false
      */
     public function increment($key, $value = 1)
     {
-        // Check for key existance first as a temporary workaround
+        // Check for key existence first as a temporary workaround
         // for this bug: https://github.com/krakjoe/apcu/issues/183
         if (apcu_exists($this->prefix($key))) {
             return apcu_inc($this->prefix($key), $value, $result);
@@ -115,13 +115,13 @@ class APCu extends Driver
      * Decrease the value of a stored integer.
      *
      * @param string $key   Unique item identifier
-     * @param int    $value The ammount by which to decrement
+     * @param int    $value The amount by which to decrement
      *
      * @return mixed Item's new value on success, otherwise false
      */
     public function decrement($key, $value = 1)
     {
-        // Check for key existance first as a temporary workaround
+        // Check for key existence first as a temporary workaround
         // for this bug: https://github.com/krakjoe/apcu/issues/183
         if (apcu_exists($this->prefix($key))) {
             return apcu_dec($this->prefix($key), $value);
