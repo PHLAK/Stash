@@ -10,13 +10,15 @@ class Memcached extends Driver
     /**
      * Stash\Memcached constructor, runs on object creation.
      *
-     * @param string $servers Array of Memcached servers
+     * @param array $servers Array of Memcached servers
+     * @param string $prefix Key prefix for preventing collisions
      */
     public function __construct(array $servers, $prefix = '')
     {
+        parent::__construct($prefix);
+
         $this->memcached = new \Memcached;
         $this->memcached->addServers($servers);
-        $this->prefix = $prefix;
     }
 
     /**

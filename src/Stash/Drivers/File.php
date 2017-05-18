@@ -13,11 +13,13 @@ class File extends Driver
      * Stash\File constructor, runs on object creation.
      *
      * @param string $storagePath Path to cache directory
+     * @param string $prefix Key prefix for preventing collisions
      */
     public function __construct($storagePath, $prefix = '')
     {
+        parent::__construct($prefix);
+
         $this->storagePath = rtrim($storagePath, DIRECTORY_SEPARATOR);
-        $this->prefix = $prefix;
     }
 
     /**
