@@ -42,7 +42,7 @@ class Ephemeral extends Driver
      * Get an item from the cache.
      *
      * @param string $key     Uniqe item identifier
-     * @param mixex  $default Default data to return
+     * @param mixed  $default Default data to return
      *
      * @return mixed Cached data or $default value
      */
