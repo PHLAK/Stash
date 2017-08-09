@@ -1,7 +1,9 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__);
+$finder = PhpCsFixer\Finder::create()->in([
+    __DIR__ . DIRECTORY_SEPARATOR . 'src',
+    __DIR__ . DIRECTORY_SEPARATOR . 'tests'
+]);
 
 return PhpCsFixer\Config::create()
     ->setRules([
@@ -20,9 +22,6 @@ return PhpCsFixer\Config::create()
         'no_useless_else' => true,
         'no_useless_return' => true,
         'not_operator_with_successor_space' => true,
-        'ordered_imports' => [
-            'sortAlgorithm' => 'alpha'
-        ],
         'phpdoc_order' => true,
         'semicolon_after_instruction' => true,
         'trailing_comma_in_multiline_array' => false
