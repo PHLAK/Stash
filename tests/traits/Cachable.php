@@ -154,6 +154,13 @@ trait Cacheable
         $this->assertFalse($this->stash->decrement('nonexistant-item'));
     }
 
+    public function test_it_can_set_a_new_expiration_time_for_an_item()
+    {
+        $this->stash->put('extendable', 'tape measure', 1);
+
+        $this->assertTrue($this->stash->touch('extendable', 5));
+    }
+
     public function test_it_can_forget_an_item()
     {
         $this->stash->put('forgettable', 'asdf', 5);

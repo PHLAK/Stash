@@ -140,6 +140,19 @@ class Memcached extends Driver
     }
 
     /**
+     * Set a new expiration time for an item in the cache.
+     *
+     * @param string  $key     Unique item identifier
+     * @param int     $minutes Time in minutes until item expires
+     *
+     * @return bool True on success, otherwise false
+     */
+    public function touch($key, $minutes = 0)
+    {
+        return $this->memcached->touch($key, $minutes);
+    }
+
+    /**
      * Removes an item from the cache.
      *
      * @param string $key Unique item identifier

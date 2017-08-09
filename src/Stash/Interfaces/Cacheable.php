@@ -91,6 +91,16 @@ interface Cacheable
     public function decrement($key, $value = 1);
 
     /**
+     * Set a new expiration time for an item in the cache.
+     *
+     * @param string  $key     Unique item identifier
+     * @param int     $minutes Time in minutes until item expires
+     *
+     * @return bool True on success, otherwise false
+     */
+    public function touch($key, $minutes = 0);
+
+    /**
      * Permanently remove an item from the cache.
      *
      * @param string $key Unique item identifier
