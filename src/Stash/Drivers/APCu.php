@@ -69,7 +69,13 @@ class APCu extends Driver
      */
     public function remember($key, $minutes, \Closure $closure)
     {
-        return apcu_entry($key, $closure, $minutes);
+        if ($this->has($key)) {
+            return $this->get($key);
+        }
+
+        $data = $closure();
+
+        return $this->put($key, $data, $minutes) ? $data : false;
     }
 
     /**
