@@ -10,8 +10,8 @@ class Memcached extends Driver
     /**
      * Stash\Memcached constructor, runs on object creation.
      *
-     * @param array $servers Array of Memcached servers
-     * @param string $prefix Key prefix for preventing collisions
+     * @param array  $servers Array of Memcached servers
+     * @param string $prefix  Key prefix for preventing collisions
      */
     public function __construct(array $servers, $prefix = '')
     {
@@ -142,8 +142,8 @@ class Memcached extends Driver
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param string  $key     Unique item identifier
-     * @param int     $minutes Time in minutes until item expires
+     * @param string $key     Unique item identifier
+     * @param int    $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */

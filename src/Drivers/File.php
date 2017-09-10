@@ -13,7 +13,7 @@ class File extends Driver
      * Stash\File constructor, runs on object creation.
      *
      * @param string $storagePath Path to cache directory
-     * @param string $prefix Key prefix for preventing collisions
+     * @param string $prefix      Key prefix for preventing collisions
      */
     public function __construct($storagePath, $prefix = '')
     {
@@ -151,8 +151,8 @@ class File extends Driver
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param string  $key     Unique item identifier
-     * @param int     $minutes Time in minutes until item expires
+     * @param string $key     Unique item identifier
+     * @param int    $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */

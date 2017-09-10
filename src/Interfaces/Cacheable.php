@@ -93,8 +93,8 @@ interface Cacheable
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param string  $key     Unique item identifier
-     * @param int     $minutes Time in minutes until item expires
+     * @param string $key     Unique item identifier
+     * @param int    $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */
