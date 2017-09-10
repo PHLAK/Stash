@@ -1,29 +1,31 @@
 <?php
 
+use PHLAK\Stash;
+
 class CacheTest extends PHPUnit_Framework_TestCase
 {
     public function test_it_can_instantiate_the_apc_driver()
     {
         $apc = Stash\Cache::make('apcu');
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $apc);
-        $this->assertInstanceOf('Stash\Drivers\APCu', $apc);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $apc);
+        $this->assertInstanceOf(Stash\Drivers\APCu::class, $apc);
     }
 
     public function test_it_can_instantiate_the_apc_driver_with_prefix()
     {
         $apc = Stash\Cache::make('apcu', ['prefix' => 'stash_test']);
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $apc);
-        $this->assertInstanceOf('Stash\Drivers\APCu', $apc);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $apc);
+        $this->assertInstanceOf(Stash\Drivers\APCu::class, $apc);
     }
 
     public function test_it_can_instantiate_the_file_driver()
     {
         $file = Stash\Cache::make('file', ['dir' => __DIR__ . '/cache']);
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $file);
-        $this->assertInstanceOf('Stash\Drivers\File', $file);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $file);
+        $this->assertInstanceOf(Stash\Drivers\File::class, $file);
     }
 
     public function test_it_can_instantiate_the_file_driver_with_prefix()
@@ -33,8 +35,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
             'prefix' => 'stash_test'
         ]);
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $file);
-        $this->assertInstanceOf('Stash\Drivers\File', $file);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $file);
+        $this->assertInstanceOf(Stash\Drivers\File::class, $file);
     }
 
     public function test_it_can_instantiate_the_memcached_driver()
@@ -45,8 +47,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
             ]
         ]);
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $memcached);
-        $this->assertInstanceOf('Stash\Drivers\Memcached', $memcached);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $memcached);
+        $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
     public function test_it_can_instantiate_the_memcached_driver_with_prefix()
@@ -58,29 +60,29 @@ class CacheTest extends PHPUnit_Framework_TestCase
                 'prefix' => 'stash_test'
         ]);
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $memcached);
-        $this->assertInstanceOf('Stash\Drivers\Memcached', $memcached);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $memcached);
+        $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
     public function test_it_can_instantiate_the_ephemeral_driver()
     {
         $ephemeral = Stash\Cache::make('ephemeral');
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $ephemeral);
-        $this->assertInstanceOf('Stash\Drivers\Ephemeral', $ephemeral);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $ephemeral);
+        $this->assertInstanceOf(Stash\Drivers\Ephemeral::class, $ephemeral);
     }
 
     public function test_it_can_instantiate_the_ephemeral_driver_with_prefix()
     {
         $ephemeral = Stash\Cache::make('ephemeral', ['prefix' => 'stash_test']);
 
-        $this->assertInstanceOf('Stash\Drivers\Driver', $ephemeral);
-        $this->assertInstanceOf('Stash\Drivers\Ephemeral', $ephemeral);
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $ephemeral);
+        $this->assertInstanceOf(Stash\Drivers\Ephemeral::class, $ephemeral);
     }
 
     public function test_it_throws_an_exception_for_an_invalid_driver()
     {
-        $this->setExpectedException('Stash\Exceptions\InvalidDriverException');
+        $this->setExpectedException(Stash\Exceptions\InvalidDriverException::class);
 
         $file = Stash\Cache::make('snozberries');
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Stash;
+namespace PHLAK\Stash;
 
 use Carbon\Carbon;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Stash\Exceptions;
+namespace PHLAK\Stash\Exceptions;
 
 use Exception;
 

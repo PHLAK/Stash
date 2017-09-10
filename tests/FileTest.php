@@ -1,5 +1,7 @@
 <?php
 
+use PHLAK\Stash;
+
 class FileTest extends PHPUnit_Framework_TestCase
 {
     use Cacheable;

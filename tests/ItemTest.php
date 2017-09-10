@@ -1,5 +1,7 @@
 <?php
 
+use PHLAK\Stash;
+
 class ItemTest extends PHPUnit_Framework_TestCase
 {
     protected $item;

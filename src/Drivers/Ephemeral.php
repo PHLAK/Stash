@@ -1,8 +1,8 @@
 <?php
 
-namespace Stash\Drivers;
+namespace PHLAK\Stash\Drivers;
 
-use Stash\Item;
+use PHLAK\Stash\Item;
 
 class Ephemeral extends Driver
 {

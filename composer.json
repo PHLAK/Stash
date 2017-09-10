@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Stash\\": "src/Stash/"
+            "PHLAK\\Stash\\": "src/"
         }
     },
     "autoload-dev": {

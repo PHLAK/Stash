@@ -1,8 +1,8 @@
 <?php
 
-namespace Stash\Drivers;
+namespace PHLAK\Stash\Drivers;
 
-use Stash\Interfaces\Cacheable;
+use PHLAK\Stash\Interfaces\Cacheable;
 
 abstract class Driver implements Cacheable
 {

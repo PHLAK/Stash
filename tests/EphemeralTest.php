@@ -1,5 +1,7 @@
 <?php
 
+use PHLAK\Stash;
+
 class EphemeralTest extends PHPUnit_Framework_TestCase
 {
     use Cacheable;

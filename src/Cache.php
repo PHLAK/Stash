@@ -1,8 +1,8 @@
 <?php
 
-namespace Stash;
+namespace PHLAK\Stash;
 
-use Stash\Exceptions\InvalidDriverException;
+use PHLAK\Stash\Exceptions\InvalidDriverException;
 
 class Cache
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Stash\Drivers;
+namespace PHLAK\Stash\Drivers;
 
 class Memcached extends Driver
 {
