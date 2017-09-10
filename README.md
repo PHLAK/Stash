@@ -17,7 +17,7 @@ Simple PHP caching library -- by, [Chris Kankiewicz](https://www.ChrisKankiewicz
 Introduction
 ------------
 
-Stash is a simple PHP caching library supporting multiple, interchangable
+Stash is a simple PHP caching library supporting multiple, interchangeable
 caching back-ends and an expressive (Laravel inspired) API.
 
 Supported caching back-ends:
@@ -47,7 +47,7 @@ Initializing the Client
 First, import Stash:
 
 ```php
-use Stash;
+use PHLAK\Stash;
 ```
 
 Then instantiate the class for your back-end of choice:
@@ -113,7 +113,7 @@ $stash = Stash\Cache::make('ephemeral');
 Configuration
 -------------
 
-You can optionally supply a `prefix` string option to automatiacally prefix your
+You can optionally supply a `prefix` string option to automatically prefix your
 cache keys with a custom value. This helps to prevent cache collisions when
 sharing the cache across multiple apps.
 
