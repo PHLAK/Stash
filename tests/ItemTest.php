@@ -11,22 +11,44 @@ class ItemTest extends PHPUnit_Framework_TestCase
         $this->item = new Stash\Item('Test data');
     }
 
-    public function test_it_has_data()
+    public function test_it_can_contain_a_string()
     {
         $item = new Stash\Item('Some string');
+
         $this->assertEquals('Some string', $item->data);
+    }
 
+    public function test_it_can_contain_an_integer()
+    {
         $item = new Stash\Item(1337);
+
         $this->assertEquals(1337, $item->data);
+    }
 
+    public function test_it_can_contain_an_array()
+    {
         $item = new Stash\Item(['alice', 1337, false]);
+
         $this->assertEquals(['alice', 1337, false], $item->data);
+    }
 
-        $item = new Stash\Item(true);
-        $this->assertTrue($item->data);
+    public function test_it_can_contain_booleans()
+    {
+        $trueItem = new Stash\Item(true);
+        $falseItem = new Stash\Item(false);
 
-        $item = new Stash\Item(false);
-        $this->assertFalse($item->data);
+        $this->assertTrue($trueItem->data);
+        $this->assertFalse($falseItem->data);
+    }
+
+    public function test_it_can_contain_an_object()
+    {
+        $class = new stdClass;
+        $class->boolean = true;
+
+        $item = new Stash\Item($class);
+
+        $this->assertTrue($item->data->boolean);
     }
 
     public function test_it_has_an_expiration()

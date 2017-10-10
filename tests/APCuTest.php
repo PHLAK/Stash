@@ -12,4 +12,9 @@ class APCuTest extends PHPUnit_Framework_TestCase
     {
         $this->stash = new Stash\Drivers\APCu();
     }
+
+    public function tearDown()
+    {
+        $this->stash->flush();
+    }
 }
