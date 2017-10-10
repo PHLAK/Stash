@@ -180,7 +180,7 @@ class File extends Driver
      */
     public function flush()
     {
-        $unlinked = array_map('unlink', glob($this->storagePath . DIRECTORY_SEPARATOR . '*.cache'));
+        $unlinked = array_map('unlink', glob($this->storagePath . DIRECTORY_SEPARATOR . '*.cache.php'));
 
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
@@ -194,7 +194,7 @@ class File extends Driver
      */
     protected function filePath($key)
     {
-        return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache';
+        return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache.php';
     }
 
     /**
