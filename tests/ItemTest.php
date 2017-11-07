@@ -4,13 +4,6 @@ use PHLAK\Stash;
 
 class ItemTest extends PHPUnit_Framework_TestCase
 {
-    protected $item;
-
-    public function setUp()
-    {
-        $this->item = new Stash\Item('Test data');
-    }
-
     public function test_it_can_contain_a_string()
     {
         $item = new Stash\Item('Some string');
@@ -53,13 +46,17 @@ class ItemTest extends PHPUnit_Framework_TestCase
 
     public function test_it_has_an_expiration()
     {
-        $this->assertInstanceOf('Carbon\Carbon', $this->item->expires);
+        $item = new Stash\Item('Test data');
+
+        $this->assertInstanceOf('Carbon\Carbon', $item->expires);
     }
 
     public function test_it_isnt_expired()
     {
-        $this->assertFalse($this->item->expired());
-        $this->assertTrue($this->item->notExpired());
+        $item = new Stash\Item('Test data');
+
+        $this->assertFalse($item->expired());
+        $this->assertTrue($item->notExpired());
     }
 
     public function test_it_can_expire()
@@ -88,11 +85,15 @@ class ItemTest extends PHPUnit_Framework_TestCase
 
     public function test_it_returns_false_when_incrementing_a_non_integer()
     {
-        $this->assertFalse($this->item->increment());
+        $item = new Stash\Item('Test data');
+
+        $this->assertFalse($item->increment());
     }
 
     public function test_it_returns_false_when_decrementing_a_non_integer()
     {
-        $this->assertFalse($this->item->decrement());
+        $item = new Stash\Item('Test data');
+
+        $this->assertFalse($item->decrement());
     }
 }

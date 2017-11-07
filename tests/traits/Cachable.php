@@ -2,6 +2,11 @@
 
 trait Cacheable
 {
+    public function tearDown()
+    {
+        $this->stash->flush();
+    }
+
     public function test_it_can_add_and_retrieve_an_item()
     {
         $this->assertTrue($this->stash->put('put', 'jabberwocky', 5));

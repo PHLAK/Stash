@@ -15,11 +15,6 @@ class FileTest extends PHPUnit_Framework_TestCase
         $this->stash = new Stash\Drivers\File($this->dirPath);
     }
 
-    public function tearDown()
-    {
-        $this->stash->flush();
-    }
-
     public function test_it_returns_false_for_an_expired_item()
     {
         $this->stash->put('expired', 'qwerty', -5);

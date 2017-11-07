@@ -15,11 +15,6 @@ class MemcachedTest extends PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function tearDown()
-    {
-        $this->stash->flush();
-    }
-
     public function test_it_returns_false_for_an_expired_item()
     {
         $this->stash->put('expired', 'qwerty', -5);
