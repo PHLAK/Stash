@@ -64,6 +64,31 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
+    public function test_it_can_instantiate_the_redis_driver()
+    {
+        $redis = Stash\Cache::make('redis', [
+            'servers' => [
+                ['host' => 'localhost', 'port' => '6379']
+            ]
+        ]);
+
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $redis);
+        $this->assertInstanceOf(Stash\Drivers\Redis::class, $redis);
+    }
+
+    public function test_it_can_instantiate_the_redis_driver_with_prefix()
+    {
+        $redis = Stash\Cache::make('redis', [
+            'servers' => [
+                ['host' => 'localhost', 'port' => '6379']
+            ],
+            'prefix' => 'stash_test'
+        ]);
+
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $redis);
+        $this->assertInstanceOf(Stash\Drivers\Redis::class, $redis);
+    }
+
     public function test_it_can_instantiate_the_ephemeral_driver()
     {
         $ephemeral = Stash\Cache::make('ephemeral');

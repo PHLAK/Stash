@@ -30,6 +30,9 @@ class Cache
             case 'memcached':
                 return new Drivers\Memcached($config['servers'], $prefix);
 
+            case 'redis':
+                return new Drivers\Redis($config['servers'], $prefix);
+
             case 'ephemeral':
                 return new Drivers\Ephemeral($prefix);
 

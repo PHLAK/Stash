@@ -95,6 +95,39 @@ $stash = Stash\Cache::make('memcached', [
 ]);
 ```
 
+#### Redis
+
+Pass an array of Redis servers via the `servers` config option. The `host` is
+required. `port` is optional and defaults to `6379`. `timeout`, `id` and `delay`
+are also optional and default to `null`.
+
+**Single Redis server:**
+
+```php
+$stash = Stash\Cache::make('redis', [
+    'servers' => [
+        [
+            'host' => 'localhost',
+            // 'port' => 6379,
+            // 'timeout' => 1,
+            // 'id' => 'some_unique_id',
+            // 'delay' => 100
+        ]
+    ]
+]);
+```
+
+**Multiple Redis servers:**
+
+```php
+$stash = Stash\Cache::make('redis', [
+    'servers' => [
+        ['host'   => 'server1', 'port'   => 6379],
+        ['host'   => 'server2', 'port'   => 1234]
+    ]
+]);
+```
+
 #### APCu
 
 ```php
