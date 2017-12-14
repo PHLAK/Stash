@@ -95,6 +95,22 @@ $stash = Stash\Cache::make('memcached', [
 ]);
 ```
 
+**Memcached server with Options:**
+```php
+$stash = Stash\Cache::make('memcached', [
+    'servers' => [
+        ['host' => 'localhost', 'port' => 11211]
+    ],
+    'options' => [
+        Memcached::OPT_BINARY_PROTOCOL => true
+    ],
+    'sasl_auth' => [
+        'user' => 'your_username',
+        'pass' => 'your_password'
+    ]
+]);
+```
+
 #### Redis
 
 Pass an array of Redis servers via the `servers` config option. The `host` is

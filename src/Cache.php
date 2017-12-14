@@ -28,7 +28,11 @@ class Cache
                 return new Drivers\File($config['dir'], $prefix);
 
             case 'memcached':
-                return new Drivers\Memcached($config['servers'], $prefix);
+                $options = array_merge([
+                    \Memcached::OPT_PREFIX_KEY => $prefix
+                ], @$config['options'] ?: []);
+
+                return new Drivers\Memcached($config['servers'], $options);
 
             case 'redis':
                 return new Drivers\Redis($config['servers'], $prefix);

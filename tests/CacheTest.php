@@ -64,6 +64,21 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
+    public function test_it_can_instantiate_the_memcached_driver_with_options()
+    {
+        $memcached = Stash\Cache::make('memcached', [
+                'servers' => [
+                    ['host' => 'localhost', 'port' => 11211]
+                ],
+                'options' => [
+                    Memcached::OPT_PREFIX_KEY => 'stash_test'
+                ]
+        ]);
+
+        $this->assertInstanceOf(Stash\Drivers\Driver::class, $memcached);
+        $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
+    }
+
     public function test_it_can_instantiate_the_redis_driver()
     {
         $redis = Stash\Cache::make('redis', [

@@ -11,14 +11,20 @@ class Memcached extends Driver
      * Stash\Memcached constructor, runs on object creation.
      *
      * @param array  $servers Array of Memcached servers
-     * @param string $prefix  Key prefix for preventing collisions
+     * @param array  $options Array of Memcached options
      */
-    public function __construct(array $servers, $prefix = '')
+    public function __construct(array $servers, array $options = [])
     {
-        parent::__construct($prefix);
-
         $this->memcached = new \Memcached;
+        $this->memcached->setOptions($options);
         $this->memcached->addServers($servers);
+
+        if (! empty($options['sasl_auth'])) {
+            $this->memcached->setSaslAuthData(
+                $options['sasl_auth']['user'],
+                $options['sasl_auth']['pass']
+            );
+        }
     }
 
     /**
@@ -34,7 +40,7 @@ class Memcached extends Driver
     {
         $expiration = $minutes == 0 ? 0 : time() + ($minutes * 60);
 
-        return $this->memcached->set($this->prefix($key), $data, $expiration);
+        return $this->memcached->set($key, $data, $expiration);
     }
 
     /**
@@ -60,7 +66,7 @@ class Memcached extends Driver
      */
     public function get($key, $default = false)
     {
-        return $this->memcached->get($this->prefix($key)) ?: $default;
+        return $this->memcached->get($key) ?: $default;
     }
 
     /**
@@ -72,7 +78,7 @@ class Memcached extends Driver
      */
     public function has($key)
     {
-        $this->memcached->get($this->prefix($key));
+        $this->memcached->get($key);
 
         return $this->memcached->getResultCode() == \Memcached::RES_SUCCESS;
     }
@@ -161,7 +167,7 @@ class Memcached extends Driver
      */
     public function forget($key)
     {
-        return $this->memcached->delete($this->prefix($key));
+        return $this->memcached->delete($key);
     }
 
     /**
