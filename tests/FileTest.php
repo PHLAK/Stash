@@ -17,11 +17,34 @@ class FileTest extends PHPUnit_Framework_TestCase
         });
     }
 
+    public function test_it_throws_an_exception_if_initialized_without_a_dir()
+    {
+        $this->setExpectedException(\RuntimeException::class);
+
+        $stash = new Stash\Drivers\File(function () {
+            return [];
+        });
+    }
+
     public function test_it_returns_false_for_an_expired_item()
     {
         $this->stash->put('expired', 'qwerty', -5);
 
         $this->assertFalse($this->stash->get('expired'));
+    }
+
+    public function test_it_uses_a_subdirectory_when_prefixed()
+    {
+        $stash = new Stash\Drivers\File(function () {
+            return [
+                'dir' => $this->dirPath,
+                'prefix' => 'some_prefix'
+            ];
+        });
+
+        $stash->put('prefix-dir-test', 'asdf', 5);
+
+        $this->assertTrue(file_exists("{$this->dirPath}/some_prefix/bf0690887658afb3f729f492c5697f25f100b991.cache.php"));
     }
 
     public function test_it_creates_a_cache_file_with_a_php_extension()

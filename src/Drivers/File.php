@@ -6,6 +6,23 @@ use PHLAK\Stash\Item;
 
 class File extends Driver
 {
+    /** @var array Array of configuration options */
+    protected $config;
+
+    /**
+     * Stash\Drivers\File constructor, runs on object creation.
+     *
+     * @param \Closure|null $closure Anonymous configuration function
+     */
+    public function __construct(\Closure $closure)
+    {
+        $this->config = array_merge(['prefix' => ''], $closure());
+
+        if (empty($this->config['dir'])) {
+            throw new \RuntimeException("No 'dir' config option supplied for File driver");
+        }
+    }
+
     /**
      * Put an item into the cache for a specified duration.
      *
@@ -178,7 +195,9 @@ class File extends Driver
      */
     protected function filePath($key)
     {
-        return $this->config['dir'] . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache.php';
+        return $this->config['dir'] . DIRECTORY_SEPARATOR
+            . $this->config['prefix'] . DIRECTORY_SEPARATOR
+            . sha1($key) . '.cache.php';
     }
 
     /**
@@ -192,7 +211,11 @@ class File extends Driver
      */
     protected function putCacheContents($key, $data, $minutes)
     {
-        return file_put_contents($this->filePath($key), serialize(
+        $destination = $this->filePath($key);
+
+        @mkdir(dirname($destination));
+
+        return file_put_contents($destination, serialize(
             new Item($data, $minutes)
         ), LOCK_EX) ? true : false;
     }
