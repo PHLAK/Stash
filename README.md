@@ -24,6 +24,7 @@ Supported caching back-ends:
 
   - File Backed
   - Memcached
+  - Redis
   - APCu
   - Ephemeral
 
@@ -50,104 +51,105 @@ First, import Stash:
 use PHLAK\Stash;
 ```
 
-Then instantiate the class for your back-end of choice:
+Then instantiate Stash for your back-end of choice with `Stash\Cache::make()`.
+
+    $stash = Stash\Cache::make($driver, $config);
+
+The `make()` method takes two parameters. The first (`$driver`) should be a
+string representing your desired caching driver.
+
+##### Available Drivers:
+
+  - `apcu` - PHP's native APC User Cache.
+  - `ephemeral` - A transient, in-memory array that only exists for the lifetime of the script.
+  - `file` - File-based caching. Stores cache items as files in a directory on disk.
+  - `memcached` - High-performance, distributed memory object caching system.
+  - `redis` - In-memory data structure store.
+
+The second parameter (`$config`) accepts a driver-specific [closure](https://secure.php.net/manual/en/class.closure.php)
+for setting configuration options for the chosen driver. Refer to the specific
+documentation for each driver below for more info. Some drivers do not require
+a config function.
+
+----
 
 #### File Cache
 
-The file cache requires a config option of `dir` that points to the directory in
-which you would like your cache files to be stored.
+The file cache configuration closure must return an array that contains a key
+of `dir` with a string value of a valid directory path in which your cache files
+will be stored.
 
 ```php
-$stash = Stash\Cache::make('file', ['dir' => 'path/to/cache']);
+$stash = Stash\Cache::make('file', function () {
+    return [
+        'dir' => 'path/to/cache',
+        // 'prefix' => 'some_prefix'
+    ];
+});
 ```
 
 #### Memcached
 
-Pass an array of Memcached servers via the `servers` config option. The `host`
-and `port` are required, `weight` is optional and has a default value of `0`.
+The Memcached configuration closure must return an instance of Memcached. The
+configuration closure receives an instance of the Memcached object as it's only
+parameter, you can use this parameter to connect and configure Memcached. At a
+minimum you must connect to one or more Memcached server via the `addServer()`
+or `addServers()` methods.
 
-**Single Memcached server:**
-
-```php
-$stash = Stash\Cache::make('memcached', [
-    'servers' => [
-        ['host' => 'localhost', 'port' => 11211]
-    ]
-]);
-```
-
-**Multiple Memcached servers:**
+Reference the [PHP Memcached documentation](https://secure.php.net/manual/en/book.memcached.php)
+for additional configuration options.
 
 ```php
-$stash = Stash\Cache::make('memcached', [
-    'servers' => [
-        [
-            'host'   => 'server1',
-            'port'   => 11211,
-            'weight' => 100
-        ],
-        [
-            'host'   => 'server2',
-            'port'   => 11211,
-            'weight' => 200
-        ]
-    ]
-]);
-```
+$stash = Stash\Cache::make('memcached', function ($memcached) {
+    $memcached->addServer('localhost', 11211);
 
-**Memcached server with Options:**
-```php
-$stash = Stash\Cache::make('memcached', [
-    'servers' => [
-        ['host' => 'localhost', 'port' => 11211]
-    ],
-    'options' => [
-        Memcached::OPT_BINARY_PROTOCOL => true
-    ],
-    'sasl_auth' => [
-        'user' => 'your_username',
-        'pass' => 'your_password'
-    ]
-]);
+    // $memcached->setOption(Memcached::OPT_PREFIX_KEY, 'some_prefix');
+
+    return $memcached; // Must return the $memcached object
+});
 ```
 
 #### Redis
 
-Pass an array of Redis servers via the `servers` config option. The `host` is
-required. `port` is optional and defaults to `6379`. `timeout`, `id` and `delay`
-are also optional and default to `null`.
+The Redis configuration closure must return an instance of Redis. The
+configuration closure receives an instance of the Redis object as it's only
+parameter, you can use this parameter connect to and configure Redis. At a
+minimum you must connect to one or more Redis server via the `connect()` or
+`pconnect()` methods.
 
-**Single Redis server:**
 
-```php
-$stash = Stash\Cache::make('redis', [
-    'servers' => [
-        [
-            'host' => 'localhost',
-            // 'port' => 6379,
-            // 'timeout' => 1,
-            // 'id' => 'some_unique_id',
-            // 'delay' => 100
-        ]
-    ]
-]);
-```
-
-**Multiple Redis servers:**
+Reference the [phpredis documentation](https://github.com/phpredis/phpredis#readme)
+for additional configuration options.
 
 ```php
-$stash = Stash\Cache::make('redis', [
-    'servers' => [
-        ['host'   => 'server1', 'port'   => 6379],
-        ['host'   => 'server2', 'port'   => 1234]
-    ]
-]);
+$stash = Stash\Cache::make('redis', function ($redis) {
+    $redis->pconnect('localhost', 6379);
+
+    // $redis->setOption(Redis::OPT_PREFIX, 'some_prefix');
+
+    return $redis; // Must return the $redis object
+});
 ```
 
 #### APCu
 
+The APCu driver caches items in PHPs APC user cache.
+
 ```php
 $stash = Stash\Cache::make('apcu');
+```
+
+The APCu driver does not require a configuration closure. However, if you
+wish to set a prefix you can pass a configuration closure that returns an array.
+The returned array must contain a key of `prefix` with a string value of the
+desired prefix.
+
+```php
+$stash = Stash\Cache::make('apcu', function () {
+    return [
+        'prefix' => 'some_prefix'
+    ];
+});
 ```
 
 #### Ephemeral
@@ -159,22 +161,18 @@ the lifetime of the script.
 $stash = Stash\Cache::make('ephemeral');
 ```
 
-Configuration
--------------
-
-You can optionally supply a `prefix` string option to automatically prefix your
-cache keys with a custom value. This helps to prevent cache collisions when
-sharing the cache across multiple apps.
-
-Example:
+The Ephemeral driver does not require a configuration closure. However, if you
+wish to set a prefix you can pass a configuration closure that returns an array.
+The returned array must contain a key of `prefix` with a string value of the
+desired prefix.
 
 ```php
-$stash = Stash\Cache::make('file', [
-    'dir'    => 'path/to/cache',
-    'prefix' => 'some_prefix'
-]);
+$stash = Stash\Cache::make('ephemeral', function () {
+    return [
+        'prefix' => 'some_prefix'
+    ];
+});
 ```
-
 
 Usage
 -----
