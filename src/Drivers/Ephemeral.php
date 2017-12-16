@@ -8,22 +8,7 @@ use PHLAK\Stash\Interfaces\Cacheable;
 class Ephemeral implements Cacheable
 {
     /** @var array Array of cached items */
-    protected $cache = [null => []];
-
-    /** @var string Prefix string to prevent collisions */
-    protected $prefix = '';
-
-    /**
-     * Stash\Drivers\Ephemeral constructor, runs on object creation.
-     *
-     * @param \Closure|null $closure Anonymous configuration function
-     */
-    public function __construct(\Closure $closure = null)
-    {
-        if (is_callable($closure)) {
-            $this->prefix = $closure()['prefix'];
-        }
-    }
+    protected $cache = [];
 
     /**
      * Put an item into the cache for a specified duration.
@@ -36,7 +21,7 @@ class Ephemeral implements Cacheable
      */
     public function put($key, $data, $minutes = 0)
     {
-        $this->cache[$this->prefix][$key] = new Item($data, $minutes);
+        $this->cache[$key] = new Item($data, $minutes);
 
         return true;
     }
@@ -64,8 +49,8 @@ class Ephemeral implements Cacheable
      */
     public function get($key, $default = false)
     {
-        if (array_key_exists($key, $this->cache[$this->prefix])) {
-            $item = $this->cache[$this->prefix][$key];
+        if (array_key_exists($key, $this->cache)) {
+            $item = $this->cache[$key];
             if ($item->notExpired()) {
                 return $item->data;
             }
@@ -83,8 +68,8 @@ class Ephemeral implements Cacheable
      */
     public function has($key)
     {
-        if (array_key_exists($key, $this->cache[$this->prefix])) {
-            $item = $this->cache[$this->prefix][$key];
+        if (array_key_exists($key, $this->cache)) {
+            $item = $this->cache[$key];
 
             return $item->notExpired();
         }
@@ -138,8 +123,8 @@ class Ephemeral implements Cacheable
      */
     public function increment($key, $value = 1)
     {
-        if (array_key_exists($key, $this->cache[$this->prefix])) {
-            $item = $this->cache[$this->prefix][$key];
+        if (array_key_exists($key, $this->cache)) {
+            $item = $this->cache[$key];
 
             return $item->increment($value);
         }
@@ -182,8 +167,8 @@ class Ephemeral implements Cacheable
      */
     public function forget($key)
     {
-        if (array_key_exists($key, $this->cache[$this->prefix])) {
-            unset($this->cache[$this->prefix][$key]);
+        if (array_key_exists($key, $this->cache)) {
+            unset($this->cache[$key]);
 
             return true;
         }
@@ -198,7 +183,7 @@ class Ephemeral implements Cacheable
      */
     public function flush()
     {
-        $this->cache[$this->prefix] = [];
+        $this->cache = [];
 
         return true;
     }

@@ -104,16 +104,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Stash\Drivers\Ephemeral::class, $ephemeral);
     }
 
-    public function test_it_can_instantiate_the_ephemeral_driver_with_prefix()
-    {
-        $ephemeral = Stash\Cache::make('ephemeral', function () {
-            return ['prefix' => 'stash_test'];
-        });
-
-        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $ephemeral);
-        $this->assertInstanceOf(Stash\Drivers\Ephemeral::class, $ephemeral);
-    }
-
     public function test_it_throws_an_exception_for_an_invalid_driver()
     {
         $this->setExpectedException(Stash\Exceptions\InvalidDriverException::class);

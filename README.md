@@ -155,23 +155,11 @@ $stash = Stash\Cache::make('apcu', function () {
 #### Ephemeral
 
 The Ephemeral driver caches items in a PHP array that exists in memory only for
-the lifetime of the script.
+the lifetime of the script. The Ephemeral driver does not take a configuration
+closure.
 
 ```php
 $stash = Stash\Cache::make('ephemeral');
-```
-
-The Ephemeral driver does not require a configuration closure. However, if you
-wish to set a prefix you can pass a configuration closure that returns an array.
-The returned array must contain a key of `prefix` with a string value of the
-desired prefix.
-
-```php
-$stash = Stash\Cache::make('ephemeral', function () {
-    return [
-        'prefix' => 'some_prefix'
-    ];
-});
 ```
 
 Usage
