@@ -6,22 +6,6 @@ use PHLAK\Stash\Item;
 
 class File extends Driver
 {
-    /** @var string Path to cache directory */
-    protected $storagePath;
-
-    /**
-     * Stash\File constructor, runs on object creation.
-     *
-     * @param string $storagePath Path to cache directory
-     * @param string $prefix      Key prefix for preventing collisions
-     */
-    public function __construct($storagePath, $prefix = '')
-    {
-        parent::__construct($prefix);
-
-        $this->storagePath = rtrim($storagePath, DIRECTORY_SEPARATOR);
-    }
-
     /**
      * Put an item into the cache for a specified duration.
      *
@@ -180,7 +164,7 @@ class File extends Driver
      */
     public function flush()
     {
-        $unlinked = array_map('unlink', glob($this->storagePath . DIRECTORY_SEPARATOR . '*.cache.php'));
+        $unlinked = array_map('unlink', glob($this->config['dir'] . DIRECTORY_SEPARATOR . '*.cache.php'));
 
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
@@ -194,7 +178,7 @@ class File extends Driver
      */
     protected function filePath($key)
     {
-        return $this->storagePath . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache.php';
+        return $this->config['dir'] . DIRECTORY_SEPARATOR . sha1($this->prefix($key)) . '.cache.php';
     }
 
     /**

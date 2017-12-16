@@ -10,9 +10,11 @@ class MemcachedTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->stash = new Stash\Drivers\Memcached([
-            ['host' => 'localhost', 'port' => 11211]
-        ]);
+        $this->stash = new Stash\Drivers\Memcached(function ($memcached) {
+            $memcached->addServer('localhost', 11211);
+
+            return $memcached;
+        });
     }
 
     public function test_it_returns_false_for_an_expired_item()

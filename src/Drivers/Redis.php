@@ -10,24 +10,13 @@ class Redis extends Driver
     /**
      * Stash\Redis constructor, runs on object creation.
      *
-     * @param array  $servers Array of Redis servers
-     * @param string $prefix  Key prefix for preventing collisions
+     * @param \Closure $closure Anonymous configuration function
      */
-    public function __construct(array $servers, $prefix = '')
+    public function __construct(\Closure $closure)
     {
-        parent::__construct($prefix);
+        $redis = new \Redis;
 
-        $this->redis = new \Redis;
-
-        foreach ($servers as $server) {
-            $this->redis->pconnect(
-                $server['host'],
-                @$server['port'],
-                @$server['timeout'],
-                @$server['id'],
-                @$server['delay']
-            );
-        }
+        $this->redis = $closure($redis);
     }
 
     /**

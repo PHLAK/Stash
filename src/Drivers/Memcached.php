@@ -10,21 +10,13 @@ class Memcached extends Driver
     /**
      * Stash\Memcached constructor, runs on object creation.
      *
-     * @param array  $servers Array of Memcached servers
-     * @param array  $options Array of Memcached options
+     * @param \Closure $closure Anonymous configuration function
      */
-    public function __construct(array $servers, array $options = [])
+    public function __construct(\Closure $closure)
     {
-        $this->memcached = new \Memcached;
-        $this->memcached->setOptions($options);
-        $this->memcached->addServers($servers);
+        $memcached = new \Memcached;
 
-        if (! empty($options['sasl_auth'])) {
-            $this->memcached->setSaslAuthData(
-                $options['sasl_auth']['user'],
-                $options['sasl_auth']['pass']
-            );
-        }
+        $this->memcached = $closure($memcached);
     }
 
     /**

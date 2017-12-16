@@ -12,7 +12,9 @@ class FileTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dirPath = __DIR__ . '/cache';
-        $this->stash = new Stash\Drivers\File($this->dirPath);
+        $this->stash = new Stash\Drivers\File(function () {
+            return ['dir' => $this->dirPath];
+        });
     }
 
     public function test_it_returns_false_for_an_expired_item()

@@ -10,9 +10,11 @@ class RedisTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->stash = new Stash\Drivers\Redis([
-            ['host' => 'localhost', 'port' => 6379]
-        ]);
+        $this->stash = new Stash\Drivers\Redis(function ($redis) {
+            $redis->pconnect('localhost', 6379);
+
+            return $redis;
+        });
     }
 
     public function test_it_returns_false_for_an_expired_item()

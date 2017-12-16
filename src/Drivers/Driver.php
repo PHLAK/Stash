@@ -6,17 +6,17 @@ use PHLAK\Stash\Interfaces\Cacheable;
 
 abstract class Driver implements Cacheable
 {
-    /** @var string Key prefix for preventing collisions */
-    protected $prefix;
+    /** @var array Array of configuration options */
+    protected $config;
 
     /**
      * Stash\Drivers\Driver constructor, runs on object creation.
      *
-     * @param string $prefix Key prefix for preventing collisions
+     * @param \Closure|null $closure Anonymous configuration function
      */
-    public function __construct($prefix = '')
+    public function __construct(\Closure $closure = null)
     {
-        $this->prefix = $prefix;
+        $this->config = is_callable($closure) ? $closure() : ['prefix' => ''];
     }
 
     /**
@@ -28,6 +28,6 @@ abstract class Driver implements Cacheable
      */
     protected function prefix($key)
     {
-        return empty($this->prefix) ? $key : $this->prefix . '_' . $key;
+        return empty($this->config['prefix']) ? $key : $this->config['prefix'] . '_' . $key;
     }
 }
