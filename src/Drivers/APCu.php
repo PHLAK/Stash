@@ -6,6 +6,21 @@ use PHLAK\Stash\Interfaces\Cacheable;
 
 class APCu implements Cacheable
 {
+    /** @var string Prefix string to prevent collisions */
+    protected $prefix = '';
+
+    /**
+     * Stash\Drivers\APCu constructor, runs on object creation.
+     *
+     * @param \Closure|null $closure Anonymous configuration function
+     */
+    public function __construct(\Closure $closure = null)
+    {
+        if (is_callable($closure)) {
+            $this->prefix = $closure()['prefix'];
+        }
+    }
+
     /**
      * Put an item into the cache for a specified duration.
      *
@@ -165,5 +180,17 @@ class APCu implements Cacheable
     public function flush()
     {
         return apcu_clear_cache();
+    }
+
+    /**
+     * Get prefixed key.
+     *
+     * @param string $key Unique item identifier
+     *
+     * @return string Prefixed unique identifier
+     */
+    protected function prefix($key)
+    {
+        return empty($this->prefix) ? $key : $this->prefix . ':' . $key;
     }
 }
