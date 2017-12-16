@@ -7,7 +7,22 @@ use PHLAK\Stash\Item;
 class Ephemeral extends Driver
 {
     /** @var array Array of cached items */
-    protected $cache = [];
+    protected $cache = [null => []];
+
+    /** @var string Prefix string to prevent collisions */
+    protected $prefix = '';
+
+    /**
+     * Stash\Drivers\Ephemeral constructor, runs on object creation.
+     *
+     * @param \Closure|null $closure Anonymous configuration function
+     */
+    public function __construct(\Closure $closure = null)
+    {
+        if (is_callable($closure)) {
+            $this->prefix = $closure()['prefix'];
+        }
+    }
 
     /**
      * Put an item into the cache for a specified duration.
@@ -20,7 +35,7 @@ class Ephemeral extends Driver
      */
     public function put($key, $data, $minutes = 0)
     {
-        $this->cache[$key] = new Item($data, $minutes);
+        $this->cache[$this->prefix][$key] = new Item($data, $minutes);
 
         return true;
     }
@@ -48,8 +63,8 @@ class Ephemeral extends Driver
      */
     public function get($key, $default = false)
     {
-        if (array_key_exists($key, $this->cache)) {
-            $item = $this->cache[$key];
+        if (array_key_exists($key, $this->cache[$this->prefix])) {
+            $item = $this->cache[$this->prefix][$key];
             if ($item->notExpired()) {
                 return $item->data;
             }
@@ -67,8 +82,8 @@ class Ephemeral extends Driver
      */
     public function has($key)
     {
-        if (array_key_exists($key, $this->cache)) {
-            $item = $this->cache[$key];
+        if (array_key_exists($key, $this->cache[$this->prefix])) {
+            $item = $this->cache[$this->prefix][$key];
 
             return $item->notExpired();
         }
@@ -122,8 +137,8 @@ class Ephemeral extends Driver
      */
     public function increment($key, $value = 1)
     {
-        if (array_key_exists($key, $this->cache)) {
-            $item = $this->cache[$key];
+        if (array_key_exists($key, $this->cache[$this->prefix])) {
+            $item = $this->cache[$this->prefix][$key];
 
             return $item->increment($value);
         }
@@ -166,8 +181,8 @@ class Ephemeral extends Driver
      */
     public function forget($key)
     {
-        if (array_key_exists($key, $this->cache)) {
-            unset($this->cache[$key]);
+        if (array_key_exists($key, $this->cache[$this->prefix])) {
+            unset($this->cache[$this->prefix][$key]);
 
             return true;
         }
@@ -182,7 +197,7 @@ class Ephemeral extends Driver
      */
     public function flush()
     {
-        $this->cache = [];
+        $this->cache[$this->prefix] = [];
 
         return true;
     }
