@@ -2,7 +2,9 @@
 
 namespace PHLAK\Stash\Drivers;
 
-class Redis extends Driver
+use PHLAK\Stash\Interfaces\Cacheable;
+
+class Redis implements Cacheable
 {
     /** @var object Instance of Redis */
     protected $redis;

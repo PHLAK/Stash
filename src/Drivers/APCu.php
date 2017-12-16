@@ -2,7 +2,9 @@
 
 namespace PHLAK\Stash\Drivers;
 
-class APCu extends Driver
+use PHLAK\Stash\Interfaces\Cacheable;
+
+class APCu implements Cacheable
 {
     /**
      * Put an item into the cache for a specified duration.

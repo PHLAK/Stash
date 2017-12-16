@@ -3,8 +3,9 @@
 namespace PHLAK\Stash\Drivers;
 
 use PHLAK\Stash\Item;
+use PHLAK\Stash\Interfaces\Cacheable;
 
-class File extends Driver
+class File implements Cacheable
 {
     /** @var array Array of configuration options */
     protected $config;

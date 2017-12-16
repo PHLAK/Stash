@@ -8,7 +8,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
     {
         $apc = Stash\Cache::make('apcu');
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $apc);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $apc);
         $this->assertInstanceOf(Stash\Drivers\APCu::class, $apc);
     }
 
@@ -18,7 +18,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return ['prefix' => 'stash_test'];
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $apc);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $apc);
         $this->assertInstanceOf(Stash\Drivers\APCu::class, $apc);
     }
 
@@ -28,7 +28,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return ['dir' => __DIR__ . '/cache'];
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $file);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $file);
         $this->assertInstanceOf(Stash\Drivers\File::class, $file);
     }
 
@@ -41,7 +41,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             ];
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $file);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $file);
         $this->assertInstanceOf(Stash\Drivers\File::class, $file);
     }
 
@@ -53,7 +53,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return $memcached;
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $memcached);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $memcached);
         $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
@@ -66,7 +66,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return $memcached;
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $memcached);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $memcached);
         $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
@@ -78,7 +78,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return $redis;
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $redis);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $redis);
         $this->assertInstanceOf(Stash\Drivers\Redis::class, $redis);
     }
 
@@ -92,7 +92,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return $redis;
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $redis);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $redis);
         $this->assertInstanceOf(Stash\Drivers\Redis::class, $redis);
     }
 
@@ -100,7 +100,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
     {
         $ephemeral = Stash\Cache::make('ephemeral');
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $ephemeral);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $ephemeral);
         $this->assertInstanceOf(Stash\Drivers\Ephemeral::class, $ephemeral);
     }
 
@@ -110,7 +110,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
             return ['prefix' => 'stash_test'];
         });
 
-        $this->assertInstanceOf(Stash\Drivers\Driver::class, $ephemeral);
+        $this->assertInstanceOf(Stash\Interfaces\Cacheable::class, $ephemeral);
         $this->assertInstanceOf(Stash\Drivers\Ephemeral::class, $ephemeral);
     }
 

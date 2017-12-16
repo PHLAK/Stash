@@ -2,7 +2,9 @@
 
 namespace PHLAK\Stash\Drivers;
 
-class Memcached extends Driver
+use PHLAK\Stash\Interfaces\Cacheable;
+
+class Memcached implements Cacheable
 {
     /** @var object Instance of Memcached */
     protected $memcached;
