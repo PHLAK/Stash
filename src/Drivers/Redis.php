@@ -34,7 +34,7 @@ class Redis implements Cacheable
     {
         $expiration = $minutes == 0 ? null : $minutes * 60;
 
-        return $this->redis->set($this->prefix($key), serialize($data), $expiration);
+        return $this->redis->set($key, serialize($data), $expiration);
     }
 
     /**
@@ -60,7 +60,7 @@ class Redis implements Cacheable
      */
     public function get($key, $default = false)
     {
-        if ($data = $this->redis->get($this->prefix($key))) {
+        if ($data = $this->redis->get($key)) {
             return unserialize($data);
         }
 
@@ -76,7 +76,7 @@ class Redis implements Cacheable
      */
     public function has($key)
     {
-        return $this->redis->exists($this->prefix($key));
+        return $this->redis->exists($key);
     }
 
     /**
@@ -125,10 +125,10 @@ class Redis implements Cacheable
      */
     public function increment($key, $value = 1)
     {
-        $data = $this->get($this->prefix($key));
+        $data = $this->get($key);
 
         if (is_int($data)) {
-            $ttl = $this->redis->ttl($this->prefix($key));
+            $ttl = $this->redis->ttl($key);
 
             $this->put($key, $data += $value, $ttl == -1 ? null : $ttl);
 
@@ -148,10 +148,10 @@ class Redis implements Cacheable
      */
     public function decrement($key, $value = 1)
     {
-        $data = $this->get($this->prefix($key));
+        $data = $this->get($key);
 
         if (is_int($data)) {
-            $ttl = $this->redis->ttl($this->prefix($key));
+            $ttl = $this->redis->ttl($key);
 
             $this->put($key, $data -= $value, $ttl == -1 ? null : $ttl);
 
@@ -183,7 +183,7 @@ class Redis implements Cacheable
      */
     public function forget($key)
     {
-        return $this->redis->delete($this->prefix($key)) ? true : false;
+        return $this->redis->delete($key) ? true : false;
     }
 
     /**
