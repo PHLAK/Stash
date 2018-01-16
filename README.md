@@ -12,7 +12,7 @@ Stash
 [![Build Status](https://img.shields.io/travis/PHLAK/Stash.svg)](https://travis-ci.org/PHLAK/Stash)
 [![StyleCI](https://styleci.io/repos/55566401/shield?branch=master&style=flat)](https://styleci.io/repos/55566401)
 
-Simple PHP caching library -- by, [Chris Kankiewicz](https://www.ChrisKankiewicz.com)
+Simple PHP caching library -- by, [Chris Kankiewicz](https://www.ChrisKankiewicz.com) ([@PHLAK](https://twitter.com/PHLAK))
 
 Introduction
 ------------
