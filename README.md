@@ -71,6 +71,17 @@ for setting configuration options for the chosen driver. Refer to the specific
 documentation for each driver below for more info. Some drivers do not require
 a config function.
 
+### Named Constructors
+
+Alternatively you may use one of the named constructors to initialize the cache
+driver.
+
+    Stash\Cache::file($config);
+    Stash\Cache::memcached($config);
+    Stash\Cache::redis($config);
+    Stash\Cache::apcu($config);
+    Stash\Cache::ephemeral();
+
 ----
 
 #### File Cache
@@ -80,7 +91,7 @@ of `dir` with a string value of a valid directory path in which your cache files
 will be stored.
 
 ```php
-$stash = Stash\Cache::make('file', function () {
+$stash = Stash\Cache::file(function () {
     return [
         'dir' => 'path/to/cache',
         // 'prefix' => 'some_prefix'
@@ -100,7 +111,7 @@ Reference the [PHP Memcached documentation](https://secure.php.net/manual/en/boo
 for additional configuration options.
 
 ```php
-$stash = Stash\Cache::make('memcached', function ($memcached) {
+$stash = Stash\Cache::memcached(function ($memcached) {
     $memcached->addServer('localhost', 11211);
 
     // $memcached->setOption(Memcached::OPT_PREFIX_KEY, 'some_prefix');
@@ -122,7 +133,7 @@ Reference the [phpredis documentation](https://github.com/phpredis/phpredis#read
 for additional configuration options.
 
 ```php
-$stash = Stash\Cache::make('redis', function ($redis) {
+$stash = Stash\Cache::redis(function ($redis) {
     $redis->pconnect('localhost', 6379);
 
     // $redis->setOption(Redis::OPT_PREFIX, 'some_prefix');
@@ -136,7 +147,7 @@ $stash = Stash\Cache::make('redis', function ($redis) {
 The APCu driver caches items in PHPs APC user cache.
 
 ```php
-$stash = Stash\Cache::make('apcu');
+$stash = Stash\Cache::apcu();
 ```
 
 The APCu driver does not require a configuration closure. However, if you
@@ -145,7 +156,7 @@ The returned array must contain a key of `prefix` with a string value of the
 desired prefix.
 
 ```php
-$stash = Stash\Cache::make('apcu', function () {
+$stash = Stash\Cache::apcu(function () {
     return [
         'prefix' => 'some_prefix'
     ];
@@ -159,7 +170,7 @@ the lifetime of the script. The Ephemeral driver does not take a configuration
 closure.
 
 ```php
-$stash = Stash\Cache::make('ephemeral');
+$stash = Stash\Cache::ephemeral();
 ```
 
 Usage
