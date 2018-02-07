@@ -7,15 +7,6 @@ use PHLAK\Stash\Exceptions\InvalidDriverException;
 
 class Cache
 {
-    /** @var array Array of drivers and their respective class paths */
-    protected static $drivers = [
-        'apcu' => Drivers\APCu::class,
-        'ephemeral' => Drivers\Ephemeral::class,
-        'file' => Drivers\File::class,
-        'memcached' => Drivers\Memcached::class,
-        'redis' => Drivers\Redis::class
-    ];
-
     /**
      * Instantiate the desired cache driver object.
      *
@@ -28,11 +19,11 @@ class Cache
      */
     public static function make($driver, Closure $config = null)
     {
-        if (! array_key_exists($driver, self::$drivers)) {
+        if (! method_exists(__CLASS__, $driver)) {
             throw new InvalidDriverException;
         }
 
-        return new self::$drivers[$driver]($config);
+        return self::$driver($config);
     }
 
     /**
