@@ -175,6 +175,11 @@ trait Cacheable
         $this->assertFalse($this->stash->get('forgettable'));
     }
 
+    public function test_it_returns_false_when_forgetting_a_nonexistent_item()
+    {
+        $this->assertFalse($this->stash->forget('nonexistant-item'));
+    }
+
     public function test_it_is_flushable()
     {
         $this->assertTrue($this->stash->flush());
