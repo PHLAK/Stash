@@ -12,8 +12,6 @@ class RedisTest extends PHPUnit_Framework_TestCase
     {
         $this->stash = new Stash\Drivers\Redis(function ($redis) {
             $redis->pconnect('localhost', 6379);
-
-            return $redis;
         });
     }
 

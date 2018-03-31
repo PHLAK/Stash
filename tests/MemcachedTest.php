@@ -12,8 +12,6 @@ class MemcachedTest extends PHPUnit_Framework_TestCase
     {
         $this->stash = new Stash\Drivers\Memcached(function ($memcached) {
             $memcached->addServer('localhost', 11211);
-
-            return $memcached;
         });
     }
 
