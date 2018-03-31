@@ -13,9 +13,9 @@ class Cache
      * @param string  $driver Driver to initialize
      * @param Closure $config Driver-specific configuration closure
      *
-     * @throws InvalidDriverException;
+     * @throws \PHLAK\Stash\Exceptions\InvalidDriverException;
      *
-     * @return Interfaces\Cacheable A Cacheable object
+     * @return \PHLAK\Stash\Interfaces\Cacheable A Cacheable object
      */
     public static function make($driver, Closure $config = null)
     {
@@ -31,7 +31,7 @@ class Cache
      *
      * @param Closure|null $config A configuration closure
      *
-     * @return Drivers\APCu An APCu cache object
+     * @return \PHLAK\Stash\Drivers\APCu An APCu cache object
      */
     public static function apcu(Closure $config = null)
     {
@@ -43,7 +43,7 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return Drivers\File A File cache object
+     * @return \PHLAK\Stash\Drivers\File A File cache object
      */
     public static function file(Closure $config)
     {
@@ -55,7 +55,7 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return Drivers\Memcached An Memcached cache object
+     * @return \PHLAK\Stash\Drivers\Memcached A Memcached cache object
      */
     public static function memcached(Closure $config)
     {
@@ -67,7 +67,7 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return Drivers\Redis An Redis cache object
+     * @return \PHLAK\Stash\Drivers\Redis A Redis cache object
      */
     public static function redis(Closure $config)
     {
@@ -79,7 +79,7 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return Drivers\Ephemeral An Ephemeral cache object
+     * @return \PHLAK\Stash\Drivers\Ephemeral An Ephemeral cache object
      */
     public static function ephemeral()
     {

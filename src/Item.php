@@ -9,7 +9,7 @@ class Item
     /** @var mixed Item data */
     protected $data;
 
-    /** @var Carbon Carbon instance representing the expiration time */
+    /** @var \Carbon\Carbon Carbon instance representing the expiration time */
     protected $expires;
 
     /**
