@@ -22,11 +22,11 @@ caching back-ends and an expressive (Laravel inspired) API.
 
 Supported caching back-ends:
 
-  - File Backed
-  - Memcached
-  - Redis
-  - APCu
-  - Ephemeral
+  - File - File-based caching. Stores cache items as files in a directory on disk.
+  - Memcached - High-performance, distributed memory object caching system
+  - Redis - In-memory data structure store.
+  - APCu - PHP's native APC User Cache.
+  - Ephemeral - A transient, in-memory array that only exists for the lifetime of the script.
 
 Like this project? Keep me caffeinated by [making a donation](https://paypal.me/ChrisKankiewicz).
 
@@ -51,30 +51,7 @@ First, import Stash:
 use PHLAK\Stash;
 ```
 
-Then instantiate Stash for your back-end of choice with `Stash\Cache::make()`.
-
-    $stash = Stash\Cache::make($driver, $config);
-
-The `make()` method takes two parameters. The first (`$driver`) should be a
-string representing your desired caching driver.
-
-##### Available Drivers:
-
-  - `apcu` - PHP's native APC User Cache.
-  - `ephemeral` - A transient, in-memory array that only exists for the lifetime of the script.
-  - `file` - File-based caching. Stores cache items as files in a directory on disk.
-  - `memcached` - High-performance, distributed memory object caching system.
-  - `redis` - In-memory data structure store.
-
-The second parameter (`$config`) accepts a driver-specific [closure](https://secure.php.net/manual/en/class.closure.php)
-for setting configuration options for the chosen driver. Refer to the specific
-documentation for each driver below for more info. Some drivers do not require
-a config function.
-
-### Named Constructors
-
-Alternatively you may use one of the named constructors to initialize the cache
-driver.
+Then instantiate Stash for your back-end of choice with the named constructor:
 
     Stash\Cache::file($config);
     Stash\Cache::memcached($config);
@@ -82,30 +59,48 @@ driver.
     Stash\Cache::apcu($config);
     Stash\Cache::ephemeral();
 
+The `$config` parameter accepts a driver-specific [closure](https://secure.php.net/manual/en/class.closure.php)
+for setting configuration options for your chosen driver. Refer to the specific
+documentation about each driver below for more info. Not all drivers require a
+configuration function.
+
+Alternatively you may use the `Stash\Cache::make()` factory method to
+instantiate your driver.
+
+    $stash = Stash\Cache::make($driver, $config);
+
+The `make()` method takes two parameters. The first (`$driver`) should be one of
+the following lowercase strings representing your desired caching driver.
+
+    - `apcu`
+    - `ephemeral`
+    - `file`
+    - `memcached`.
+    - `redis`
+
+The second (`$config`) is the same driver-specific configuration closure as when
+using a named constructor. Refer to the specific documentation about each driver
+below for more info.
+
 ----
 
 #### File Cache
 
-The file cache configuration closure must return an array that contains a key
-of `dir` with a string value of a valid directory path in which your cache files
-will be stored.
+The file cache configuration closure must call `$this->setCacheDir($path)` where
+`$path` is a path to a valid directory in which your cache files will be stored.
 
 ```php
 $stash = Stash\Cache::file(function () {
-    return [
-        'dir' => 'path/to/cache',
-        // 'prefix' => 'some_prefix'
-    ];
+    $this->setCacheDir('path/to/cache');
 });
 ```
 
 #### Memcached
 
-The Memcached configuration closure must return an instance of Memcached. The
-configuration closure receives an instance of the Memcached object as it's only
-parameter, you can use this parameter to connect and configure Memcached. At a
-minimum you must connect to one or more Memcached server via the `addServer()`
-or `addServers()` methods.
+The Memcached configuration closure receives an instance of the Memcached object
+as it's only parameter, you can use this parameter to connect and configure
+Memcached. At a minimum you must connect to one or more Memcached server via the
+`addServer()` or `addServers()` methods.
 
 Reference the [PHP Memcached documentation](https://secure.php.net/manual/en/book.memcached.php)
 for additional configuration options.
@@ -113,19 +108,15 @@ for additional configuration options.
 ```php
 $stash = Stash\Cache::memcached(function ($memcached) {
     $memcached->addServer('localhost', 11211);
-
     // $memcached->setOption(Memcached::OPT_PREFIX_KEY, 'some_prefix');
-
-    return $memcached; // Must return the $memcached object
 });
 ```
 
 #### Redis
 
-The Redis configuration closure must return an instance of Redis. The
-configuration closure receives an instance of the Redis object as it's only
-parameter, you can use this parameter connect to and configure Redis. At a
-minimum you must connect to one or more Redis server via the `connect()` or
+The Redis configuration closure receives an instance of the Redis object as it's
+only parameter, you can use this parameter to connect to and configure Redis. At
+a minimum you must connect to one or more Redis server via the `connect()` or
 `pconnect()` methods.
 
 
@@ -135,10 +126,7 @@ for additional configuration options.
 ```php
 $stash = Stash\Cache::redis(function ($redis) {
     $redis->pconnect('localhost', 6379);
-
     // $redis->setOption(Redis::OPT_PREFIX, 'some_prefix');
-
-    return $redis; // Must return the $redis object
 });
 ```
 
@@ -151,15 +139,12 @@ $stash = Stash\Cache::apcu();
 ```
 
 The APCu driver does not require a configuration closure. However, if you
-wish to set a prefix you can pass a configuration closure that returns an array.
-The returned array must contain a key of `prefix` with a string value of the
-desired prefix.
+wish to set a cache prefix you may pass a configuration closure that calls
+`$this->setPrefix($prefix)` where `$prefix` is a string of your desired prefix.
 
 ```php
 $stash = Stash\Cache::apcu(function () {
-    return [
-        'prefix' => 'some_prefix'
-    ];
+    $this->setPrefix('some_prefix');
 });
 ```
 
@@ -255,4 +240,4 @@ Please report bugs to the [GitHub Issue Tracker](https://github.com/PHLAK/Stash/
 Copyright
 ---------
 
-This project is liscensed under the [MIT License](https://github.com/PHLAK/Stash/blob/master/LICENSE).
+This project is licensed under the [MIT License](https://github.com/PHLAK/Stash/blob/master/LICENSE).
