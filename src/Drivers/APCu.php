@@ -3,6 +3,7 @@
 namespace PHLAK\Stash\Drivers;
 
 use PHLAK\Stash\Interfaces\Cacheable;
+use Closure;
 
 class APCu implements Cacheable
 {
@@ -10,14 +11,16 @@ class APCu implements Cacheable
     protected $prefix = '';
 
     /**
-     * Stash\Drivers\APCu constructor, runs on object creation.
+     * Create an APCu cache driver object.
      *
      * @param \Closure|null $closure Anonymous configuration function
      */
-    public function __construct(\Closure $closure = null)
+    public function __construct(Closure $closure = null)
     {
         if (is_callable($closure)) {
-            $this->prefix = $closure()['prefix'];
+            $closure = $closure->bindTo($this, self::class);
+
+            $closure();
         }
     }
 
@@ -183,6 +186,16 @@ class APCu implements Cacheable
     }
 
     /**
+     * Set the cache prefix.
+     *
+     * @param string $prefix The cache prefix
+     */
+    protected function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
      * Get prefixed key.
      *
      * @param string $key Unique item identifier
@@ -191,6 +204,6 @@ class APCu implements Cacheable
      */
     protected function prefix($key)
     {
-        return empty($this->prefix) ? $key : $this->prefix . ':' . $key;
+        return empty($this->prefix) ? $key : "{$this->prefix}:{$key}";
     }
 }

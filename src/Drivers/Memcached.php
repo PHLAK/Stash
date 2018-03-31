@@ -3,22 +3,23 @@
 namespace PHLAK\Stash\Drivers;
 
 use PHLAK\Stash\Interfaces\Cacheable;
+use Closure;
 
 class Memcached implements Cacheable
 {
-    /** @var object Instance of Memcached */
+    /** @var \Memcached Instance of Memcached */
     protected $memcached;
 
     /**
-     * Stash\Memcached constructor, runs on object creation.
+     * Create a Memcached cache driver object.
      *
      * @param \Closure $closure Anonymous configuration function
      */
-    public function __construct(\Closure $closure)
+    public function __construct(Closure $closure)
     {
-        $memcached = new \Memcached;
+        $this->memcached = new \Memcached;
 
-        $this->memcached = $closure($memcached);
+        $closure($this->memcached);
     }
 
     /**

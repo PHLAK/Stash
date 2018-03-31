@@ -3,22 +3,23 @@
 namespace PHLAK\Stash\Drivers;
 
 use PHLAK\Stash\Interfaces\Cacheable;
+use Closure;
 
 class Redis implements Cacheable
 {
-    /** @var object Instance of Redis */
+    /** @var \Redis Instance of Redis */
     protected $redis;
 
     /**
-     * Stash\Redis constructor, runs on object creation.
+     * Create a Redis cache driver object.
      *
      * @param \Closure $closure Anonymous configuration function
      */
-    public function __construct(\Closure $closure)
+    public function __construct(Closure $closure)
     {
-        $redis = new \Redis;
+        $this->redis = new \Redis;
 
-        $this->redis = $closure($redis);
+        $closure($this->redis);
     }
 
     /**

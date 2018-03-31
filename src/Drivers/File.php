@@ -4,23 +4,31 @@ namespace PHLAK\Stash\Drivers;
 
 use PHLAK\Stash\Item;
 use PHLAK\Stash\Interfaces\Cacheable;
+use PHLAK\Stash\Exceptions\FileNotFoundException;
+use RuntimeException;
+use SplFileInfo;
+use Closure;
 
 class File implements Cacheable
 {
-    /** @var array Array of configuration options */
-    protected $config;
+    /** @var SplFileInfo The cache directory file path */
+    protected $cacheDir;
 
     /**
-     * Stash\Drivers\File constructor, runs on object creation.
+     * Create a File cache driver object.
      *
      * @param \Closure|null $closure Anonymous configuration function
+     *
+     * @throws \RuntimeException
      */
-    public function __construct(\Closure $closure)
+    public function __construct(Closure $closure)
     {
-        $this->config = array_merge(['prefix' => ''], $closure());
+        $closure = $closure->bindTo($this, self::class);
 
-        if (empty($this->config['dir'])) {
-            throw new \RuntimeException("No 'dir' config option supplied for File driver");
+        $closure();
+
+        if (empty($this->cacheDir)) {
+            throw new RuntimeException('No cache directory defined');
         }
     }
 
@@ -182,7 +190,7 @@ class File implements Cacheable
      */
     public function flush()
     {
-        $unlinked = array_map('unlink', glob($this->config['dir'] . DIRECTORY_SEPARATOR . '*.cache.php'));
+        $unlinked = array_map('unlink', glob($this->cacheDir . DIRECTORY_SEPARATOR . '*.cache.php'));
 
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
@@ -196,9 +204,7 @@ class File implements Cacheable
      */
     protected function filePath($key)
     {
-        return $this->config['dir'] . DIRECTORY_SEPARATOR
-            . $this->config['prefix'] . DIRECTORY_SEPARATOR
-            . sha1($key) . '.cache.php';
+        return $this->cacheDir . DIRECTORY_SEPARATOR . sha1($key) . '.cache.php';
     }
 
     /**
@@ -237,5 +243,28 @@ class File implements Cacheable
         }
 
         return $item;
+    }
+
+    /**
+     * Set the file cache directory path.
+     *
+     * @param string $path Path to cache directory
+     *
+     * @throws \PHLAK\Stash\Exceptions\FileNotFoundException
+     * @throws \RuntimeException
+     */
+    protected function setCacheDir($path)
+    {
+        $cacheDir = new SplFileInfo($path);
+
+        if (! $cacheDir->isDir()) {
+            throw new FileNotFoundException("{$cacheDir} is not a directory or doesn't exists");
+        }
+
+        if (! $cacheDir->isWritable()) {
+            throw new RuntimeException("{$cacheDir} is not writeable");
+        }
+
+        $this->cacheDir = $cacheDir;
     }
 }
