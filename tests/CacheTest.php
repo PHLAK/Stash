@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 
-class CacheTest extends PHPUnit_Framework_TestCase
+class CacheTest extends TestCase
 {
     public function test_it_can_instantiate_the_apc_driver()
     {
@@ -132,7 +133,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
     public function test_it_throws_an_exception_for_an_invalid_driver()
     {
-        $this->setExpectedException(Stash\Exceptions\InvalidDriverException::class);
+        $this->expectException(Stash\Exceptions\InvalidDriverException::class);
 
         $file = Stash\Cache::make('snozberries');
     }

@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 
-class MemcachedTest extends PHPUnit_Framework_TestCase
+class MemcachedTest extends TestCase
 {
     use Cacheable;
 

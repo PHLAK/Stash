@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 
-class APCuTest extends PHPUnit_Framework_TestCase
+class APCuTest extends TestCase
 {
     use Cacheable;
 

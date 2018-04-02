@@ -1,9 +1,10 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 use PHLAK\Stash\Exceptions\FileNotFoundException;
 
-class FileTest extends PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     use Cacheable;
 
@@ -21,14 +22,14 @@ class FileTest extends PHPUnit_Framework_TestCase
 
     public function test_it_throws_an_exception_if_initialized_without_a_dir()
     {
-        $this->setExpectedException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $stash = new Stash\Drivers\File(function () { /* ... */ });
     }
 
     public function test_it_throws_an_exception_when_initialized_with_a_non_existant_dir()
     {
-        $this->setExpectedException(FileNotFoundException::class);
+        $this->expectException(FileNotFoundException::class);
 
         new Stash\Drivers\File(function () {
             $this->setCacheDir('/some/non-existent/path/');
@@ -37,7 +38,7 @@ class FileTest extends PHPUnit_Framework_TestCase
 
     public function test_it_throws_an_exception_when_initialized_with_a_non_writable_dir()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         new Stash\Drivers\File(function () {
             $this->setCacheDir('/root/');

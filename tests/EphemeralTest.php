@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 
-class EphemeralTest extends PHPUnit_Framework_TestCase
+class EphemeralTest extends TestCase
 {
     use Cacheable;
 

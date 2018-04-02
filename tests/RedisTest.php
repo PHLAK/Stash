@@ -1,8 +1,9 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 
-class RedisTest extends PHPUnit_Framework_TestCase
+class RedisTest extends TestCase
 {
     use Cacheable;
 
