@@ -19,6 +19,10 @@ class Cache
      */
     public static function make($driver, Closure $config = null)
     {
+        trigger_error('The Stash::make() method has been deprecated and will be'
+            . ' removed in a future version. Use a specific named-constructor'
+            . ' instead.', E_USER_DEPRECATED);
+
         if (! method_exists(__CLASS__, $driver)) {
             throw new InvalidDriverException;
         }
