@@ -161,67 +161,156 @@ $stash = Stash\Cache::ephemeral();
 Usage
 -----
 
-Add an item to the cache for a specified duration:
+### `Cacheable::put( string $key , mixed $data [, $minutes = 0 ] ) : bool`
+
+Add an item to the cache for a specified duration.
+
+##### Examples
 
 ```php
-$stash->put($key, $data, $minutes = 0);
+// Cache a value for 15 minutes
+$stash->put('foo', 'some value', 15);
+
+// Cache a value indefinitely
+$stash->put('bar', false);
 ```
 
-Add an item to the cache permanently:
+---
+
+### `Cacheable::forever( string $key , mixed $data) : bool`
+
+Add an item to the cache permanently.
+
+##### Examples
 
 ```php
-$stash->forever($key, $data);
+$stash->forever('foo', 'some value');
 ```
 
-Retrieve an item from the cache:
+---
+
+### `Cacheable::get( string $key [, $default = false ] ) : mixed`
+
+Retrieve an item from the cache.
+
+##### Examples
 
 ```php
-$stash->get($key, $default = false);
+$stash->get('foo');
+
+// Return 'default' if 'bar' doesn't exist
+$stash->get('bar', 'default');
 ```
 
-Check if an item exists in the cache:
+---
+### `Cacheable::has( string $key ) : bool`
+
+Check if an item exists in the cache.
+
+##### Examples
 
 ```php
-$stash->has($key);
+$stash->has('foo');
 ```
+
+---
+
+### `Cacheable::remember( string $key , int $minutes , Closure $closure ) : mixed`
 
 Retrieve item from cache or, when item does not exist, execute a closure. The
 result of the closure is then stored in the cache for the specified duration
 and returned for immediate use.
 
+##### Examples
+
 ```php
-$stash->remember($key, $minutes, function() {
-    // return something
+$stash->remember('foo', 60, function() {
+    return new FooClass();
 });
 ```
 
-or remember permanently:
+---
+
+### `Cacheable::rememberForever( string $key , Closure $closure ) : mixed`
+
+Retrieve item from cache or, when item does not exist, execute a closure. The
+result of the closure is then stored in the cache permanently.
+
+##### Examples
 
 ```php
-$stash->rememberForever($key, function() {
-    // return something
+$stash->rememberForever('pokemon', function() {
+    return new Pokemon($name, $description);
 });
 ```
 
-Increment an integer:
+---
+
+### `Cacheable::increment( string $key [, int $value = 1 ] ) : mixed`
+
+Increment an integer already stored in the cache.
+
+##### Examples
 
 ```php
-$stash->increment($key, $value = 1);
+// Increment by 1
+$stash->increment('foo');
+
+// Increment by 10
+$stash->increment('bar', 10);
 ```
 
-Decrement an integer:
+---
+
+### `Cacheable::decrement( string $key [, int $value = 1 ] ) : mixed`
+
+Decrement an integer already stored in the cache.
+
+##### Examples
 
 ```php
-$stash->decrement($key, $value = 1);
+ // Decrements by 1
+$stash->decrement('foo');
+
+ // Decrements by 10
+$stash->decrement('bar', 10);
 ```
 
-Remove an item from the cache:
+---
+
+### `Cacheable::touch( string $key [, int $minutes = 0 ] ) : bool`
+
+Extend the expiration time for an item in the cache.
+
+##### Examples
 
 ```php
-$stash->forget($key);
+ // Extend the expiration by 5 minutes
+$stash->touch('foo', 5);
+
+ // Extend the expiration indefinitely
+$stash->touch('bar');
 ```
 
-Delete all items from the cache:
+---
+
+### `Cacheable::forget( string $key ) : bool`
+
+Remove an item from the cache.
+
+##### Examples
+
+```php
+$stash->forget('foo');
+```
+
+---
+
+### `Cacheable::flush() : bool`
+
+Delete all items from the cache.
+
+##### Examples
 
 ```php
 $stash->flush();
