@@ -72,11 +72,11 @@ instantiate your driver.
 The `make()` method takes two parameters. The first (`$driver`) should be one of
 the following lowercase strings representing your desired caching driver.
 
-    - `apcu`
-    - `ephemeral`
-    - `file`
-    - `memcached`.
-    - `redis`
+  - `apcu`
+  - `ephemeral`
+  - `file`
+  - `memcached`
+  - `redis`
 
 The second (`$config`) is the same driver-specific configuration closure as when
 using a named constructor. Refer to the specific documentation about each driver
