@@ -24,7 +24,7 @@ class Cache
             . ' instead.', E_USER_DEPRECATED);
 
         if (! method_exists(__CLASS__, $driver)) {
-            throw new InvalidDriverException;
+            throw new InvalidDriverException('Unable to initialize driver of type ' . $driver);
         }
 
         return self::$driver($config);
