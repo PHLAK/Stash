@@ -13,7 +13,8 @@
     },
     "require": {
         "php": ">=7.0",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "psy/psysh": "^0.9.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0 || ^7.0",
