@@ -31,10 +31,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/",
-            "tests/traits/"
-        ]
+        "psr-4": {
+            "PHLAK\\Stash\\Tests\\": "tests/"
+        }
     },
     "config": {
         "sort-packages": true,

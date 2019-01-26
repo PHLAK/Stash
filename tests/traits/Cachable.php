@@ -1,5 +1,7 @@
 <?php
 
+namespace PHLAK\Stash\Tests\Traits;
+
 trait Cacheable
 {
     public function tearDown()

@@ -1,7 +1,11 @@
 <?php
 
+namespace PHLAK\Stash\Tests;
+
 use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
+use Memcached;
+use Redis;
 
 class CacheTest extends TestCase
 {

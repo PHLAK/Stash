@@ -1,7 +1,10 @@
 <?php
 
+namespace PHLAK\Stash\Tests;
+
 use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
+use stdClass;
 
 class ItemTest extends TestCase
 {
