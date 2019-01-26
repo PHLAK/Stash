@@ -168,6 +168,22 @@ trait Cacheable
         $this->assertTrue($this->stash->touch('extendable', 5));
     }
 
+    public function test_it_sets_an_item_to_false_when_touchng_a_nonexistant_item()
+    {
+        $this->stash->touch('nonexistent');
+
+        $this->assertTrue($this->stash->has('nonexistent'));
+        $this->assertFalse($this->stash->get('nonexistent'));
+    }
+
+    public function test_it_can_set_a_new_expiration_time_for_an_array_of_items()
+    {
+        $this->stash->put('extendable', 'tape measure', 1);
+        $this->stash->put('growable', 'plant', 1);
+
+        $this->assertTrue($this->stash->touch(['extendable', 'growable'], 5));
+    }
+
     public function test_it_can_forget_an_item()
     {
         $this->stash->put('forgettable', 'asdf', 5);

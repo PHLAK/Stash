@@ -172,6 +172,16 @@ class Redis implements Cacheable
      */
     public function touch($key, $minutes = 0)
     {
+        if (is_array($key)) {
+            return array_walk($key, function ($key) use ($minutes) {
+                $this->touch($key, $minutes);
+            });
+        }
+
+        if (! $this->has($key)) {
+            return $this->put($key, false);
+        }
+
         return $this->redis->setTimeout($key, $minutes * 60);
     }
 

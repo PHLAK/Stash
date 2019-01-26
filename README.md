@@ -278,7 +278,7 @@ $stash->decrement('bar', 10);
 
 ---
 
-### `Cacheable::touch( string $key [, int $minutes = 0 ] ) : bool`
+### `Cacheable::touch( string|array $key [, int $minutes = 0 ] ) : bool`
 
 Extend the expiration time for an item in the cache.
 
@@ -290,6 +290,9 @@ $stash->touch('foo', 5);
 
  // Extend the expiration indefinitely
 $stash->touch('bar');
+
+// Extend the expiration of multiple items by 5 minutes
+$stash->touch(['foo', 'bar', 'baz'], 5);
 ```
 
 ---

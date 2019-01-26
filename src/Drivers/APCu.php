@@ -153,13 +153,19 @@ class APCu implements Cacheable
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param string $key     Unique item identifier
-     * @param int    $minutes Time in minutes until item expires
+     * @param string|array $key     Unique item identifier
+     * @param int          $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */
     public function touch($key, $minutes = 0)
     {
+        if (is_array($key)) {
+            return array_walk($key, function ($key) use ($minutes) {
+                $this->touch($key, $minutes);
+            });
+        }
+
         return $this->put($key, $this->get($key), $minutes);
     }
 
