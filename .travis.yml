@@ -1,23 +1,37 @@
 sudo: false
 
 language: php
+
+env:
+  - COMPOSER_PREFER=default
+  - COMPOSER_PREFER=lowest
+
 php:
-    - 7.0
-    - 7.1
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - vendor
 
 services:
   - memcached
   - redis-server
 
-cache:
-    directories:
-        - $HOME/.composer/cache
-        - vendor
-
 before_install:
-    - phpenv config-rm xdebug.ini
-    - if [[ $TRAVIS_PHP_VERSION == 5.* ]]; then printf "\n" | pecl install -f apcu-4.0.11; fi
-    - if [[ $TRAVIS_PHP_VERSION == 7.* ]]; then printf "\n" | pecl install -f apcu-5.1.11 apcu_bc-1.0.4; fi
-    - phpenv config-add travis.ini
+  - phpenv config-rm xdebug.ini || true
+  - travis_retry composer self-update
+  - if [[ $TRAVIS_PHP_VERSION == 5.* ]]; then printf "\n" | pecl install -f apcu-4.0.11; fi
+  - if [[ $TRAVIS_PHP_VERSION == 7.* ]]; then printf "\n" | pecl install -f apcu-5.1.1 apcu_bc-1.0.4; fi
+  - phpenv config-add travis.ini
 
-install: composer install
+install:
+  - "[[ $COMPOSER_PREFER == 'lowest' ]] && composer update --prefer-lowest || composer update"
