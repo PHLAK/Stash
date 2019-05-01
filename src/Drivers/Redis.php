@@ -77,7 +77,7 @@ class Redis implements Cacheable
      */
     public function has($key)
     {
-        return $this->redis->exists($key);
+        return (bool) $this->redis->exists($key);
     }
 
     /**
