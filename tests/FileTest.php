@@ -2,10 +2,10 @@
 
 namespace PHLAK\Stash\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 use PHLAK\Stash\Exceptions\FileNotFoundException;
 use PHLAK\Stash\Tests\Traits\Cacheable;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 class FileTest extends TestCase
@@ -15,7 +15,7 @@ class FileTest extends TestCase
     protected $cachePath = __DIR__ . '/cache';
     protected $stash;
 
-    public function setUp()
+    public function setUp(): void
     {
         $cachePath = $this->cachePath;
 

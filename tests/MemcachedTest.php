@@ -2,9 +2,9 @@
 
 namespace PHLAK\Stash\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 use PHLAK\Stash\Tests\Traits\Cacheable;
+use PHPUnit\Framework\TestCase;
 
 class MemcachedTest extends TestCase
 {
@@ -12,7 +12,7 @@ class MemcachedTest extends TestCase
 
     protected $stash;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->stash = new Stash\Drivers\Memcached(function ($memcached) {
             $memcached->addServer('localhost', 11211);

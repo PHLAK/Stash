@@ -2,9 +2,9 @@
 
 namespace PHLAK\Stash\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
 use PHLAK\Stash\Tests\Traits\Cacheable;
+use PHPUnit\Framework\TestCase;
 
 class RedisTest extends TestCase
 {
@@ -12,7 +12,7 @@ class RedisTest extends TestCase
 
     protected $stash;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->stash = new Stash\Drivers\Redis(function ($redis) {
             $redis->pconnect('localhost', 6379);

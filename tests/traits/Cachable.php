@@ -4,7 +4,7 @@ namespace PHLAK\Stash\Tests\Traits;
 
 trait Cacheable
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->stash->flush();
     }
