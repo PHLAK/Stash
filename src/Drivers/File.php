@@ -2,12 +2,12 @@
 
 namespace PHLAK\Stash\Drivers;
 
-use PHLAK\Stash\Item;
-use PHLAK\Stash\Interfaces\Cacheable;
+use Closure;
 use PHLAK\Stash\Exceptions\FileNotFoundException;
+use PHLAK\Stash\Interfaces\Cacheable;
+use PHLAK\Stash\Item;
 use RuntimeException;
 use SplFileInfo;
-use Closure;
 
 class File implements Cacheable
 {
@@ -180,12 +180,18 @@ class File implements Cacheable
     /**
      * Removes an item from the cache.
      *
-     * @param string $key Unique item identifier
+     * @param string|array $key Unique item identifier
      *
      * @return bool True on success, otherwise false
      */
     public function forget($key)
     {
+        if (is_array($key)) {
+            return array_reduce($key, function ($carry, $key) {
+                return $carry && $this->forget($key);
+            }, true);
+        }
+
         return @unlink($this->filePath($key));
     }
 

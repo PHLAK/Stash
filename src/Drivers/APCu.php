@@ -2,8 +2,8 @@
 
 namespace PHLAK\Stash\Drivers;
 
-use PHLAK\Stash\Interfaces\Cacheable;
 use Closure;
+use PHLAK\Stash\Interfaces\Cacheable;
 
 class APCu implements Cacheable
 {
@@ -172,13 +172,13 @@ class APCu implements Cacheable
     /**
      * Removes an item from the cache.
      *
-     * @param string $key Unique item identifier
+     * @param string|array $key Unique item identifier
      *
      * @return bool True on success, otherwise false
      */
     public function forget($key)
     {
-        return apcu_delete($this->prefix($key));
+        return apcu_delete($this->prefix($key)) !== false;
     }
 
     /**

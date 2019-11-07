@@ -2,8 +2,8 @@
 
 namespace PHLAK\Stash\Drivers;
 
-use PHLAK\Stash\Interfaces\Cacheable;
 use Closure;
+use PHLAK\Stash\Interfaces\Cacheable;
 
 class Redis implements Cacheable
 {
@@ -194,7 +194,7 @@ class Redis implements Cacheable
      */
     public function forget($key)
     {
-        return $this->redis->delete($key) ? true : false;
+        return (bool) $this->redis->delete($key);
     }
 
     /**

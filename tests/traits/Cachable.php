@@ -198,6 +198,18 @@ trait Cacheable
         $this->assertFalse($this->stash->forget('nonexistant-item'));
     }
 
+    public function test_it_can_forget_an_array_of_items()
+    {
+        $this->stash->put('foo', 'foo', 5);
+        $this->stash->put('bar', 'bar', 5);
+        $this->stash->put('baz', 'baz', 5);
+
+        $this->assertTrue($this->stash->forget(['foo', 'bar']));
+        $this->assertFalse($this->stash->has('foo'));
+        $this->assertFalse($this->stash->has('bar'));
+        $this->assertTrue($this->stash->has('baz'));
+    }
+
     public function test_it_is_flushable()
     {
         $this->assertTrue($this->stash->flush());

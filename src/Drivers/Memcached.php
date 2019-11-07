@@ -2,8 +2,8 @@
 
 namespace PHLAK\Stash\Drivers;
 
-use PHLAK\Stash\Interfaces\Cacheable;
 use Closure;
+use PHLAK\Stash\Interfaces\Cacheable;
 
 class Memcached implements Cacheable
 {
@@ -166,12 +166,18 @@ class Memcached implements Cacheable
     /**
      * Removes an item from the cache.
      *
-     * @param string $key Unique item identifier
+     * @param string|array $key Unique item identifier
      *
      * @return bool True on success, otherwise false
      */
     public function forget($key)
     {
+        if (is_array($key)) {
+            return array_reduce($this->memcached->deleteMulti($key), function ($carry, $item) {
+                return $carry && $item;
+            }, true);
+        }
+
         return $this->memcached->delete($key);
     }
 
