@@ -182,7 +182,7 @@ class Redis implements Cacheable
             return $this->put($key, false);
         }
 
-        return $this->redis->setTimeout($key, $minutes * 60);
+        return $this->redis->expire($key, $minutes * 60);
     }
 
     /**
