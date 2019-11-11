@@ -194,7 +194,7 @@ class Redis implements Cacheable
      */
     public function forget($key)
     {
-        return (bool) $this->redis->delete($key);
+        return (bool) $this->redis->del($key);
     }
 
     /**
