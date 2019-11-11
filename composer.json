@@ -12,7 +12,7 @@
         "issues": "https://github.com/PHLAK/Stash/issues"
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "nesbot/carbon": "^1.21 || ^2.0"
     },
     "require-dev": {
