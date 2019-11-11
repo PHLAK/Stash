@@ -125,7 +125,7 @@ class APCu implements Cacheable
         // Check for key existence first as a temporary workaround
         // for this bug: https://github.com/krakjoe/apcu/issues/183
         if (apcu_exists($this->prefix($key))) {
-            return apcu_inc($this->prefix($key), $value, $result);
+            return apcu_inc($this->prefix($key), $value);
         }
 
         return false;
