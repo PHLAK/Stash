@@ -30,7 +30,7 @@ before_install:
   - phpenv config-rm xdebug.ini || true
   - travis_retry composer self-update
   - if [[ $TRAVIS_PHP_VERSION == 5.* ]]; then printf "\n" | pecl install -f apcu-4.0.11; fi
-  - if [[ $TRAVIS_PHP_VERSION == 7.* ]]; then printf "\n" | pecl install -f apcu-5.1.17 apcu_bc-1.0.4; fi
+  - if [[ $TRAVIS_PHP_VERSION == 7.* ]]; then printf "\n" | pecl install -f apcu-5.1.18 apcu_bc-1.0.5; fi
   - phpenv config-add travis.ini
 
 install:
