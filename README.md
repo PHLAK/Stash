@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-    Simple PHP caching library -- by, <a href="https://www.ChrisKankiewicz.com">Chris Kankiewicz</a> (<a href="https://twitter.com/PHLAK">@PHLAK</a>)
+    Lightweight PHP caching library -- by, <a href="https://www.ChrisKankiewicz.com">Chris Kankiewicz</a> (<a href="https://twitter.com/PHLAK">@PHLAK</a>)
 </p>
 
 --- 
@@ -26,16 +26,16 @@
 Introduction
 ------------
 
-Stash is a simple PHP caching library supporting multiple, interchangeable
+Stash is a lightweight PHP caching library supporting multiple, interchangeable
 caching back-ends and an expressive (Laravel inspired) API.
 
 Supported caching back-ends:
 
-  - File - File-based caching. Stores cache items as files in a directory on disk.
-  - Memcached - High-performance, distributed memory object caching system
-  - Redis - In-memory data structure store.
-  - APCu - PHP's native APC User Cache.
-  - Ephemeral - A transient, in-memory array that only exists for the lifetime of the script.
+  - **File** - File-based caching. Stores cache items as files in a directory on disk.
+  - **Memcached** - High-performance, distributed memory object caching system
+  - **Redis** - In-memory data structure store.
+  - **APCu** - PHP's native APC User Cache.
+  - **Ephemeral** - A transient, in-memory array that only exists for the lifetime of the script.
 
 Requirements
 ------------
@@ -106,8 +106,8 @@ $stash = Stash\Cache::file(function () {
 
 The Memcached configuration closure receives an instance of the Memcached object
 as it's only parameter, you can use this parameter to connect and configure
-Memcached. At a minimum you must connect to one or more Memcached server via the
-`addServer()` or `addServers()` methods.
+Memcached. At a minimum you must connect to one or more Memcached servers via
+the `addServer()` or `addServers()` methods.
 
 Reference the [PHP Memcached documentation](https://secure.php.net/manual/en/book.memcached.php)
 for additional configuration options.
@@ -123,7 +123,7 @@ $stash = Stash\Cache::memcached(function ($memcached) {
 
 The Redis configuration closure receives an instance of the Redis object as it's
 only parameter, you can use this parameter to connect to and configure Redis. At
-a minimum you must connect to one or more Redis server via the `connect()` or
+a minimum you must connect to one or more Redis servers via the `connect()` or
 `pconnect()` methods.
 
 
