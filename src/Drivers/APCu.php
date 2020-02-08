@@ -4,6 +4,7 @@ namespace PHLAK\Stash\Drivers;
 
 use Closure;
 use PHLAK\Stash\Interfaces\Cacheable;
+use RuntimeException;
 
 class APCu implements Cacheable
 {
@@ -19,6 +20,10 @@ class APCu implements Cacheable
     {
         if (is_callable($closure)) {
             $closure = $closure->bindTo($this, self::class);
+
+            if (! $closure) {
+                throw new RuntimeException('Failed to bind closure');
+            }
 
             $closure();
         }
@@ -178,7 +183,15 @@ class APCu implements Cacheable
      */
     public function forget($key)
     {
-        return apcu_delete($this->prefix($key)) !== false;
+        if (is_array($key)) {
+            $keys = array_map(function (string $key): string {
+                return $this->prefix($key);
+            }, $key);
+
+            return apcu_delete($keys) !== false;
+        }
+
+        return apcu_delete($key) !== false;
     }
 
     /**

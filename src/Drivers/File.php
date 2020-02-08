@@ -17,13 +17,17 @@ class File implements Cacheable
     /**
      * Create a File cache driver object.
      *
-     * @param \Closure|null $closure Anonymous configuration function
+     * @param \Closure $closure Anonymous configuration function
      *
      * @throws \RuntimeException
      */
     public function __construct(Closure $closure)
     {
         $closure = $closure->bindTo($this, self::class);
+
+        if (! $closure) {
+            throw new RuntimeException('Failed to bind closure');
+        }
 
         $closure();
 

@@ -131,7 +131,7 @@ class Redis implements Cacheable
         if (is_int($data)) {
             $ttl = $this->redis->ttl($key);
 
-            $this->put($key, $data += $value, $ttl == -1 ? null : $ttl);
+            $this->put($key, $data += $value, $ttl == -1 ? 0 : $ttl);
 
             return $data;
         }
@@ -154,7 +154,7 @@ class Redis implements Cacheable
         if (is_int($data)) {
             $ttl = $this->redis->ttl($key);
 
-            $this->put($key, $data -= $value, $ttl == -1 ? null : $ttl);
+            $this->put($key, $data -= $value, $ttl == -1 ? 0 : $ttl);
 
             return $data;
         }
@@ -165,8 +165,8 @@ class Redis implements Cacheable
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param string $key     Unique item identifier
-     * @param int    $minutes Time in minutes until item expires
+     * @param string|array $key     Unique item identifier
+     * @param int          $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */

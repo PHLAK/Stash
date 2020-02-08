@@ -13,7 +13,7 @@ class Cache
      * @param string  $driver Driver to initialize
      * @param Closure $config Driver-specific configuration closure
      *
-     * @throws \PHLAK\Stash\Exceptions\InvalidDriverException;
+     * @throws \PHLAK\Stash\Exceptions\InvalidDriverException
      *
      * @return \PHLAK\Stash\Interfaces\Cacheable A Cacheable object
      */
