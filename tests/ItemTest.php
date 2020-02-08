@@ -2,8 +2,8 @@
 
 namespace PHLAK\Stash\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHLAK\Stash;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 
 class ItemTest extends TestCase
