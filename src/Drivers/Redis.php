@@ -173,7 +173,7 @@ class Redis implements Cacheable
     public function touch($key, $minutes = 0)
     {
         if (is_array($key)) {
-            return array_walk($key, function ($key) use ($minutes) {
+            return array_walk($key, function (string $key) use ($minutes) {
                 $this->touch($key, $minutes);
             });
         }

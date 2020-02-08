@@ -151,7 +151,7 @@ class Memcached implements Cacheable
     public function touch($key, $minutes = 0)
     {
         if (is_array($key)) {
-            return array_walk($key, function ($key) use ($minutes) {
+            return array_walk($key, function (string $key) use ($minutes) {
                 $this->touch($key, $minutes);
             });
         }
@@ -173,7 +173,7 @@ class Memcached implements Cacheable
     public function forget($key)
     {
         if (is_array($key)) {
-            return array_reduce($this->memcached->deleteMulti($key), function ($carry, $item) {
+            return array_reduce($this->memcached->deleteMulti($key), function (bool $carry, string $item) {
                 return $carry && $item;
             }, true);
         }

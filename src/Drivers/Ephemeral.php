@@ -156,7 +156,7 @@ class Ephemeral implements Cacheable
     public function touch($key, $minutes = 0)
     {
         if (is_array($key)) {
-            return array_walk($key, function ($key) use ($minutes) {
+            return array_walk($key, function (string $key) use ($minutes) {
                 $this->touch($key, $minutes);
             });
         }
@@ -174,7 +174,7 @@ class Ephemeral implements Cacheable
     public function forget($key)
     {
         if (is_array($key)) {
-            return array_reduce($key, function ($carry, $key) {
+            return array_reduce($key, function (bool $carry, string $key) {
                 return $carry && $this->forget($key);
             }, true);
         }

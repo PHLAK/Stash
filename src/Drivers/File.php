@@ -31,7 +31,7 @@ class File implements Cacheable
 
         $closure();
 
-        if (empty($this->cacheDir)) {
+        if (! isset($this->cacheDir) || empty($this->cacheDir)) {
             throw new RuntimeException('No cache directory defined');
         }
     }
@@ -173,7 +173,7 @@ class File implements Cacheable
     public function touch($key, $minutes = 0)
     {
         if (is_array($key)) {
-            return array_walk($key, function ($key) use ($minutes) {
+            return array_walk($key, function (string $key) use ($minutes) {
                 $this->touch($key, $minutes);
             });
         }
@@ -191,7 +191,7 @@ class File implements Cacheable
     public function forget($key)
     {
         if (is_array($key)) {
-            return array_reduce($key, function ($carry, $key) {
+            return array_reduce($key, function (bool $carry, string $key) {
                 return $carry && $this->forget($key);
             }, true);
         }
@@ -268,6 +268,8 @@ class File implements Cacheable
      *
      * @throws \PHLAK\Stash\Exceptions\FileNotFoundException
      * @throws \RuntimeException
+     *
+     * @return void
      */
     protected function setCacheDir($path)
     {
