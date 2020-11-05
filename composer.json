@@ -30,7 +30,7 @@
         "friendsofphp/php-cs-fixer": "^1.0 || ^2.0",
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
         "psy/psysh": "^0.10.0",
-        "vimeo/psalm": "^3.8"
+        "vimeo/psalm": "^4.1"
     },
     "suggest": {
         "ext-apcu": "Required to use the APCu cache driver.",
