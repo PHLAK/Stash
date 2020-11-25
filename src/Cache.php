@@ -10,7 +10,7 @@ class Cache
     /**
      * Instantiate the desired cache driver object.
      *
-     * @param string  $driver Driver to initialize
+     * @param string $driver Driver to initialize
      * @param Closure $config Driver-specific configuration closure
      *
      * @throws \PHLAK\Stash\Exceptions\InvalidDriverException
@@ -80,8 +80,6 @@ class Cache
 
     /**
      * Instantiate the Ephemeral cache driver object.
-     *
-     * @param Closure $config A configuration closure
      *
      * @return \PHLAK\Stash\Drivers\Ephemeral An Ephemeral cache object
      */

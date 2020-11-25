@@ -9,9 +9,9 @@ interface Cacheable
     /**
      * Put an item into the cache for a specified duration.
      *
-     * @param string $key     Unique item identifier
-     * @param mixed  $data    Data to cache
-     * @param int    $minutes Time in minutes until item expires (default: 0)
+     * @param string $key Unique item identifier
+     * @param mixed $data Data to cache
+     * @param int $minutes Time in minutes until item expires (default: 0)
      *
      * @return bool True on success, otherwise false
      */
@@ -20,8 +20,8 @@ interface Cacheable
     /**
      * Put an item into the cache permanently.
      *
-     * @param string $key  Unique identifier
-     * @param mixed  $data Data to cache
+     * @param string $key Unique identifier
+     * @param mixed $data Data to cache
      *
      * @return bool True on success, otherwise false
      */
@@ -30,8 +30,8 @@ interface Cacheable
     /**
      * Get an item from the cache.
      *
-     * @param string $key     Unique item identifier
-     * @param mixed  $default Default data to return (default: false)
+     * @param string $key Unique item identifier
+     * @param mixed $default Default data to return (default: false)
      *
      * @return mixed Cached data or $default value
      */
@@ -51,8 +51,8 @@ interface Cacheable
      * provided closure and return and store the returned results for a
      * specified duration.
      *
-     * @param string  $key     Unique item identifier
-     * @param int     $minutes Time in minutes until item expires
+     * @param string $key Unique item identifier
+     * @param int $minutes Time in minutes until item expires
      * @param Closure $closure Anonymous closure function
      *
      * @return mixed Cached data or $closure results
@@ -63,7 +63,7 @@ interface Cacheable
      * Retrieve item from cache or, when item does not exist, execute the
      * provided closure and return and store the returned results permanently.
      *
-     * @param string  $key     Unique item identifier
+     * @param string $key Unique item identifier
      * @param Closure $closure Anonymous closure function
      *
      * @return mixed Cached data or $closure results
@@ -73,8 +73,8 @@ interface Cacheable
     /**
      * Increase the value of a stored integer.
      *
-     * @param string $key   Unique item identifier
-     * @param int    $value The amount by which to increment
+     * @param string $key Unique item identifier
+     * @param int $value The amount by which to increment
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -83,8 +83,8 @@ interface Cacheable
     /**
      * Decrease the value of a stored integer.
      *
-     * @param string $key   Unique item identifier
-     * @param int    $value The amount by which to decrement
+     * @param string $key Unique item identifier
+     * @param int $value The amount by which to decrement
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -93,8 +93,8 @@ interface Cacheable
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param array|string $key     Unique item identifier
-     * @param int          $minutes Time in minutes until item expires
+     * @param array|string $key Unique item identifier
+     * @param int $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */

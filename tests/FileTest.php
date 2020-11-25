@@ -28,7 +28,9 @@ class FileTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $stash = new Stash\Drivers\File(function () { /* ... */ });
+        $stash = new Stash\Drivers\File(function () {
+            // ...
+        });
     }
 
     public function test_it_throws_an_exception_when_initialized_with_a_non_existant_dir()

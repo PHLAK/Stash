@@ -15,8 +15,8 @@ class Item
     /**
      * Stash\Item constructor, runs on object creation.
      *
-     * @param mixed $data    Item data
-     * @param int   $minutes Time in minutes until item expires
+     * @param mixed $data Item data
+     * @param int $minutes Time in minutes until item expires
      */
     public function __construct($data, $minutes = 0)
     {

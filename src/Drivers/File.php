@@ -39,9 +39,9 @@ class File implements Cacheable
     /**
      * Put an item into the cache for a specified duration.
      *
-     * @param string $key     Unique item identifier
-     * @param mixed  $data    Data to cache
-     * @param int    $minutes Time in minutes until item expires
+     * @param string $key Unique item identifier
+     * @param mixed $data Data to cache
+     * @param int $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */
@@ -53,8 +53,8 @@ class File implements Cacheable
     /**
      * Put an item into the cache permanently.
      *
-     * @param string $key  Unique identifier
-     * @param mixed  $data Data to cache
+     * @param string $key Unique identifier
+     * @param mixed $data Data to cache
      *
      * @return bool True on success, otherwise false
      */
@@ -66,8 +66,8 @@ class File implements Cacheable
     /**
      * Get an item from the cache.
      *
-     * @param string $key     Unique item identifier
-     * @param mixed  $default Default data to return
+     * @param string $key Unique item identifier
+     * @param mixed $default Default data to return
      *
      * @return mixed Cached data or false
      */
@@ -101,9 +101,9 @@ class File implements Cacheable
      * provided closure and return and store the returned results for a
      * specified duration.
      *
-     * @param string $key     Unique item identifier
-     * @param int    $minutes Time in minutes until item expires
-     * @param mixed  $closure Anonymous closure function
+     * @param string $key Unique item identifier
+     * @param int $minutes Time in minutes until item expires
+     * @param mixed $closure Anonymous closure function
      *
      * @return mixed Cached data or $closure results
      */
@@ -122,8 +122,8 @@ class File implements Cacheable
      * Retrieve item from cache or, when item does not exist, execute the
      * provided closure and return and store the returned results permanently.
      *
-     * @param string $key     Unique item identifier
-     * @param mixed  $closure Anonymous closure function
+     * @param string $key Unique item identifier
+     * @param mixed $closure Anonymous closure function
      *
      * @return mixed Cached data or $closure results
      */
@@ -135,8 +135,8 @@ class File implements Cacheable
     /**
      * Increase the value of a stored integer.
      *
-     * @param string $key   Unique item identifier
-     * @param int    $value The amount by which to increment
+     * @param string $key Unique item identifier
+     * @param int $value The amount by which to increment
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -152,8 +152,8 @@ class File implements Cacheable
     /**
      * Decrease the value of a stored integer.
      *
-     * @param string $key   Unique item identifier
-     * @param int    $value The amount by which to decrement
+     * @param string $key Unique item identifier
+     * @param int $value The amount by which to decrement
      *
      * @return mixed Item's new value on success, otherwise false
      */
@@ -165,8 +165,8 @@ class File implements Cacheable
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param string|array $key     Unique item identifier
-     * @param int          $minutes Time in minutes until item expires
+     * @param string|array $key Unique item identifier
+     * @param int $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
      */
@@ -226,9 +226,9 @@ class File implements Cacheable
     /**
      * Put cache contents into a cache file.
      *
-     * @param string $key     Unique item identifier
-     * @param mixed  $data    Data to cache
-     * @param int    $minutes Time in minutes until item expires
+     * @param string $key Unique item identifier
+     * @param mixed $data Data to cache
+     * @param int $minutes Time in minutes until item expires
      *
      * @return mixed Cache file contents or false on failure
      */
@@ -268,8 +268,6 @@ class File implements Cacheable
      *
      * @throws \PHLAK\Stash\Exceptions\FileNotFoundException
      * @throws \RuntimeException
-     *
-     * @return void
      */
     protected function setCacheDir($path)
     {
