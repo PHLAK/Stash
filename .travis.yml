@@ -23,7 +23,7 @@ cache:
 
 services:
   - memcached
-  - redis-server
+  - redis
 
 before_install:
   - printf "\n" | pecl install -f apcu-5.1.18 apcu_bc-1.0.5
