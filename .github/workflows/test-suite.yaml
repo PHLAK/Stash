@@ -59,6 +59,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: apcu, memcached, redis
+          ini-values: apc.enable_cli=1
           coverage: xdebug
 
       - name: Get Composer Cache Directory
