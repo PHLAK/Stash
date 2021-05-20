@@ -5,8 +5,8 @@ namespace PHLAK\Stash\Tests;
 use PHLAK\Stash;
 use PHLAK\Stash\Exceptions\FileNotFoundException;
 use PHLAK\Stash\Tests\Traits\Cacheable;
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
 class FileTest extends TestCase
 {

@@ -4,7 +4,7 @@ namespace PHLAK\Stash\Tests;
 
 use PHLAK\Stash;
 use PHLAK\Stash\Tests\Traits\Cacheable;
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
 class RedisTest extends TestCase
 {

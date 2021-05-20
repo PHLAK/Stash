@@ -4,8 +4,8 @@ namespace PHLAK\Stash\Tests;
 
 use Memcached;
 use PHLAK\Stash;
-use PHPUnit\Framework\TestCase;
 use Redis;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
 class CacheTest extends TestCase
 {

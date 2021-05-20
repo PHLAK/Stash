@@ -3,8 +3,8 @@
 namespace PHLAK\Stash\Tests;
 
 use PHLAK\Stash;
-use PHPUnit\Framework\TestCase;
 use stdClass;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
 class ItemTest extends TestCase
 {
