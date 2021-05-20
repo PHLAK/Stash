@@ -14,7 +14,7 @@
     <a href="https://packagist.org/packages/PHLAK/Stash"><img src="https://img.shields.io/packagist/v/PHLAK/Stash.svg?style=flat-square" alt="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/PHLAK/Stash"><img src="https://img.shields.io/packagist/dt/PHLAK/Stash.svg?style=flat-square" alt="Total Downloads"></a>
     <a href="https://packagist.org/packages/PHLAK/Stash"><img src="https://img.shields.io/packagist/l/PHLAK/Stash.svg?style=flat-square" alt="License"></a>
-    <a href="https://travis-ci.org/PHLAK/Stash"><img src="https://img.shields.io/travis/PHLAK/Stash.svg?style=flat-square" alt="Build Status"></a>
+    <a href="https://github.com/PHLAK/Stash/actions"><img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/phlak/stash?style=flat-square"></a>
 </p>
 
 --- 
