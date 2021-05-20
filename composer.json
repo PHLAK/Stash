@@ -29,7 +29,6 @@
         "php": ">=7.2",
         "friendsofphp/php-cs-fixer": "^2.0",
         "phlak/coding-standards": "^1.2",
-        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
         "psy/psysh": "^0.10.0",
         "vimeo/psalm": "^4.2",
         "yoast/phpunit-polyfills": "^0.2.0"
