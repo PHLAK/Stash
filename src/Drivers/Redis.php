@@ -35,6 +35,10 @@ class Redis implements Cacheable
     {
         $expiration = $minutes == 0 ? null : $minutes * 60;
 
+        if ($minutes < 0) {
+            return true;
+        }
+
         return $this->redis->set($key, serialize($data), $expiration);
     }
 

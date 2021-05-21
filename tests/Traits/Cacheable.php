@@ -29,6 +29,13 @@ trait Cacheable
         $this->assertEquals(['Hope', 'Pink Panther', 'Tiffany'], $this->stash->get('diamonds'));
     }
 
+    public function test_it_returns_false_for_an_expired_item()
+    {
+        $this->stash->put('expired', 'qwerty', -5);
+
+        $this->assertFalse($this->stash->get('expired'));
+    }
+
     public function test_it_returns_false_for_nonexistant_items()
     {
         $this->assertFalse($this->stash->get('nonexistant-item'));

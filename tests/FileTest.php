@@ -51,13 +51,6 @@ class FileTest extends TestCase
         });
     }
 
-    public function test_it_returns_false_for_an_expired_item()
-    {
-        $this->stash->put('expired', 'qwerty', -5);
-
-        $this->assertFalse($this->stash->get('expired'));
-    }
-
     public function test_it_creates_a_cache_file_with_a_php_extension()
     {
         $this->stash->put('extension-test', 'asdf', 5);
