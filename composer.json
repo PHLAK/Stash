@@ -22,11 +22,10 @@
         "issues": "https://github.com/PHLAK/Stash/issues"
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.2",
         "nesbot/carbon": "^1.21 || ^2.0"
     },
     "require-dev": {
-        "php": ">=7.2",
         "friendsofphp/php-cs-fixer": "^2.0",
         "phlak/coding-standards": "^1.2",
         "psy/psysh": "^0.10.0",
