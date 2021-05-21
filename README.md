@@ -14,7 +14,7 @@
     <a href="https://packagist.org/packages/PHLAK/Stash"><img src="https://img.shields.io/packagist/v/PHLAK/Stash.svg?style=flat-square" alt="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/PHLAK/Stash"><img src="https://img.shields.io/packagist/dt/PHLAK/Stash.svg?style=flat-square" alt="Total Downloads"></a>
     <a href="https://packagist.org/packages/PHLAK/Stash"><img src="https://img.shields.io/packagist/l/PHLAK/Stash.svg?style=flat-square" alt="License"></a>
-    <a href="https://github.com/PHLAK/Stash/actions"><img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/phlak/stash?style=flat-square"></a>
+    <a href="https://github.com/PHLAK/Stash/actions"><img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/PHLAK/Stash/master?style=flat-square"></a>
 </p>
 
 --- 
@@ -36,7 +36,7 @@ Supported caching back-ends:
 Requirements
 ------------
 
-  - [PHP](https://php.net) >= 7.1
+  - [PHP](https://php.net) >= 7.2
 
 Install with Composer
 ---------------------
