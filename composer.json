@@ -30,7 +30,7 @@
         "phlak/coding-standards": "^1.2",
         "psy/psysh": "^0.10.0",
         "vimeo/psalm": "^4.2",
-        "yoast/phpunit-polyfills": "^0.2.0"
+        "yoast/phpunit-polyfills": "^1.0.2"
     },
     "suggest": {
         "ext-apcu": "Required to use the APCu cache driver.",
