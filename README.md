@@ -56,11 +56,13 @@ use PHLAK\Stash;
 
 Then instantiate Stash for your back-end of choice with the named constructor:
 
-    $stash = Stash\Cache::file($config);
-    $stash = Stash\Cache::memcached($config);
-    $stash = Stash\Cache::redis($config);
-    $stash = Stash\Cache::apcu($config);
-    $stash = Stash\Cache::ephemeral();
+```php
+$stash = Stash\Cache::file($config);
+$stash = Stash\Cache::memcached($config);
+$stash = Stash\Cache::redis($config);
+$stash = Stash\Cache::apcu($config);
+$stash = Stash\Cache::ephemeral();
+```
 
 The `$config` parameter accepts a driver-specific [closure](https://secure.php.net/manual/en/class.closure.php)
 for setting configuration options for your chosen driver. Refer to the specific
@@ -70,7 +72,9 @@ configuration function.
 Alternatively you may use the `Stash\Cache::make()` factory method to
 instantiate your driver.
 
-    $stash = Stash\Cache::make($driver, $config);
+```php
+$stash = Stash\Cache::make($driver, $config);
+```
 
 The `make()` method takes two parameters. The first (`$driver`) should be one of
 the following lowercase strings representing your desired caching driver.
