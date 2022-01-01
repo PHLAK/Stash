@@ -56,11 +56,11 @@ use PHLAK\Stash;
 
 Then instantiate Stash for your back-end of choice with the named constructor:
 
-    Stash\Cache::file($config);
-    Stash\Cache::memcached($config);
-    Stash\Cache::redis($config);
-    Stash\Cache::apcu($config);
-    Stash\Cache::ephemeral();
+    $stash = Stash\Cache::file($config);
+    $stash = Stash\Cache::memcached($config);
+    $stash = Stash\Cache::redis($config);
+    $stash = Stash\Cache::apcu($config);
+    $stash = Stash\Cache::ephemeral();
 
 The `$config` parameter accepts a driver-specific [closure](https://secure.php.net/manual/en/class.closure.php)
 for setting configuration options for your chosen driver. Refer to the specific
@@ -93,23 +93,24 @@ The file cache configuration closure must call `$this->setCacheDir($path)` where
 `$path` is a path to a valid directory in which your cache files will be stored.
 
 ```php
-$stash = Stash\Cache::file(function () {
+$stash = Stash\Cache::file(function (): void {
     $this->setCacheDir('path/to/cache');
 });
 ```
 
 #### Memcached
 
-The Memcached configuration closure receives an instance of the Memcached object
-as it's only parameter, you can use this parameter to connect and configure
-Memcached. At a minimum you must connect to one or more Memcached servers via
-the `addServer()` or `addServers()` methods.
+The Memcached configuration closure receives an instance of the
+[Memcached object](https://www.php.net/manual/en/class.memcached.php) as it's
+only parameter, you can use this parameter to connect and configure Memcached.
+At a minimum you must connect to one or more Memcached servers via the
+`addServer()` or `addServers()` methods.
 
 Reference the [PHP Memcached documentation](https://secure.php.net/manual/en/book.memcached.php)
 for additional configuration options.
 
 ```php
-$stash = Stash\Cache::memcached(function ($memcached) {
+$stash = Stash\Cache::memcached(function (Memcached $memcached): void {
     $memcached->addServer('localhost', 11211);
     // $memcached->setOption(Memcached::OPT_PREFIX_KEY, 'some_prefix');
 });
@@ -117,17 +118,17 @@ $stash = Stash\Cache::memcached(function ($memcached) {
 
 #### Redis
 
-The Redis configuration closure receives an instance of the Redis object as it's
-only parameter, you can use this parameter to connect to and configure Redis. At
-a minimum you must connect to one or more Redis servers via the `connect()` or
+The Redis configuration closure receives an instance of the
+[Redis object](https://github.com/phpredis/phpredis#class-redis) as it's only
+parameter, you can use this parameter to connect to and configure Redis. At a
+minimum you must connect to one or more Redis servers via the `connect()` or
 `pconnect()` methods.
-
 
 Reference the [phpredis documentation](https://github.com/phpredis/phpredis#readme)
 for additional configuration options.
 
 ```php
-$stash = Stash\Cache::redis(function ($redis) {
+$stash = Stash\Cache::redis(function (Redis $redis): void {
     $redis->pconnect('localhost', 6379);
     // $redis->setOption(Redis::OPT_PREFIX, 'some_prefix');
 });
@@ -146,7 +147,7 @@ wish to set a cache prefix you may pass a configuration closure that calls
 `$this->setPrefix($prefix)` where `$prefix` is a string of your desired prefix.
 
 ```php
-$stash = Stash\Cache::apcu(function () {
+$stash = Stash\Cache::apcu(function (): void {
     $this->setPrefix('some_prefix');
 });
 ```
