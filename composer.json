@@ -28,7 +28,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",
         "phlak/coding-standards": "^1.2",
-        "psy/psysh": "^0.10.0",
+        "psy/psysh": "^0.11.1",
         "vimeo/psalm": "^4.2",
         "yoast/phpunit-polyfills": "^0.2.0"
     },
