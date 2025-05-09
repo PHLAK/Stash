@@ -2,6 +2,7 @@
 
 namespace PHLAK\Stash\Tests;
 
+use Carbon\CarbonInterface;
 use PHLAK\Stash;
 use stdClass;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -52,7 +53,7 @@ class ItemTest extends TestCase
     {
         $item = new Stash\Item('Test data');
 
-        $this->assertInstanceOf('Carbon\Carbon', $item->expires);
+        $this->assertInstanceOf(CarbonInterface::class, $item->expires);
     }
 
     public function test_it_isnt_expired()

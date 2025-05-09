@@ -3,25 +3,25 @@
 namespace PHLAK\Stash;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 
 class Item
 {
-    /** @var mixed Item data */
-    protected $data;
-
-    /** @var \Carbon\Carbon Carbon instance representing the expiration time */
-    protected $expires;
+    /** @var Carbon instance representing the expiration time */
+    private CarbonInterface $expires;
 
     /**
      * Stash\Item constructor, runs on object creation.
      *
-     * @param mixed $data Item data
-     * @param int $minutes Time in minutes until item expires
+     * @param $data Item data
+     * @param $minutes Time in minutes until item expires
      */
-    public function __construct($data, $minutes = 0)
-    {
-        $this->data = $data;
-        $this->expires = $minutes == 0 ? Carbon::maxValue() : Carbon::now()->addMinutes($minutes);
+    public function __construct(
+        private mixed $data,
+        int $minutes = 0
+    ) {
+        $this->expires = $minutes === 0 ? new CarbonImmutable('9999-12-31 23:59:59') : CarbonImmutable::now()->addMinutes($minutes);
     }
 
     /**
@@ -43,7 +43,7 @@ class Item
      */
     public function expired()
     {
-        return Carbon::now()->gt($this->expires);
+        return CarbonImmutable::now()->isAfter($this->expires);
     }
 
     /**

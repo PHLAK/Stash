@@ -51,6 +51,7 @@ class Ephemeral implements Cacheable
     {
         if (array_key_exists($key, $this->cache)) {
             $item = $this->cache[$key];
+
             if ($item->notExpired()) {
                 return $item->data;
             }

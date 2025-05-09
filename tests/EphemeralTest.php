@@ -14,6 +14,6 @@ class EphemeralTest extends TestCase
 
     public function setUp(): void
     {
-        $this->stash = new Stash\Drivers\Ephemeral();
+        $this->stash = new Stash\Drivers\Ephemeral;
     }
 }

@@ -22,11 +22,12 @@
         "issues": "https://github.com/PHLAK/Stash/issues"
     },
     "require": {
-        "php": ">=7.2",
-        "nesbot/carbon": "^1.21 || ^2.0"
+        "php": ">=8.0",
+        "nesbot/carbon": "^3.0"
     },
     "require-dev": {
         "phlak/coding-standards": "^4.0",
+        "symfony/var-dumper": "^6.4",
         "yoast/phpunit-polyfills": "^1.0.3"
     },
     "suggest": {

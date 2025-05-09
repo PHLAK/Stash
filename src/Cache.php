@@ -85,6 +85,6 @@ class Cache
      */
     public static function ephemeral()
     {
-        return new Drivers\Ephemeral();
+        return new Drivers\Ephemeral;
     }
 }

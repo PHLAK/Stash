@@ -14,6 +14,6 @@ class APCuTest extends TestCase
 
     public function setUp(): void
     {
-        $this->stash = new Stash\Drivers\APCu();
+        $this->stash = new Stash\Drivers\APCu;
     }
 }
