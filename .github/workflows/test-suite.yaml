@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install PHP Dependencies
         run: composer update
@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install PHP Dependencies
         run: composer update
@@ -37,22 +37,20 @@ jobs:
     services:
       redis:
         image: redis:6.2
-        ports:
-          - 6379:6379
+        ports: [6379:6379]
         options: --health-cmd "redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       memcached:
         image: memcached:1.6
-        ports:
-          - 11211:11211
+        ports: [11211:11211]
 
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0']
+        php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4']
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

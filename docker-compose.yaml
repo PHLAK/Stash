@@ -1,14 +1,9 @@
-version: '3.4'
-
 services:
-  memcached-server:
-    container_name: memcached-server
-    image: memcached:1.6
-    ports:
-      - "11211:11211"
 
-  redis-server:
-    container_name: redis-server
-    image: redis:6.0
-    ports:
-      - "6379:6379"
+  memcached:
+    image: memcached
+    ports: [11211:11211]
+
+  redis:
+    image: redis
+    ports: [6379:6379]
