@@ -8,8 +8,8 @@ use PHLAK\Stash\Interfaces\Cacheable;
 
 class Memcached implements Cacheable
 {
-    /** @var \Memcached Instance of Memcached */
-    protected $memcached;
+    /** @var PhpMemcached Instance of Memcached */
+    private PhpMemcached $memcached;
 
     /**
      * Create a Memcached cache driver object.
@@ -23,15 +23,6 @@ class Memcached implements Cacheable
         $closure($this->memcached);
     }
 
-    /**
-     * Put an item into the cache for a specified duration.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $data Data to cache
-     * @param int $minutes Time in minutes until item expires
-     *
-     * @return bool True on success, otherwise false
-     */
     public function put(string $key, mixed $data, int $minutes = 0): bool
     {
         $expiration = $minutes == 0 ? 0 : time() + ($minutes * 60);
@@ -39,39 +30,16 @@ class Memcached implements Cacheable
         return $this->memcached->set($key, $data, $expiration);
     }
 
-    /**
-     * Put an item into the cache permanently.
-     *
-     * @param string $key Unique identifier
-     * @param mixed $data Data to cache
-     *
-     * @return bool True on success, otherwise false
-     */
     public function forever(string $key, mixed $data): bool
     {
         return $this->put($key, $data);
     }
 
-    /**
-     * Get an item from the cache.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $default Default data to return
-     *
-     * @return mixed Cached data or $default value
-     */
     public function get(string $key, mixed $default = false): mixed
     {
         return $this->memcached->get($key) ?: $default;
     }
 
-    /**
-     * Check if an item exists in the cache.
-     *
-     * @param string $key Unique item identifier
-     *
-     * @return bool True if item exists, otherwise false
-     */
     public function has(string $key): bool
     {
         $this->memcached->get($key);
@@ -79,17 +47,6 @@ class Memcached implements Cacheable
         return $this->memcached->getResultCode() == PhpMemcached::RES_SUCCESS;
     }
 
-    /**
-     * Retrieve item from cache or, when item does not exist, execute the
-     * provided closure and return and store the returned results for a
-     * specified duration.
-     *
-     * @param string $key Unique item identifier
-     * @param int $minutes Time in minutes until item expires
-     * @param mixed $closure Anonymous closure function
-     *
-     * @return mixed Cached data or $closure results
-     */
     public function remember(string $key, int $minutes, Closure $closure): mixed
     {
         if ($this->has($key)) {
@@ -101,54 +58,21 @@ class Memcached implements Cacheable
         return $this->put($key, $data, $minutes) ? $data : false;
     }
 
-    /**
-     * Retrieve item from cache or, when item does not exist, execute the
-     * provided closure and return and store the returned results permanently.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $closure Anonymous closure function
-     *
-     * @return mixed Cached data or $closure results
-     */
     public function rememberForever(string $key, Closure $closure): mixed
     {
         return $this->remember($key, 0, $closure);
     }
 
-    /**
-     * Increase the value of a stored integer.
-     *
-     * @param string $key Unique item identifier
-     * @param int $value The amount by which to increment
-     *
-     * @return mixed Item's new value on success, otherwise false
-     */
     public function increment(string $key, int $value = 1): mixed
     {
         return $this->memcached->increment($key, $value);
     }
 
-    /**
-     * Decrease the value of a stored integer.
-     *
-     * @param string $key Unique item identifier
-     * @param int $value The amount by which to decrement
-     *
-     * @return mixed Item's new value on success, otherwise false
-     */
     public function decrement(string $key, int $value = 1): mixed
     {
         return $this->memcached->decrement($key, $value);
     }
 
-    /**
-     * Set a new expiration time for an item in the cache.
-     *
-     * @param string|array $key Unique item identifier
-     * @param int $minutes Time in minutes until item expires
-     *
-     * @return bool True on success, otherwise false
-     */
     public function touch(array|string $key, int $minutes = 0): bool
     {
         if (is_array($key)) {
@@ -164,13 +88,6 @@ class Memcached implements Cacheable
         return $this->memcached->touch($key, $minutes);
     }
 
-    /**
-     * Removes an item from the cache.
-     *
-     * @param string|array $key Unique item identifier
-     *
-     * @return bool True on success, otherwise false
-     */
     public function forget(array|string $key): bool
     {
         if (is_array($key)) {
@@ -182,11 +99,6 @@ class Memcached implements Cacheable
         return $this->memcached->delete($key);
     }
 
-    /**
-     * Remove all items from the cache.
-     *
-     * @return bool True on success, otherwise false
-     */
     public function flush(): bool
     {
         return $this->memcached->flush();

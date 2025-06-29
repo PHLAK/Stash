@@ -3,14 +3,15 @@
 namespace PHLAK\Stash\Tests;
 
 use PHLAK\Stash;
-use PHLAK\Stash\Tests\Traits\Cacheable;
+use PHLAK\Stash\Interfaces\Cacheable;
+use PHLAK\Stash\Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
 class RedisTest extends TestCase
 {
-    use Cacheable;
+    use CacheableTrait;
 
-    protected $stash;
+    protected Cacheable $stash;
 
     public function setUp(): void
     {

@@ -93,7 +93,7 @@ interface Cacheable
     /**
      * Set a new expiration time for an item in the cache.
      *
-     * @param array|string $key Unique item identifier
+     * @param string|string[] $key Unique item identifier
      * @param int $minutes Time in minutes until item expires
      *
      * @return bool True on success, otherwise false
@@ -103,7 +103,7 @@ interface Cacheable
     /**
      * Permanently remove an item from the cache.
      *
-     * @param string $key Unique item identifier
+     * @param string|string[] $key Unique item identifier
      *
      * @return bool True on success, otherwise false
      */

@@ -12,7 +12,7 @@ use SplFileInfo;
 class File implements Cacheable
 {
     /** @var SplFileInfo The cache directory file path */
-    protected $cacheDir;
+    private SplFileInfo $cacheDir;
 
     /**
      * Create a File cache driver object.
@@ -36,41 +36,16 @@ class File implements Cacheable
         }
     }
 
-    /**
-     * Put an item into the cache for a specified duration.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $data Data to cache
-     * @param int $minutes Time in minutes until item expires
-     *
-     * @return bool True on success, otherwise false
-     */
     public function put(string $key, mixed $data, int $minutes = 0): bool
     {
         return $this->putCacheContents($key, $data, $minutes);
     }
 
-    /**
-     * Put an item into the cache permanently.
-     *
-     * @param string $key Unique identifier
-     * @param mixed $data Data to cache
-     *
-     * @return bool True on success, otherwise false
-     */
     public function forever(string $key, mixed $data): bool
     {
         return $this->put($key, $data);
     }
 
-    /**
-     * Get an item from the cache.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $default Default data to return
-     *
-     * @return mixed Cached data or false
-     */
     public function get(string $key, mixed $default = false): mixed
     {
         $item = $this->getCacheContents($key);
@@ -82,13 +57,6 @@ class File implements Cacheable
         return $default;
     }
 
-    /**
-     * Check if an item exists in the cache.
-     *
-     * @param string $key Unique item identifier
-     *
-     * @return bool True if item exists, otherwise false
-     */
     public function has(string $key): bool
     {
         $item = $this->getCacheContents($key);
@@ -96,17 +64,6 @@ class File implements Cacheable
         return $item && $item->notexpired();
     }
 
-    /**
-     * Retrieve item from cache or, when item does not exist, execute the
-     * provided closure and return and store the returned results for a
-     * specified duration.
-     *
-     * @param string $key Unique item identifier
-     * @param int $minutes Time in minutes until item expires
-     * @param mixed $closure Anonymous closure function
-     *
-     * @return mixed Cached data or $closure results
-     */
     public function remember(string $key, int $minutes, Closure $closure): mixed
     {
         if ($this->has($key)) {
@@ -118,28 +75,11 @@ class File implements Cacheable
         return $this->put($key, $data, $minutes) ? $data : false;
     }
 
-    /**
-     * Retrieve item from cache or, when item does not exist, execute the
-     * provided closure and return and store the returned results permanently.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $closure Anonymous closure function
-     *
-     * @return mixed Cached data or $closure results
-     */
     public function rememberForever(string $key, Closure $closure): mixed
     {
         return $this->remember($key, 0, $closure);
     }
 
-    /**
-     * Increase the value of a stored integer.
-     *
-     * @param string $key Unique item identifier
-     * @param int $value The amount by which to increment
-     *
-     * @return mixed Item's new value on success, otherwise false
-     */
     public function increment(string $key, int $value = 1): mixed
     {
         if (! $item = $this->getCacheContents($key)) {
@@ -149,27 +89,11 @@ class File implements Cacheable
         return $item->increment($value);
     }
 
-    /**
-     * Decrease the value of a stored integer.
-     *
-     * @param string $key Unique item identifier
-     * @param int $value The amount by which to decrement
-     *
-     * @return mixed Item's new value on success, otherwise false
-     */
     public function decrement(string $key, int $value = 1): mixed
     {
         return $this->increment($key, $value * -1);
     }
 
-    /**
-     * Set a new expiration time for an item in the cache.
-     *
-     * @param string|array $key Unique item identifier
-     * @param int $minutes Time in minutes until item expires
-     *
-     * @return bool True on success, otherwise false
-     */
     public function touch(array|string $key, int $minutes = 0): bool
     {
         if (is_array($key)) {
@@ -181,13 +105,6 @@ class File implements Cacheable
         return $this->put($key, $this->get($key), $minutes);
     }
 
-    /**
-     * Removes an item from the cache.
-     *
-     * @param string|array $key Unique item identifier
-     *
-     * @return bool True on success, otherwise false
-     */
     public function forget(array|string $key): bool
     {
         if (is_array($key)) {
@@ -199,11 +116,6 @@ class File implements Cacheable
         return @unlink($this->filePath($key));
     }
 
-    /**
-     * Remove all items from the cache.
-     *
-     * @return bool True on success, otherwise false
-     */
     public function flush(): bool
     {
         $unlinked = array_map('unlink', glob($this->cacheDir . DIRECTORY_SEPARATOR . '*.cache.php'));
@@ -211,28 +123,14 @@ class File implements Cacheable
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
 
-    /**
-     * Get an item's file path via it's key.
-     *
-     * @param string $key Unique item identifier
-     *
-     * @return string Path to cache item file
-     */
-    protected function filePath(string $key): string
+    /** Get an item's file path via it's key. */
+    private function filePath(string $key): string
     {
         return $this->cacheDir . DIRECTORY_SEPARATOR . sha1($key) . '.cache.php';
     }
 
-    /**
-     * Put cache contents into a cache file.
-     *
-     * @param string $key Unique item identifier
-     * @param mixed $data Data to cache
-     * @param int $minutes Time in minutes until item expires
-     *
-     * @return mixed Cache file contents or false on failure
-     */
-    protected function putCacheContents(string $key, mixed $data, int $minutes): bool
+    /** Put cache contents into a cache file. */
+    private function putCacheContents(string $key, mixed $data, int $minutes): bool
     {
         $destination = $this->filePath($key);
 
@@ -243,14 +141,8 @@ class File implements Cacheable
         ), LOCK_EX) ? true : false;
     }
 
-    /**
-     * Retrieve the contents of a cache file.
-     *
-     * @param string $key Unique item identifier
-     *
-     * @return mixed Cache file contents or false on failure
-     */
-    protected function getCacheContents(string $key): mixed
+    /** Retrieve the contents of a cache file. */
+    private function getCacheContents(string $key): mixed
     {
         $item = unserialize(@file_get_contents($this->filePath($key)));
 
@@ -261,15 +153,8 @@ class File implements Cacheable
         return $item;
     }
 
-    /**
-     * Set the file cache directory path.
-     *
-     * @param string $path Path to cache directory
-     *
-     * @throws FileNotFoundException
-     * @throws RuntimeException
-     */
-    protected function setCacheDir(string $path): void
+    /** Set the file cache directory path. */
+    private function setCacheDir(string $path): void
     {
         $cacheDir = new SplFileInfo($path);
 

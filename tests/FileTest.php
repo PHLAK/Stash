@@ -4,16 +4,17 @@ namespace PHLAK\Stash\Tests;
 
 use PHLAK\Stash;
 use PHLAK\Stash\Exceptions\FileNotFoundException;
-use PHLAK\Stash\Tests\Traits\Cacheable;
+use PHLAK\Stash\Interfaces\Cacheable;
+use PHLAK\Stash\Tests\Traits\Cacheable as CacheableTrait;
 use RuntimeException;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
 class FileTest extends TestCase
 {
-    use Cacheable;
+    use CacheableTrait;
 
-    protected $cachePath = __DIR__ . '/cache';
-    protected $stash;
+    protected string $cachePath = __DIR__ . '/cache';
+    protected Cacheable $stash;
 
     public function setUp(): void
     {
