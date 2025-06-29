@@ -117,7 +117,7 @@ class APCu implements Cacheable
     }
 
     /** Set the cache prefix. */
-    private function setPrefix(string $prefix): void
+    public function setPrefix(string $prefix): void
     {
         $this->prefix = $prefix;
     }

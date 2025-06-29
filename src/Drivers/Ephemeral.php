@@ -8,8 +8,8 @@ use PHLAK\Stash\Item;
 
 class Ephemeral implements Cacheable
 {
-    /** @var array Array of cached items */
-    private mixed $cache = [];
+    /** @var array<string, Item> Array of cached items */
+    private array $cache = [];
 
     public function put(string $key, mixed $data, int $minutes = 0): bool
     {
@@ -26,6 +26,7 @@ class Ephemeral implements Cacheable
     public function get(string $key, mixed $default = false): mixed
     {
         if (array_key_exists($key, $this->cache)) {
+            /** @var Item $item */
             $item = $this->cache[$key];
 
             if ($item->notExpired()) {

@@ -31,7 +31,7 @@ class File implements Cacheable
 
         $closure();
 
-        if (! isset($this->cacheDir) || empty($this->cacheDir)) {
+        if (! isset($this->cacheDir)) {
             throw new RuntimeException('No cache directory defined');
         }
     }
@@ -123,6 +123,22 @@ class File implements Cacheable
         return count(array_keys($unlinked, true)) == count($unlinked);
     }
 
+    /** Set the file cache directory path. */
+    public function setCacheDir(string $path): void
+    {
+        $cacheDir = new SplFileInfo($path);
+
+        if (! $cacheDir->isDir()) {
+            throw new FileNotFoundException("{$cacheDir} is not a directory or doesn't exists");
+        }
+
+        if (! $cacheDir->isWritable()) {
+            throw new RuntimeException("{$cacheDir} is not writeable");
+        }
+
+        $this->cacheDir = $cacheDir;
+    }
+
     /** Get an item's file path via it's key. */
     private function filePath(string $key): string
     {
@@ -151,21 +167,5 @@ class File implements Cacheable
         }
 
         return $item;
-    }
-
-    /** Set the file cache directory path. */
-    private function setCacheDir(string $path): void
-    {
-        $cacheDir = new SplFileInfo($path);
-
-        if (! $cacheDir->isDir()) {
-            throw new FileNotFoundException("{$cacheDir} is not a directory or doesn't exists");
-        }
-
-        if (! $cacheDir->isWritable()) {
-            throw new RuntimeException("{$cacheDir} is not writeable");
-        }
-
-        $this->cacheDir = $cacheDir;
     }
 }

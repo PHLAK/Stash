@@ -2,14 +2,12 @@
 
 namespace PHLAK\Stash;
 
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Carbon\CarbonInterface;
 
 class Item
 {
-    /** @var Carbon instance representing the expiration time */
-    private CarbonInterface $expires;
+    /** @var CarbonImmutable instance representing the expiration time */
+    public CarbonImmutable $expires;
 
     /**
      * Stash\Item constructor, runs on object creation.
@@ -18,22 +16,10 @@ class Item
      * @param $minutes Time in minutes until item expires
      */
     public function __construct(
-        private mixed $data,
-        int $minutes = 0
+        public mixed $data,
+        public int $minutes = 0
     ) {
         $this->expires = $minutes === 0 ? new CarbonImmutable('9999-12-31 23:59:59') : CarbonImmutable::now()->addMinutes($minutes);
-    }
-
-    /**
-     * Magic getter method, allows retrieving of class property values.
-     *
-     * @param string $property Property name
-     *
-     * @return mixed Property value
-     */
-    public function __get($property): mixed
-    {
-        return $this->$property;
     }
 
     /**
