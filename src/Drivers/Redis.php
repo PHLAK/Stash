@@ -4,6 +4,7 @@ namespace PHLAK\Stash\Drivers;
 
 use Closure;
 use PHLAK\Stash\Interfaces\Cacheable;
+use Redis as PhpRedis;
 
 class Redis implements Cacheable
 {
@@ -13,11 +14,11 @@ class Redis implements Cacheable
     /**
      * Create a Redis cache driver object.
      *
-     * @param \Closure $closure Anonymous configuration function
+     * @param Closure $closure Anonymous configuration function
      */
     public function __construct(Closure $closure)
     {
-        $this->redis = new \Redis;
+        $this->redis = new PhpRedis;
 
         $closure($this->redis);
     }
@@ -31,7 +32,7 @@ class Redis implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function put($key, $data, $minutes = 0)
+    public function put(string $key, mixed $data, int $minutes = 0): bool
     {
         $expiration = $minutes == 0 ? null : $minutes * 60;
 
@@ -50,7 +51,7 @@ class Redis implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forever($key, $data)
+    public function forever(string $key, mixed $data): bool
     {
         return $this->put($key, $data);
     }
@@ -63,7 +64,7 @@ class Redis implements Cacheable
      *
      * @return mixed Cached data or $default value
      */
-    public function get($key, $default = false)
+    public function get(string $key, mixed $default = false): mixed
     {
         if ($data = $this->redis->get($key)) {
             return unserialize($data);
@@ -79,7 +80,7 @@ class Redis implements Cacheable
      *
      * @return bool True if item exists, otherwise false
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return (bool) $this->redis->exists($key);
     }
@@ -95,7 +96,7 @@ class Redis implements Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure)
+    public function remember(string $key, int $minutes, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -115,7 +116,7 @@ class Redis implements Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure)
+    public function rememberForever(string $key, Closure $closure): mixed
     {
         return $this->remember($key, 0, $closure);
     }
@@ -128,7 +129,7 @@ class Redis implements Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, int $value = 1): mixed
     {
         $data = $this->get($key);
 
@@ -151,7 +152,7 @@ class Redis implements Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, int $value = 1): mixed
     {
         $data = $this->get($key);
 
@@ -174,7 +175,7 @@ class Redis implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function touch($key, $minutes = 0)
+    public function touch(array|string $key, int $minutes = 0): bool
     {
         if (is_array($key)) {
             return array_walk($key, function (string $key) use ($minutes) {
@@ -196,7 +197,7 @@ class Redis implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forget($key)
+    public function forget(array|string $key): bool
     {
         return (bool) $this->redis->del($key);
     }
@@ -206,7 +207,7 @@ class Redis implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function flush()
+    public function flush(): bool
     {
         return $this->redis->flushDb();
     }

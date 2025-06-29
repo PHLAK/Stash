@@ -31,7 +31,7 @@ class Item
      *
      * @return mixed Property value
      */
-    public function __get($property)
+    public function __get($property): mixed
     {
         return $this->$property;
     }
@@ -41,7 +41,7 @@ class Item
      *
      * @return bool True if expired, otherwise false
      */
-    public function expired()
+    public function expired(): bool
     {
         return CarbonImmutable::now()->isAfter($this->expires);
     }
@@ -51,7 +51,7 @@ class Item
      *
      * @return bool True if not expired, otherwise false
      */
-    public function notExpired()
+    public function notExpired(): bool
     {
         return ! $this->expired();
     }
@@ -63,7 +63,7 @@ class Item
      *
      * @return mixed The new value on success, otherwise false
      */
-    public function increment($value = 1)
+    public function increment($value = 1): mixed
     {
         if ($this->notExpired() && is_int($this->data)) {
             $this->data += $value;
@@ -81,7 +81,7 @@ class Item
      *
      * @return mixed The new value on success, otherwise false
      */
-    public function decrement($value = 1)
+    public function decrement($value = 1): mixed
     {
         return $this->increment($value * -1);
     }

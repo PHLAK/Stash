@@ -3,6 +3,7 @@
 namespace PHLAK\Stash\Drivers;
 
 use Closure;
+use Memcached as PhpMemcached;
 use PHLAK\Stash\Interfaces\Cacheable;
 
 class Memcached implements Cacheable
@@ -13,11 +14,11 @@ class Memcached implements Cacheable
     /**
      * Create a Memcached cache driver object.
      *
-     * @param \Closure $closure Anonymous configuration function
+     * @param Closure $closure Anonymous configuration function
      */
     public function __construct(Closure $closure)
     {
-        $this->memcached = new \Memcached;
+        $this->memcached = new PhpMemcached;
 
         $closure($this->memcached);
     }
@@ -31,7 +32,7 @@ class Memcached implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function put($key, $data, $minutes = 0)
+    public function put(string $key, mixed $data, int $minutes = 0): bool
     {
         $expiration = $minutes == 0 ? 0 : time() + ($minutes * 60);
 
@@ -46,7 +47,7 @@ class Memcached implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forever($key, $data)
+    public function forever(string $key, mixed $data): bool
     {
         return $this->put($key, $data);
     }
@@ -59,7 +60,7 @@ class Memcached implements Cacheable
      *
      * @return mixed Cached data or $default value
      */
-    public function get($key, $default = false)
+    public function get(string $key, mixed $default = false): mixed
     {
         return $this->memcached->get($key) ?: $default;
     }
@@ -71,11 +72,11 @@ class Memcached implements Cacheable
      *
      * @return bool True if item exists, otherwise false
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         $this->memcached->get($key);
 
-        return $this->memcached->getResultCode() == \Memcached::RES_SUCCESS;
+        return $this->memcached->getResultCode() == PhpMemcached::RES_SUCCESS;
     }
 
     /**
@@ -89,7 +90,7 @@ class Memcached implements Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure)
+    public function remember(string $key, int $minutes, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -109,7 +110,7 @@ class Memcached implements Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure)
+    public function rememberForever(string $key, Closure $closure): mixed
     {
         return $this->remember($key, 0, $closure);
     }
@@ -122,7 +123,7 @@ class Memcached implements Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, int $value = 1): mixed
     {
         return $this->memcached->increment($key, $value);
     }
@@ -135,7 +136,7 @@ class Memcached implements Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, int $value = 1): mixed
     {
         return $this->memcached->decrement($key, $value);
     }
@@ -148,7 +149,7 @@ class Memcached implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function touch($key, $minutes = 0)
+    public function touch(array|string $key, int $minutes = 0): bool
     {
         if (is_array($key)) {
             return array_walk($key, function (string $key) use ($minutes) {
@@ -170,7 +171,7 @@ class Memcached implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forget($key)
+    public function forget(array|string $key): bool
     {
         if (is_array($key)) {
             return array_reduce($this->memcached->deleteMulti($key), function (bool $carry, string $item) {
@@ -186,7 +187,7 @@ class Memcached implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function flush()
+    public function flush(): bool
     {
         return $this->memcached->flush();
     }

@@ -24,7 +24,7 @@ class FileTest extends TestCase
         });
     }
 
-    public function test_it_throws_an_exception_if_initialized_without_a_dir()
+    public function test_it_throws_an_exception_if_initialized_without_a_dir(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -33,7 +33,7 @@ class FileTest extends TestCase
         });
     }
 
-    public function test_it_throws_an_exception_when_initialized_with_a_non_existant_dir()
+    public function test_it_throws_an_exception_when_initialized_with_a_non_existant_dir(): void
     {
         $this->expectException(FileNotFoundException::class);
 
@@ -42,7 +42,7 @@ class FileTest extends TestCase
         });
     }
 
-    public function test_it_throws_an_exception_when_initialized_with_a_non_writable_dir()
+    public function test_it_throws_an_exception_when_initialized_with_a_non_writable_dir(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -51,7 +51,7 @@ class FileTest extends TestCase
         });
     }
 
-    public function test_it_creates_a_cache_file_with_a_php_extension()
+    public function test_it_creates_a_cache_file_with_a_php_extension(): void
     {
         $this->stash->put('extension-test', 'asdf', 5);
 

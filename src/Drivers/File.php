@@ -17,9 +17,9 @@ class File implements Cacheable
     /**
      * Create a File cache driver object.
      *
-     * @param \Closure $closure Anonymous configuration function
+     * @param Closure $closure Anonymous configuration function
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(Closure $closure)
     {
@@ -45,7 +45,7 @@ class File implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function put($key, $data, $minutes = 0)
+    public function put(string $key, mixed $data, int $minutes = 0): bool
     {
         return $this->putCacheContents($key, $data, $minutes);
     }
@@ -58,7 +58,7 @@ class File implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forever($key, $data)
+    public function forever(string $key, mixed $data): bool
     {
         return $this->put($key, $data);
     }
@@ -71,7 +71,7 @@ class File implements Cacheable
      *
      * @return mixed Cached data or false
      */
-    public function get($key, $default = false)
+    public function get(string $key, mixed $default = false): mixed
     {
         $item = $this->getCacheContents($key);
 
@@ -89,7 +89,7 @@ class File implements Cacheable
      *
      * @return bool True if item exists, otherwise false
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         $item = $this->getCacheContents($key);
 
@@ -107,7 +107,7 @@ class File implements Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function remember($key, $minutes, \Closure $closure)
+    public function remember(string $key, int $minutes, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -127,7 +127,7 @@ class File implements Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function rememberForever($key, \Closure $closure)
+    public function rememberForever(string $key, Closure $closure): mixed
     {
         return $this->remember($key, 0, $closure);
     }
@@ -140,7 +140,7 @@ class File implements Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1)
+    public function increment(string $key, int $value = 1): mixed
     {
         if (! $item = $this->getCacheContents($key)) {
             return false;
@@ -157,7 +157,7 @@ class File implements Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1)
+    public function decrement(string $key, int $value = 1): mixed
     {
         return $this->increment($key, $value * -1);
     }
@@ -170,7 +170,7 @@ class File implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function touch($key, $minutes = 0)
+    public function touch(array|string $key, int $minutes = 0): bool
     {
         if (is_array($key)) {
             return array_walk($key, function (string $key) use ($minutes) {
@@ -188,7 +188,7 @@ class File implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forget($key)
+    public function forget(array|string $key): bool
     {
         if (is_array($key)) {
             return array_reduce($key, function (bool $carry, string $key) {
@@ -204,7 +204,7 @@ class File implements Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function flush()
+    public function flush(): bool
     {
         $unlinked = array_map('unlink', glob($this->cacheDir . DIRECTORY_SEPARATOR . '*.cache.php'));
 
@@ -218,7 +218,7 @@ class File implements Cacheable
      *
      * @return string Path to cache item file
      */
-    protected function filePath($key)
+    protected function filePath(string $key): string
     {
         return $this->cacheDir . DIRECTORY_SEPARATOR . sha1($key) . '.cache.php';
     }
@@ -232,7 +232,7 @@ class File implements Cacheable
      *
      * @return mixed Cache file contents or false on failure
      */
-    protected function putCacheContents($key, $data, $minutes)
+    protected function putCacheContents(string $key, mixed $data, int $minutes): bool
     {
         $destination = $this->filePath($key);
 
@@ -250,7 +250,7 @@ class File implements Cacheable
      *
      * @return mixed Cache file contents or false on failure
      */
-    protected function getCacheContents($key)
+    protected function getCacheContents(string $key): mixed
     {
         $item = unserialize(@file_get_contents($this->filePath($key)));
 
@@ -266,10 +266,10 @@ class File implements Cacheable
      *
      * @param string $path Path to cache directory
      *
-     * @throws \PHLAK\Stash\Exceptions\FileNotFoundException
-     * @throws \RuntimeException
+     * @throws FileNotFoundException
+     * @throws RuntimeException
      */
-    protected function setCacheDir($path)
+    protected function setCacheDir(string $path): void
     {
         $cacheDir = new SplFileInfo($path);
 

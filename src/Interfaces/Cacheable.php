@@ -15,7 +15,7 @@ interface Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function put($key, $data, $minutes = 0);
+    public function put(string $key, mixed $data, int $minutes = 0): bool;
 
     /**
      * Put an item into the cache permanently.
@@ -25,7 +25,7 @@ interface Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forever($key, $data);
+    public function forever(string $key, mixed $data): bool;
 
     /**
      * Get an item from the cache.
@@ -35,7 +35,7 @@ interface Cacheable
      *
      * @return mixed Cached data or $default value
      */
-    public function get($key, $default = false);
+    public function get(string $key, mixed $default = false): mixed;
 
     /**
      * Check if an item exists in the cache.
@@ -44,7 +44,7 @@ interface Cacheable
      *
      * @return bool True if item exists, otherwise false
      */
-    public function has($key);
+    public function has(string $key): bool;
 
     /**
      * Retrieve item from cache or, when item does not exist, execute the
@@ -57,7 +57,7 @@ interface Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function remember($key, $minutes, Closure $closure);
+    public function remember(string $key, int $minutes, Closure $closure): mixed;
 
     /**
      * Retrieve item from cache or, when item does not exist, execute the
@@ -68,7 +68,7 @@ interface Cacheable
      *
      * @return mixed Cached data or $closure results
      */
-    public function rememberForever($key, Closure $closure);
+    public function rememberForever(string $key, Closure $closure): mixed;
 
     /**
      * Increase the value of a stored integer.
@@ -78,7 +78,7 @@ interface Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function increment($key, $value = 1);
+    public function increment(string $key, int $value = 1): mixed;
 
     /**
      * Decrease the value of a stored integer.
@@ -88,7 +88,7 @@ interface Cacheable
      *
      * @return mixed Item's new value on success, otherwise false
      */
-    public function decrement($key, $value = 1);
+    public function decrement(string $key, int $value = 1): mixed;
 
     /**
      * Set a new expiration time for an item in the cache.
@@ -98,7 +98,7 @@ interface Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function touch($key, $minutes = 0);
+    public function touch(array|string $key, int $minutes = 0): bool;
 
     /**
      * Permanently remove an item from the cache.
@@ -107,12 +107,12 @@ interface Cacheable
      *
      * @return bool True on success, otherwise false
      */
-    public function forget($key);
+    public function forget(array|string $key): bool;
 
     /**
      * Remove all items from the cache.
      *
      * @return bool True on success, otherwise false
      */
-    public function flush();
+    public function flush(): bool;
 }

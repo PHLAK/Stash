@@ -3,7 +3,13 @@
 namespace PHLAK\Stash;
 
 use Closure;
+use PHLAK\Stash\Drivers\APCu;
+use PHLAK\Stash\Drivers\Ephemeral;
+use PHLAK\Stash\Drivers\File;
+use PHLAK\Stash\Drivers\Memcached;
+use PHLAK\Stash\Drivers\Redis;
 use PHLAK\Stash\Exceptions\InvalidDriverException;
+use PHLAK\Stash\Interfaces\Cacheable;
 
 class Cache
 {
@@ -15,9 +21,9 @@ class Cache
      *
      * @throws \PHLAK\Stash\Exceptions\InvalidDriverException
      *
-     * @return \PHLAK\Stash\Interfaces\Cacheable A Cacheable object
+     * @return Cacheable A Cacheable object
      */
-    public static function make($driver, Closure $config = null)
+    public static function make($driver, ?Closure $config = null): Cacheable
     {
         trigger_error('The Stash::make() method has been deprecated and will be'
             . ' removed in a future version. Use a specific named-constructor'
@@ -35,9 +41,9 @@ class Cache
      *
      * @param Closure|null $config A configuration closure
      *
-     * @return \PHLAK\Stash\Drivers\APCu An APCu cache object
+     * @return APCu An APCu cache object
      */
-    public static function apcu(Closure $config = null)
+    public static function apcu(?Closure $config = null): APCu
     {
         return new Drivers\APCu($config);
     }
@@ -47,9 +53,9 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return \PHLAK\Stash\Drivers\File A File cache object
+     * @return File A File cache object
      */
-    public static function file(Closure $config)
+    public static function file(Closure $config): File
     {
         return new Drivers\File($config);
     }
@@ -59,9 +65,9 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return \PHLAK\Stash\Drivers\Memcached A Memcached cache object
+     * @return Memcached A Memcached cache object
      */
-    public static function memcached(Closure $config)
+    public static function memcached(Closure $config): Memcached
     {
         return new Drivers\Memcached($config);
     }
@@ -71,9 +77,9 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
-     * @return \PHLAK\Stash\Drivers\Redis A Redis cache object
+     * @return Redis A Redis cache object
      */
-    public static function redis(Closure $config)
+    public static function redis(Closure $config): Redis
     {
         return new Drivers\Redis($config);
     }
@@ -81,9 +87,9 @@ class Cache
     /**
      * Instantiate the Ephemeral cache driver object.
      *
-     * @return \PHLAK\Stash\Drivers\Ephemeral An Ephemeral cache object
+     * @return Ephemeral An Ephemeral cache object
      */
-    public static function ephemeral()
+    public static function ephemeral(): Ephemeral
     {
         return new Drivers\Ephemeral;
     }
