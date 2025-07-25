@@ -166,13 +166,7 @@ class File implements Cacheable
     /** Retrieve the contents of a cache file. */
     private function getCacheContents(string $key): mixed
     {
-        $contents = file_get_contents($this->filePath($key));
-
-        if ($contents === false) {
-            throw new RuntimeException('An unexpected error occured');
-        }
-
-        $item = unserialize($contents);
+        $item = unserialize(@file_get_contents($this->filePath($key)));
 
         if (! $item || $item->expired()) {
             return false;
