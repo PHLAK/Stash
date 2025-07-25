@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Strict comparison using \!\=\= between list\<string\> and false will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/Drivers/APCu.php
+
+		-
+			message: '#^Parameter \#3 \$options of method Redis\:\:set\(\) expects int, int\<min, \-60\>\|int\<60, max\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Drivers/Redis.php
