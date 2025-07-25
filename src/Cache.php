@@ -8,8 +8,6 @@ use PHLAK\Stash\Drivers\Ephemeral;
 use PHLAK\Stash\Drivers\File;
 use PHLAK\Stash\Drivers\Memcached;
 use PHLAK\Stash\Drivers\Redis;
-use PHLAK\Stash\Exceptions\InvalidDriverException;
-use PHLAK\Stash\Interfaces\Cacheable;
 
 class Cache
 {
