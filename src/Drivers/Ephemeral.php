@@ -94,9 +94,7 @@ class Ephemeral implements Cacheable
     public function forget(array|string $key): bool
     {
         if (is_array($key)) {
-            return array_reduce($key, function (bool $carry, string $key) {
-                return $carry && $this->forget($key);
-            }, true);
+            return array_reduce($key, fn (bool $carry, string $key): bool => $carry && $this->forget($key), true);
         }
 
         if (array_key_exists($key, $this->cache)) {

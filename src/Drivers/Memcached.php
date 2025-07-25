@@ -15,6 +15,8 @@ class Memcached implements Cacheable
      * Create a Memcached cache driver object.
      *
      * @param Closure $closure Anonymous configuration function
+     *
+     * @param-closure-this PhpMemcached $closure
      */
     public function __construct(Closure $closure)
     {
@@ -44,7 +46,7 @@ class Memcached implements Cacheable
     {
         $this->memcached->get($key);
 
-        return $this->memcached->getResultCode() == PhpMemcached::RES_SUCCESS;
+        return $this->memcached->getResultCode() === PhpMemcached::RES_SUCCESS;
     }
 
     public function remember(string $key, int $ttl, Closure $closure): mixed
@@ -91,9 +93,7 @@ class Memcached implements Cacheable
     public function forget(array|string $key): bool
     {
         if (is_array($key)) {
-            return array_reduce($this->memcached->deleteMulti($key), function (bool $carry, string $item) {
-                return $carry && $item;
-            }, true);
+            return array_reduce($this->memcached->deleteMulti($key), fn (bool $carry, string $item): bool => $carry && $item, true);
         }
 
         return $this->memcached->delete($key);

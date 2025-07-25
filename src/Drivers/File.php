@@ -19,6 +19,8 @@ class File implements Cacheable
      *
      * @param Closure $closure Anonymous configuration function
      *
+     * @param-closure-this self $closure
+     *
      * @throws RuntimeException
      */
     public function __construct(Closure $closure)
@@ -108,9 +110,7 @@ class File implements Cacheable
     public function forget(array|string $key): bool
     {
         if (is_array($key)) {
-            return array_reduce($key, function (bool $carry, string $key) {
-                return $carry && $this->forget($key);
-            }, true);
+            return array_reduce($key, fn (bool $carry, string $key): bool => $carry && $this->forget($key), true);
         }
 
         return @unlink($this->filePath($key));
@@ -118,9 +118,15 @@ class File implements Cacheable
 
     public function flush(): bool
     {
-        $unlinked = array_map('unlink', glob($this->cacheDir . DIRECTORY_SEPARATOR . '*.cache.php'));
+        $cacheFiles = glob($this->cacheDir . DIRECTORY_SEPARATOR . '*.cache.php');
 
-        return count(array_keys($unlinked, true)) == count($unlinked);
+        if ($cacheFiles === false) {
+            throw new RuntimeException('An unexpected error occured');
+        }
+
+        $unlinked = array_map('unlink', $cacheFiles);
+
+        return count(array_keys($unlinked, true)) === count($unlinked);
     }
 
     /** Set the file cache directory path. */
@@ -160,7 +166,13 @@ class File implements Cacheable
     /** Retrieve the contents of a cache file. */
     private function getCacheContents(string $key): mixed
     {
-        $item = unserialize(@file_get_contents($this->filePath($key)));
+        $contents = file_get_contents($this->filePath($key));
+
+        if ($contents === false) {
+            throw new RuntimeException('An unexpected error occured');
+        }
+
+        $item = unserialize($contents);
 
         if (! $item || $item->expired()) {
             return false;

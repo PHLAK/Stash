@@ -16,6 +16,8 @@ class Cache
      *
      * @param Closure|null $config A configuration closure
      *
+     * @param-closure-this APCu $config
+     *
      * @return APCu An APCu cache object
      */
     public static function apcu(?Closure $config = null): APCu
@@ -27,6 +29,8 @@ class Cache
      * Instantiate the File cache driver object.
      *
      * @param Closure $config A configuration closure
+     *
+     * @param-closure-this File $config
      *
      * @return File A File cache object
      */
@@ -40,6 +44,8 @@ class Cache
      *
      * @param Closure $config A configuration closure
      *
+     * @param-closure-this Memcached $config
+     *
      * @return Memcached A Memcached cache object
      */
     public static function memcached(Closure $config): Memcached
@@ -51,6 +57,8 @@ class Cache
      * Instantiate the Redis cache driver object.
      *
      * @param Closure $config A configuration closure
+     *
+     * @param-closure-this Redis $config
      *
      * @return Redis A Redis cache object
      */

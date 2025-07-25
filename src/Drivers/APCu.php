@@ -15,6 +15,8 @@ class APCu implements Cacheable
      * Create an APCu cache driver object.
      *
      * @param Closure|null $closure Anonymous configuration function
+     *
+     * @param-closure-this self $closure
      */
     public function __construct(?Closure $closure = null)
     {
@@ -101,9 +103,7 @@ class APCu implements Cacheable
     public function forget(array|string $key): bool
     {
         if (is_array($key)) {
-            $keys = array_map(function (string $key): string {
-                return $this->prefix($key);
-            }, $key);
+            $keys = array_map(fn (string $key): string => $this->prefix($key), $key);
 
             return apcu_delete($keys) !== false;
         }

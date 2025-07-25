@@ -15,6 +15,8 @@ class Redis implements Cacheable
      * Create a Redis cache driver object.
      *
      * @param Closure $closure Anonymous configuration function
+     *
+     * @param-closure-this PhpRedis $closure
      */
     public function __construct(Closure $closure)
     {
@@ -76,7 +78,7 @@ class Redis implements Cacheable
         if (is_int($data)) {
             $ttl = $this->redis->ttl($key);
 
-            $this->put($key, $data += $value, $ttl == -1 ? 0 : $ttl);
+            $this->put($key, $data += $value, $ttl === -1 ? 0 : $ttl);
 
             return $data;
         }
@@ -91,7 +93,7 @@ class Redis implements Cacheable
         if (is_int($data)) {
             $ttl = $this->redis->ttl($key);
 
-            $this->put($key, $data -= $value, $ttl == -1 ? 0 : $ttl);
+            $this->put($key, $data -= $value, $ttl === -1 ? 0 : $ttl);
 
             return $data;
         }
