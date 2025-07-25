@@ -17,6 +17,10 @@ class APCuTest extends TestCase
 
     public function setUp(): void
     {
+        if (! extension_loaded('apcu') || ! ini_get('apc.enabled')) {
+            $this->markTestSkipped('APCu extension is not loaded or enabled');
+        }
+
         $this->stash = new APCu;
     }
 }

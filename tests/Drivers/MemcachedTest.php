@@ -17,6 +17,10 @@ class MemcachedTest extends TestCase
 
     public function setUp(): void
     {
+        if (! class_exists('Memcached')) {
+            $this->markTestSkipped('Memcached extension is not available');
+        }
+
         $this->stash = new Memcached(function ($memcached): void {
             $memcached->addServer('localhost', 11211);
         });

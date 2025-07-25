@@ -17,6 +17,10 @@ class RedisTest extends TestCase
 
     public function setUp(): void
     {
+        if (! class_exists('Redis')) {
+            $this->markTestSkipped('Redis extension is not available');
+        }
+
         $this->stash = new Redis(function ($redis): void {
             $redis->pconnect('localhost', 6379);
         });
