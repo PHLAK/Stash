@@ -4,14 +4,13 @@ namespace Tests;
 
 use Carbon\CarbonInterface;
 use PHLAK\Stash;
-use PHLAK\Stash\Interfaces\Cacheable;
 use PHLAK\Stash\Item;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
-#[CoversClass(Cacheable::class), CoversClass(Item::class)]
+#[CoversClass(Item::class)]
 class ItemTest extends TestCase
 {
     #[Test]

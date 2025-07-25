@@ -5,13 +5,12 @@ namespace Tests;
 use Memcached;
 use PHLAK\Stash;
 use PHLAK\Stash\Cache;
-use PHLAK\Stash\Interfaces\Cacheable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use Redis;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
-#[CoversClass(Cacheable::class), CoversClass(Cache::class)]
+#[CoversClass(Cache::class)]
 class CacheTest extends TestCase
 {
     #[Test]

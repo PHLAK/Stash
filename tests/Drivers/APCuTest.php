@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
-#[CoversClass(Cacheable::class), CoversClass(APCu::class)]
+#[CoversClass(APCu::class)]
 class APCuTest extends TestCase
 {
     use CacheableTrait;

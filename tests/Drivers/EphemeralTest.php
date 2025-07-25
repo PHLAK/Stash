@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
-#[CoversClass(Cacheable::class), CoversClass(Ephemeral::class)]
+#[CoversClass(Ephemeral::class)]
 class EphemeralTest extends TestCase
 {
     use CacheableTrait;

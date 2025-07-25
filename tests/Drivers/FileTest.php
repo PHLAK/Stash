@@ -13,7 +13,7 @@ use RuntimeException;
 use Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
-#[CoversClass(Cacheable::class), CoversClass(Ephemeral::class)]
+#[CoversClass(Ephemeral::class)]
 class FileTest extends TestCase
 {
     use CacheableTrait;

@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
-#[CoversClass(Cacheable::class), CoversClass(Memcached::class)]
+#[CoversClass(Memcached::class)]
 class MemcachedTest extends TestCase
 {
     use CacheableTrait;
