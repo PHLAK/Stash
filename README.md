@@ -149,15 +149,15 @@ $stash = Stash\Cache::ephemeral();
 Usage
 -----
 
-### `Cacheable::put( string $key , mixed $data [, $minutes = 0 ] ) : bool`
+### `Cacheable::put( string $key , mixed $data [, $ttl = 0 ] ) : bool`
 
 Add an item to the cache for a specified duration.
 
 ##### Examples
 
 ```php
-// Cache a value for 15 minutes
-$stash->put('foo', 'some value', 15);
+// Cache a value for 5 minutes
+$stash->put('foo', 'some value', 300);
 
 // Cache a value indefinitely
 $stash->put('bar', false);
@@ -203,7 +203,7 @@ $stash->has('foo');
 
 ---
 
-### `Cacheable::remember( string $key , int $minutes , Closure $closure ) : mixed`
+### `Cacheable::remember( string $key , int $ttl , Closure $closure ) : mixed`
 
 Retrieve item from cache or, when item does not exist, execute a closure. The
 result of the closure is then stored in the cache for the specified duration
@@ -266,7 +266,7 @@ $stash->decrement('bar', 10);
 
 ---
 
-### `Cacheable::touch( string|array $key [, int $minutes = 0 ] ) : bool`
+### `Cacheable::touch( string|array $key [, int $ttl = 0 ] ) : bool`
 
 Extend the expiration time for an item in the cache.
 
@@ -274,13 +274,13 @@ Extend the expiration time for an item in the cache.
 
 ```php
  // Extend the expiration by 5 minutes
-$stash->touch('foo', 5);
+$stash->touch('foo', 300);
 
  // Extend the expiration indefinitely
 $stash->touch('bar');
 
 // Extend the expiration of multiple items by 5 minutes
-$stash->touch(['foo', 'bar', 'baz'], 5);
+$stash->touch(['foo', 'bar', 'baz'], 300);
 ```
 
 ---
@@ -305,6 +305,27 @@ Delete all items from the cache.
 
 ```php
 $stash->flush();
+```
+
+TTL Helper
+---------------------
+
+For convenience, Stash provides a `TTL` helper class to convert units of time to
+seconds. This is useful for setting the `$ttl` parameter in various methods.
+
+##### Examples
+
+```php
+use PHLAK\Stash\TTL;
+
+// Cache a value for 5 minutes
+$stash->put('foo', 'some value', TTL::minutes(5));
+
+// Remember an item for one day
+$stash->remember('bar', TTL::days(1), fn (): string => 'Some value');
+
+// Update the expiration time of an item to 3 hour
+$stash->touch('baz', TTL::hours(3));
 ```
 
 Changelog
