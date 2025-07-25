@@ -36,7 +36,7 @@ Supported caching back-ends:
 Requirements
 ------------
 
-  - [PHP](https://php.net) >= 8.0
+  - [PHP](https://php.net) >= 8.1
 
 Install with Composer
 ---------------------
