@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php" colors="true"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<phpunit
+    bootstrap="vendor/autoload.php" colors="true" requireCoverageMetadata="true"
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src/</directory>
-    </include>
-  </coverage>
-  <testsuites>
-    <testsuite name="Stash Test Suite">
-      <directory suffix="Test.php">tests/</directory>
-    </testsuite>
-  </testsuites>
+    <testsuites>
+        <testsuite name="Stash Test Suite">
+            <directory suffix="Test.php">tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+    </source>
 </phpunit>
