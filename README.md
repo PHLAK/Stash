@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    Lightweight PHP caching library • Created by <a href="https://www.ChrisKankiewicz.com">Chris Kankiewicz</a> (<a href="https://twitter.com/PHLAK">@PHLAK</a>)
+    Lightweight PHP caching library • Created by <a href="https://www.ChrisKankiewicz.com">Chris Kankiewicz</a> (<a href="https://bsky.app/profile/phlak.dev">@PHLAK.dev</a>)
 </p>
 
 <p align="center">
@@ -336,7 +336,7 @@ A list of changes can be found on the [GitHub Releases](https://github.com/PHLAK
 Troubleshooting
 ---------------
 
-For general help and support join our [GitHub Discussions](https://github.com/PHLAK/Stash/discussions) or reach out on [Twitter](https://twitter.com/PHLAK).
+For general help and support join our [GitHub Discussions](https://github.com/PHLAK/Stash/discussions) or reach out on [Bluesky](https://bsky.app/profile/phlak.dev).
 
 Please report bugs to the [GitHub Issue Tracker](https://github.com/PHLAK/Stash/issues).
 
