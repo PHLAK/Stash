@@ -23,11 +23,11 @@ class Redis implements Cacheable
         $closure($this->redis);
     }
 
-    public function put(string $key, mixed $data, int $minutes = 0): bool
+    public function put(string $key, mixed $data, int $ttl = 0): bool
     {
-        $expiration = $minutes == 0 ? null : $minutes * 60;
+        $expiration = $ttl === 0 ? null : $ttl;
 
-        if ($minutes < 0) {
+        if ($ttl < 0) {
             return true;
         }
 
@@ -53,7 +53,7 @@ class Redis implements Cacheable
         return (bool) $this->redis->exists($key);
     }
 
-    public function remember(string $key, int $minutes, Closure $closure): mixed
+    public function remember(string $key, int $ttl, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -61,7 +61,7 @@ class Redis implements Cacheable
 
         $data = $closure();
 
-        return $this->put($key, $data, $minutes) ? $data : false;
+        return $this->put($key, $data, $ttl) ? $data : false;
     }
 
     public function rememberForever(string $key, Closure $closure): mixed
@@ -99,11 +99,11 @@ class Redis implements Cacheable
         return false;
     }
 
-    public function touch(array|string $key, int $minutes = 0): bool
+    public function touch(array|string $key, int $ttl = 0): bool
     {
         if (is_array($key)) {
-            return array_walk($key, function (string $key) use ($minutes) {
-                $this->touch($key, $minutes);
+            return array_walk($key, function (string $key) use ($ttl) {
+                $this->touch($key, $ttl);
             });
         }
 
@@ -111,7 +111,7 @@ class Redis implements Cacheable
             return $this->put($key, false);
         }
 
-        return $this->redis->expire($key, $minutes * 60);
+        return $this->redis->expire($key, $ttl * 60);
     }
 
     public function forget(array|string $key): bool

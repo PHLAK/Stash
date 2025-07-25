@@ -36,9 +36,9 @@ class File implements Cacheable
         }
     }
 
-    public function put(string $key, mixed $data, int $minutes = 0): bool
+    public function put(string $key, mixed $data, int $ttl = 0): bool
     {
-        return $this->putCacheContents($key, $data, $minutes);
+        return $this->putCacheContents($key, $data, $ttl);
     }
 
     public function forever(string $key, mixed $data): bool
@@ -64,7 +64,7 @@ class File implements Cacheable
         return $item && $item->notexpired();
     }
 
-    public function remember(string $key, int $minutes, Closure $closure): mixed
+    public function remember(string $key, int $ttl, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -72,7 +72,7 @@ class File implements Cacheable
 
         $data = $closure();
 
-        return $this->put($key, $data, $minutes) ? $data : false;
+        return $this->put($key, $data, $ttl) ? $data : false;
     }
 
     public function rememberForever(string $key, Closure $closure): mixed
@@ -94,15 +94,15 @@ class File implements Cacheable
         return $this->increment($key, $value * -1);
     }
 
-    public function touch(array|string $key, int $minutes = 0): bool
+    public function touch(array|string $key, int $ttl = 0): bool
     {
         if (is_array($key)) {
-            return array_walk($key, function (string $key) use ($minutes) {
-                $this->touch($key, $minutes);
+            return array_walk($key, function (string $key) use ($ttl) {
+                $this->touch($key, $ttl);
             });
         }
 
-        return $this->put($key, $this->get($key), $minutes);
+        return $this->put($key, $this->get($key), $ttl);
     }
 
     public function forget(array|string $key): bool
@@ -146,14 +146,14 @@ class File implements Cacheable
     }
 
     /** Put cache contents into a cache file. */
-    private function putCacheContents(string $key, mixed $data, int $minutes): bool
+    private function putCacheContents(string $key, mixed $data, int $ttl): bool
     {
         $destination = $this->filePath($key);
 
         @mkdir(dirname($destination));
 
         return file_put_contents($destination, serialize(
-            new Item($data, $minutes)
+            new Item($data, $ttl)
         ), LOCK_EX) ? true : false;
     }
 

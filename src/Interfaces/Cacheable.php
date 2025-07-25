@@ -11,11 +11,11 @@ interface Cacheable
      *
      * @param string $key Unique item identifier
      * @param mixed $data Data to cache
-     * @param int $minutes Time in minutes until item expires (default: 0)
+     * @param int $ttl Time in seconds until item expires (default: 0)
      *
      * @return bool True on success, otherwise false
      */
-    public function put(string $key, mixed $data, int $minutes = 0): bool;
+    public function put(string $key, mixed $data, int $ttl = 0): bool;
 
     /**
      * Put an item into the cache permanently.
@@ -52,12 +52,12 @@ interface Cacheable
      * specified duration.
      *
      * @param string $key Unique item identifier
-     * @param int $minutes Time in minutes until item expires
+     * @param int $ttl Time in seconds until item expires
      * @param Closure $closure Anonymous closure function
      *
      * @return mixed Cached data or $closure results
      */
-    public function remember(string $key, int $minutes, Closure $closure): mixed;
+    public function remember(string $key, int $ttl, Closure $closure): mixed;
 
     /**
      * Retrieve item from cache or, when item does not exist, execute the
@@ -94,11 +94,11 @@ interface Cacheable
      * Set a new expiration time for an item in the cache.
      *
      * @param string|string[] $key Unique item identifier
-     * @param int $minutes Time in minutes until item expires
+     * @param int $ttl Time in seconds until item expires
      *
      * @return bool True on success, otherwise false
      */
-    public function touch(array|string $key, int $minutes = 0): bool;
+    public function touch(array|string $key, int $ttl = 0): bool;
 
     /**
      * Permanently remove an item from the cache.

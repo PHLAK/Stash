@@ -1,12 +1,14 @@
 <?php
 
-namespace PHLAK\Stash\Tests;
+namespace Tests\Drivers;
 
-use PHLAK\Stash;
+use PHLAK\Stash\Drivers\Memcached;
 use PHLAK\Stash\Interfaces\Cacheable;
-use PHLAK\Stash\Tests\Traits\Cacheable as CacheableTrait;
+use PHPUnit\Metadata\CoversClass;
+use Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
+#[CoversClass(Cacheable::class), CoversClass(Memcached::class)]
 class MemcachedTest extends TestCase
 {
     use CacheableTrait;
@@ -15,7 +17,7 @@ class MemcachedTest extends TestCase
 
     public function setUp(): void
     {
-        $this->stash = new Stash\Drivers\Memcached(function ($memcached) {
+        $this->stash = new Memcached(function ($memcached): void {
             $memcached->addServer('localhost', 11211);
         });
     }

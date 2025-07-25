@@ -1,15 +1,21 @@
 <?php
 
-namespace PHLAK\Stash\Tests;
+namespace Tests;
 
 use Memcached;
 use PHLAK\Stash;
+use PHLAK\Stash\Cache;
+use PHLAK\Stash\Interfaces\Cacheable;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use Redis;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
+#[CoversClass(Cacheable::class), CoversClass(Cache::class)]
 class CacheTest extends TestCase
 {
-    public function test_it_can_instantiate_the_apc_driver(): void
+    #[Test]
+    public function it_can_instantiate_the_apc_driver(): void
     {
         $apc = Stash\Cache::apcu();
 
@@ -17,9 +23,10 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\APCu::class, $apc);
     }
 
-    public function test_it_can_instantiate_the_apc_driver_with_prefix(): void
+    #[Test]
+    public function it_can_instantiate_the_apc_driver_with_prefix(): void
     {
-        $apc = Stash\Cache::apcu(function () {
+        $apc = Stash\Cache::apcu(function (): void {
             $this->setPrefix('stash_test');
         });
 
@@ -27,9 +34,10 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\APCu::class, $apc);
     }
 
-    public function test_it_can_instantiate_the_file_driver(): void
+    #[Test]
+    public function it_can_instantiate_the_file_driver(): void
     {
-        $file = Stash\Cache::file(function () {
+        $file = Stash\Cache::file(function (): void {
             $this->setCacheDir(__DIR__ . '/cache');
         });
 
@@ -37,9 +45,10 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\File::class, $file);
     }
 
-    public function test_it_can_instantiate_the_file_driver_with_prefix(): void
+    #[Test]
+    public function it_can_instantiate_the_file_driver_with_prefix(): void
     {
-        $file = Stash\Cache::file(function () {
+        $file = Stash\Cache::file(function (): void {
             $this->setCacheDir(__DIR__ . '/cache');
         });
 
@@ -47,7 +56,8 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\File::class, $file);
     }
 
-    public function test_it_can_instantiate_the_memcached_driver(): void
+    #[Test]
+    public function it_can_instantiate_the_memcached_driver(): void
     {
         $memcached = Stash\Cache::memcached(function ($memcached) {
             $memcached->addServer('localhost', 11211);
@@ -57,7 +67,8 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
-    public function test_it_can_instantiate_the_memcached_driver_with_prefix(): void
+    #[Test]
+    public function it_can_instantiate_the_memcached_driver_with_prefix(): void
     {
         $memcached = Stash\Cache::memcached(function ($memcached) {
             $memcached->addServer('localhost', 11211);
@@ -68,7 +79,8 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\Memcached::class, $memcached);
     }
 
-    public function test_it_can_instantiate_the_redis_driver(): void
+    #[Test]
+    public function it_can_instantiate_the_redis_driver(): void
     {
         $redis = Stash\Cache::redis(function ($redis) {
             $redis->pconnect('localhost', 6379);
@@ -78,7 +90,8 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\Redis::class, $redis);
     }
 
-    public function test_it_can_instantiate_the_redis_driver_with_prefix(): void
+    #[Test]
+    public function it_can_instantiate_the_redis_driver_with_prefix(): void
     {
         $redis = Stash\Cache::redis(function ($redis) {
             $redis->pconnect('localhost', 6379);
@@ -89,7 +102,8 @@ class CacheTest extends TestCase
         $this->assertInstanceOf(Stash\Drivers\Redis::class, $redis);
     }
 
-    public function test_it_can_instantiate_the_ephemeral_driver_via_the_named_constructor(): void
+    #[Test]
+    public function it_can_instantiate_the_ephemeral_driver_via_the_named_constructor(): void
     {
         $ephemeral = Stash\Cache::ephemeral();
 

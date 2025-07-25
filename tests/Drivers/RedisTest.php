@@ -1,12 +1,14 @@
 <?php
 
-namespace PHLAK\Stash\Tests;
+namespace Tests\Drivers;
 
-use PHLAK\Stash;
+use PHLAK\Stash\Drivers\Redis;
 use PHLAK\Stash\Interfaces\Cacheable;
-use PHLAK\Stash\Tests\Traits\Cacheable as CacheableTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tests\Traits\Cacheable as CacheableTrait;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
+#[CoversClass(Cacheable::class), CoversClass(Redis::class)]
 class RedisTest extends TestCase
 {
     use CacheableTrait;
@@ -15,7 +17,7 @@ class RedisTest extends TestCase
 
     public function setUp(): void
     {
-        $this->stash = new Stash\Drivers\Redis(function ($redis) {
+        $this->stash = new Redis(function ($redis): void {
             $redis->pconnect('localhost', 6379);
         });
     }

@@ -29,7 +29,7 @@
         "phlak/coding-standards": "^4.0",
         "phpstan/phpstan": "^2.0",
         "symfony/var-dumper": "^6.4",
-        "yoast/phpunit-polyfills": "^1.0"
+        "yoast/phpunit-polyfills": "^4.0"
     },
     "suggest": {
         "ext-apcu": "Required to use the APCu cache driver.",
@@ -43,7 +43,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PHLAK\\Stash\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "config": {

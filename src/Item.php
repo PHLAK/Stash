@@ -7,19 +7,17 @@ use Carbon\CarbonImmutable;
 class Item
 {
     /** @var CarbonImmutable instance representing the expiration time */
-    public CarbonImmutable $expires;
+    public readonly CarbonImmutable $expires;
 
     /**
-     * Stash\Item constructor, runs on object creation.
-     *
      * @param $data Item data
-     * @param $minutes Time in minutes until item expires
+     * @param $seconds Time in seconds until item expires
      */
     public function __construct(
         public mixed $data,
-        public int $minutes = 0
+        public int $seconds = 0
     ) {
-        $this->expires = $minutes === 0 ? new CarbonImmutable('9999-12-31 23:59:59') : CarbonImmutable::now()->addMinutes($minutes);
+        $this->expires = $seconds === 0 ? new CarbonImmutable('9999-12-31 23:59:59') : CarbonImmutable::now()->addSeconds($seconds);
     }
 
     /**

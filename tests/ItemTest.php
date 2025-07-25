@@ -1,36 +1,45 @@
 <?php
 
-namespace PHLAK\Stash\Tests;
+namespace Tests;
 
 use Carbon\CarbonInterface;
 use PHLAK\Stash;
+use PHLAK\Stash\Interfaces\Cacheable;
+use PHLAK\Stash\Item;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 
+#[CoversClass(Cacheable::class), CoversClass(Item::class)]
 class ItemTest extends TestCase
 {
-    public function test_it_can_contain_a_string(): void
+    #[Test]
+    public function it_can_contain_a_string(): void
     {
         $item = new Stash\Item('Some string');
 
         $this->assertEquals('Some string', $item->data);
     }
 
-    public function test_it_can_contain_an_integer(): void
+    #[Test]
+    public function it_can_contain_an_integer(): void
     {
         $item = new Stash\Item(1337);
 
         $this->assertEquals(1337, $item->data);
     }
 
-    public function test_it_can_contain_an_array(): void
+    #[Test]
+    public function it_can_contain_an_array(): void
     {
         $item = new Stash\Item(['alice', 1337, false]);
 
         $this->assertEquals(['alice', 1337, false], $item->data);
     }
 
-    public function test_it_can_contain_booleans(): void
+    #[Test]
+    public function it_can_contain_booleans(): void
     {
         $trueItem = new Stash\Item(true);
         $falseItem = new Stash\Item(false);
@@ -39,7 +48,8 @@ class ItemTest extends TestCase
         $this->assertFalse($falseItem->data);
     }
 
-    public function test_it_can_contain_an_object(): void
+    #[Test]
+    public function it_can_contain_an_object(): void
     {
         $class = new stdClass;
         $class->boolean = true;
@@ -49,14 +59,16 @@ class ItemTest extends TestCase
         $this->assertTrue($item->data->boolean);
     }
 
-    public function test_it_has_an_expiration(): void
+    #[Test]
+    public function it_has_an_expiration(): void
     {
         $item = new Stash\Item('Test data');
 
         $this->assertInstanceOf(CarbonInterface::class, $item->expires);
     }
 
-    public function test_it_isnt_expired(): void
+    #[Test]
+    public function it_isnt_expired(): void
     {
         $item = new Stash\Item('Test data');
 
@@ -64,7 +76,8 @@ class ItemTest extends TestCase
         $this->assertTrue($item->notExpired());
     }
 
-    public function test_it_can_expire(): void
+    #[Test]
+    public function it_can_expire(): void
     {
         $item = new Stash\Item('Test data', -1);
 
@@ -72,7 +85,8 @@ class ItemTest extends TestCase
         $this->assertFalse($item->notExpired());
     }
 
-    public function test_it_can_be_incremented(): void
+    #[Test]
+    public function it_can_be_incremented(): void
     {
         $item = new Stash\Item(1336);
 
@@ -80,7 +94,8 @@ class ItemTest extends TestCase
         $this->assertEquals(2000, $item->increment(663));
     }
 
-    public function test_it_can_be_decremented(): void
+    #[Test]
+    public function it_can_be_decremented(): void
     {
         $item = new Stash\Item(1338);
 
@@ -88,14 +103,16 @@ class ItemTest extends TestCase
         $this->assertEquals(1000, $item->decrement(337));
     }
 
-    public function test_it_returns_false_when_incrementing_a_non_integer(): void
+    #[Test]
+    public function it_returns_false_when_incrementing_a_non_integer(): void
     {
         $item = new Stash\Item('Test data');
 
         $this->assertFalse($item->increment());
     }
 
-    public function test_it_returns_false_when_decrementing_a_non_integer(): void
+    #[Test]
+    public function it_returns_false_when_decrementing_a_non_integer(): void
     {
         $item = new Stash\Item('Test data');
 

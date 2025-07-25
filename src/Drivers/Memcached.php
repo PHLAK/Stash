@@ -23,9 +23,9 @@ class Memcached implements Cacheable
         $closure($this->memcached);
     }
 
-    public function put(string $key, mixed $data, int $minutes = 0): bool
+    public function put(string $key, mixed $data, int $ttl = 0): bool
     {
-        $expiration = $minutes == 0 ? 0 : time() + ($minutes * 60);
+        $expiration = $ttl === 0 ? 0 : time() + $ttl;
 
         return $this->memcached->set($key, $data, $expiration);
     }
@@ -47,7 +47,7 @@ class Memcached implements Cacheable
         return $this->memcached->getResultCode() == PhpMemcached::RES_SUCCESS;
     }
 
-    public function remember(string $key, int $minutes, Closure $closure): mixed
+    public function remember(string $key, int $ttl, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -55,7 +55,7 @@ class Memcached implements Cacheable
 
         $data = $closure();
 
-        return $this->put($key, $data, $minutes) ? $data : false;
+        return $this->put($key, $data, $ttl) ? $data : false;
     }
 
     public function rememberForever(string $key, Closure $closure): mixed
@@ -73,11 +73,11 @@ class Memcached implements Cacheable
         return $this->memcached->decrement($key, $value);
     }
 
-    public function touch(array|string $key, int $minutes = 0): bool
+    public function touch(array|string $key, int $ttl = 0): bool
     {
         if (is_array($key)) {
-            return array_walk($key, function (string $key) use ($minutes) {
-                $this->touch($key, $minutes);
+            return array_walk($key, function (string $key) use ($ttl) {
+                $this->touch($key, $ttl);
             });
         }
 
@@ -85,7 +85,7 @@ class Memcached implements Cacheable
             return $this->put($key, false);
         }
 
-        return $this->memcached->touch($key, $minutes);
+        return $this->memcached->touch($key, $ttl);
     }
 
     public function forget(array|string $key): bool

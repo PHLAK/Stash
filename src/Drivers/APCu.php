@@ -29,9 +29,9 @@ class APCu implements Cacheable
         }
     }
 
-    public function put(string $key, mixed $data, int $minutes = 0): bool
+    public function put(string $key, mixed $data, int $ttl = 0): bool
     {
-        return apcu_store($this->prefix($key), $data, ($minutes * 60));
+        return apcu_store($this->prefix($key), $data, $ttl);
     }
 
     public function forever(string $key, mixed $data): bool
@@ -49,7 +49,7 @@ class APCu implements Cacheable
         return apcu_exists($this->prefix($key));
     }
 
-    public function remember(string $key, int $minutes, Closure $closure): mixed
+    public function remember(string $key, int $ttl, Closure $closure): mixed
     {
         if ($this->has($key)) {
             return $this->get($key);
@@ -57,7 +57,7 @@ class APCu implements Cacheable
 
         $data = $closure();
 
-        return $this->put($key, $data, $minutes) ? $data : false;
+        return $this->put($key, $data, $ttl) ? $data : false;
     }
 
     public function rememberForever(string $key, Closure $closure): mixed
@@ -87,15 +87,15 @@ class APCu implements Cacheable
         return false;
     }
 
-    public function touch(array|string $key, int $minutes = 0): bool
+    public function touch(array|string $key, int $ttl = 0): bool
     {
         if (is_array($key)) {
-            return array_walk($key, function (string $key) use ($minutes) {
-                $this->touch($key, $minutes);
+            return array_walk($key, function (string $key) use ($ttl): void {
+                $this->touch($key, $ttl);
             });
         }
 
-        return $this->put($key, $this->get($key), $minutes);
+        return $this->put($key, $this->get($key), $ttl);
     }
 
     public function forget(array|string $key): bool
