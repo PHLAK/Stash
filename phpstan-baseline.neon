@@ -7,7 +7,13 @@ parameters:
 			path: src/Drivers/APCu.php
 
 		-
-			message: '#^Parameter \#3 \$options of method Redis\:\:set\(\) expects int, int\<min, \-60\>\|int\<60, max\>\|null given\.$#'
+			message: '#^Parameter \#1 \$data of function unserialize expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Drivers/File.php
+
+		-
+			message: '#^Parameter \#3 \$options of method Redis\:\:set\(\) expects int, int\<min, \-1\>\|int\<1, max\>\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Drivers/Redis.php
